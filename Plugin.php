@@ -39,6 +39,7 @@ class Plugin {
         require_once( F4_PATH . '/inc/Tests/TestCaseInterface.php' );
         require_once( F4_PATH . '/inc/Tests/TestRunner.php' );
         require_once( F4_PATH . '/inc/Tests/CloneTableTest.php' );
+        require_once( F4_PATH . '/inc/Tests/AddColumnTest.php' );
 
         // Initialize main admin menu
         if ( is_admin() ) {
