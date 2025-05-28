@@ -15,8 +15,9 @@ function ModelProperties({ modelId }) {
       .then(data => {
         const formatted = data.map(item => ({
           id: item.id,
-          key: item.slug,
+          key: item.key,
           name: item.name,
+          type: item.type ?? 'text', // default fallback
         }));
         setProperties(formatted);
       })

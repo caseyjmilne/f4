@@ -24,6 +24,18 @@ class Plugin {
         require_once( F4_PATH . '/inc/ModelPropertyRoutes.php' );
         new ModelPropertyRoutes();
 
+        require_once( F4_PATH . '/inc/DatabaseHandler.php' );
+
+        // Test database handler. 
+        $db = new \F4\Utility\DatabaseHandler();
+        //$db->createStandardTable('test2');
+
+        $db->addColumn('test2', [
+            'name' => 'status',
+            'type' => "VARCHAR(20) NOT NULL DEFAULT 'draft'",
+            'after' => 'id'
+        ]);
+
     }
 
 }
