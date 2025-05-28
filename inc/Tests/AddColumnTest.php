@@ -7,9 +7,9 @@ use F4\Utility\DatabaseHandler;
 class AddColumnTest implements TestCaseInterface {
 
     public function run(): array {
-        $table = 'wp_test2'; // Adjust as needed for your dev table
+        $table = 'test2'; // Adjust as needed for your dev table
         $column = [
-            'name' => 'status',
+            'name' => 'status3',
             'type' => "VARCHAR(20) NOT NULL DEFAULT 'draft'",
             'after' => 'id'
         ];

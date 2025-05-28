@@ -34,3 +34,7 @@ Loop over the model properties and make columns. Practice just making varchars. 
 
 Add support for position field. Add drag-n-drop sorting of properties. Update field position on drop event. Add API route for handling order changes. 
 
+#### Column remove
+
+If fields are removed, we may need to remove columns. 
+
