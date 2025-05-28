@@ -2,6 +2,7 @@
 
 /*
  * Plugin Name: F4
+ * Author: Casey J. Milne
  */
 
 define( 'F4_URL', plugin_dir_url( __FILE__ ) );
@@ -25,6 +26,7 @@ class Plugin {
         new ModelPropertyRoutes();
 
         require_once( F4_PATH . '/inc/DatabaseHandler.php' );
+        require_once(F4_PATH . '/inc/Database/TableCloner.php');
 
         // Test database handler. 
         $db = new \F4\Utility\DatabaseHandler();
@@ -38,6 +40,13 @@ class Plugin {
 
     }
 
+    public static function activate() {
+        require_once( F4_PATH . '/inc/PluginActivation.php' );
+        \F4\PluginActivation::activate();
+    }
+
 }
 
 new Plugin();
+
+register_activation_hook(__FILE__, ['Plugin', 'activate']);

@@ -4,7 +4,7 @@ Handles standardized database table creation and column manipulation for custom 
 
 ### Overview
 
-This class provides methods to safely create tables with a common structure and add columns with explicit positioning. It ensures safety by checking for table/column existence before attempting modifications.
+This class provides methods to safely create tables with a common structure and add or reorder columns with explicit positioning. It ensures safety by checking for table/column existence before attempting modifications.
 
 ---
 
@@ -87,6 +87,26 @@ Adds multiple columns to a table.
 
 ---
 
+#### `reorderColumn(string $tableName, string $columnName, string $afterColumn): bool`
+
+Repositions a custom column in the table, immediately after the specified existing column.
+
+- **Parameters**
+  - `string $tableName`: Table name (without prefix).
+  - `string $columnName`: The column to move.
+  - `string $afterColumn`: The column after which `$columnName` should be placed.
+- **Returns**
+  - `bool`: `true` if the column was successfully reordered.
+- **Behavior**
+  - Reorders a single column using the `ALTER TABLE ... CHANGE ... AFTER` syntax.
+  - Column definition is preserved (type, nullability, default, extra).
+  - Does not affect `id`, `created`, or `updated` columns (which should remain fixed).
+- **Usage Notes**
+  - Intended to be called after a drag-and-drop action in the admin UI.
+  - UI should lock until server confirms the reorder to prevent overlapping operations.
+
+---
+
 ### Example Usage
 
 ```php
@@ -95,23 +115,12 @@ $handler = new DatabaseHandler();
 // Create a standard table
 $handler->createStandardTable('articles');
 
-// Add a single column
-$handler->addColumn('articles', [
-    'name' => 'title',
-    'type' => 'VARCHAR(255) NOT NULL',
-    'after' => 'id'
+// Add columns
+$handler->addColumns('articles', [
+    ['name' => 'title', 'type' => 'VARCHAR(255) NOT NULL', 'after' => 'id'],
+    ['name' => 'author', 'type' => 'VARCHAR(100)', 'after' => 'title'],
+    ['name' => 'status', 'type' => "VARCHAR(20) DEFAULT 'draft'", 'after' => 'author'],
 ]);
 
-// Add multiple columns
-$handler->addColumns('articles', [
-    [
-        'name' => 'author',
-        'type' => 'VARCHAR(100)',
-        'after' => 'title'
-    ],
-    [
-        'name' => 'status',
-        'type' => "VARCHAR(20) NOT NULL DEFAULT 'draft'",
-        'after' => 'author'
-    ]
-]);
+// Reorder column 'status' to come after 'title'
+$handler->reorderColumn('articles', 'status', 'title');
