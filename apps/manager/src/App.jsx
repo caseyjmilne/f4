@@ -1,69 +1,46 @@
-import { useState, useEffect } from 'react'
-import AddPropertyForm from './AddPropertyForm'
-import PropertyList from './PropertyList'
-import './App.css'
+import { useState, useEffect } from 'react';
+import ModelProperties from './ModelProperties';  // new component for properties
+import './App.css';
 
 function App() {
-  const [showForm, setShowForm] = useState(false)
-  const [properties, setProperties] = useState([])
+  const [models, setModels] = useState([]);
+  const [selectedModelId, setSelectedModelId] = useState(null);
 
-  // Fetch existing properties from WP REST API (public GET)
+  // Fetch models from your WP REST API
   useEffect(() => {
-    fetch('http://test1.local/wp-json/wp/v2/property')
-      .then((res) => res.json())
-      .then((data) => {
-        const formatted = data.map((item) => ({
-          id: item.id,
-          key: item.slug,
-          name: item.title.rendered,
-        }))
-        setProperties(formatted)
+    fetch('http://test1.local/wp-json/custom/v1/model')
+      .then(res => res.json())
+      .then(data => {
+        setModels(data);
+        if (data.length > 0) setSelectedModelId(data[0].id); // auto-select first model
       })
-      .catch((err) => {
-        console.error('Failed to load properties:', err)
-      })
-  }, [])
-
-  // Create new property via custom API and update state
-  const handleAddProperty = async (property) => {
-    try {
-      const created = await createProperty(property)
-      setProperties((prev) => [...prev, created])
-      setShowForm(false)
-    } catch (error) {
-      alert('Failed to create property: ' + error.message)
-    }
-  }
-
-  // POST new property to custom/v1/property
-  async function createProperty(property) {
-    const response = await fetch('http://test1.local/wp-json/custom/v1/property', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(property),
-    })
-
-    if (!response.ok) {
-      const errorData = await response.json()
-      throw new Error(errorData.message || 'Failed to create property')
-    }
-
-    return response.json()
-  }
+      .catch(err => console.error('Failed to load models:', err));
+  }, []);
 
   return (
     <>
-      <div>
-        <button onClick={() => setShowForm(!showForm)}>
-          {showForm ? 'Hide' : 'Add Property'}
-        </button>
-      </div>
+      <h2>Models</h2>
+      <ul>
+        {models.map(model => (
+          <li key={model.id}>
+            <button
+              style={{ fontWeight: model.id === selectedModelId ? 'bold' : 'normal' }}
+              onClick={() => setSelectedModelId(model.id)}
+            >
+              {model.name}
+            </button>
+          </li>
+        ))}
+      </ul>
 
-      {showForm && <AddPropertyForm onSubmit={handleAddProperty} />}
-
-      <PropertyList properties={properties} />
+      {selectedModelId && (
+        <>
+          <h3>Properties for Model ID: {selectedModelId}</h3>
+          <ModelProperties modelId={selectedModelId} />
+        </>
+      )}
     </>
-  )
+  );
 }
 
-export default App
+export default App;
