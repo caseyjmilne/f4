@@ -3,6 +3,7 @@
 /*
  * Plugin Name: F4
  * Author: Casey J. Milne
+ * Description: Scalable fields for WordPress with powerful data modelling and dynamic content support. 
  */
 
 define( 'F4_URL', plugin_dir_url( __FILE__ ) );
@@ -28,38 +29,21 @@ class Plugin {
         require_once( F4_PATH . '/inc/DatabaseHandler.php' );
         require_once(F4_PATH . '/inc/Database/TableCloner.php');
 
-        // Test database handler. 
-        $db = new \F4\Utility\DatabaseHandler();
-        
-        //$db->createStandardTable('test2');
-
-        $db->addColumn('test2', [
-            'name' => 'status2',
-            'type' => "VARCHAR(20) NOT NULL DEFAULT 'draft'",
-            'after' => 'id'
-        ]);
-
-        /*
-         *
-         * Table Clone Test
-         * 
-         */
-        /*
-        $tc = new \F4\Database\TableCloner();
-        $table_name = $tc->prefixTableName( 'test2' );
-        $cloned = $tc->cloneTable( $table_name );
-
-        if (!$cloned) {
-            echo 'Table clone failed — check error log.';
-        } else {
-            echo "Cloned to: $cloned";
+        // Admin interface
+        if ( is_admin() ) {
+            require_once( F4_PATH . '/inc/Admin/AdminMenu.php' );
+            require_once( F4_PATH . '/inc/Admin/DebugPage.php' );
         }
-        */
 
-        $cloner = new \F4\Database\TableCloner();
-        $table_name = $cloner->prefixTableName( 'test2' );
-        $cloner->removeClonesFor( $table_name );
+        // Tests
+        require_once( F4_PATH . '/inc/Tests/TestCaseInterface.php' );
+        require_once( F4_PATH . '/inc/Tests/TestRunner.php' );
+        require_once( F4_PATH . '/inc/Tests/CloneTableTest.php' );
 
+        // Initialize main admin menu
+        if ( is_admin() ) {
+            new \F4\Admin\AdminMenu();
+        }
 
     }
 
