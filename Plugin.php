@@ -30,13 +30,36 @@ class Plugin {
 
         // Test database handler. 
         $db = new \F4\Utility\DatabaseHandler();
+        
         //$db->createStandardTable('test2');
 
         $db->addColumn('test2', [
-            'name' => 'status',
+            'name' => 'status2',
             'type' => "VARCHAR(20) NOT NULL DEFAULT 'draft'",
             'after' => 'id'
         ]);
+
+        /*
+         *
+         * Table Clone Test
+         * 
+         */
+        /*
+        $tc = new \F4\Database\TableCloner();
+        $table_name = $tc->prefixTableName( 'test2' );
+        $cloned = $tc->cloneTable( $table_name );
+
+        if (!$cloned) {
+            echo 'Table clone failed — check error log.';
+        } else {
+            echo "Cloned to: $cloned";
+        }
+        */
+
+        $cloner = new \F4\Database\TableCloner();
+        $table_name = $cloner->prefixTableName( 'test2' );
+        $cloner->removeClonesFor( $table_name );
+
 
     }
 

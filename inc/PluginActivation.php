@@ -3,7 +3,9 @@
 namespace F4;
 
 class PluginActivation {
+
     public static function activate() {
+
         global $wpdb;
 
         $table_name = $wpdb->prefix . 'f4_table_clones';
@@ -21,5 +23,7 @@ class PluginActivation {
 
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         dbDelta($sql);
+
     }
+    
 }
