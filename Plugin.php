@@ -35,6 +35,13 @@ class Plugin {
             require_once( F4_PATH . '/inc/Admin/DebugPage.php' );
         }
 
+        // ModelImplementor Module || NS: \F4\Model\ModelImplementor 
+        require_once( F4_PATH . '/inc/Model/ModelImplementor/PostTypeBuilder.php' );
+        require_once( F4_PATH . '/inc/Model/ModelImplementor/FieldBuilder.php' );
+        require_once( F4_PATH . '/inc/Model/ModelImplementor/FormRenderer.php' );
+        require_once( F4_PATH . '/inc/Model/ModelImplementor/ModelSynchronizer.php' );
+        new \F4\Model\ModelImplementor\ModelSynchronizer();
+
         // Tests
         require_once( F4_PATH . '/inc/Tests/TestCaseInterface.php' );
         require_once( F4_PATH . '/inc/Tests/TestRunner.php' );
