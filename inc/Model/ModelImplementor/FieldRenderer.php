@@ -2,6 +2,8 @@
 
 namespace F4\Model\ModelImplementor;
 
+use F4\Field\FieldRegistry;
+
 class FieldRenderer {
 
     public function __construct() {
@@ -10,7 +12,6 @@ class FieldRenderer {
     }
 
     public function registerFieldsBox() {
-        // Get all custom post types created via models
         $models = get_posts(['post_type' => 'model', 'post_status' => 'publish', 'numberposts' => -1]);
 
         foreach ($models as $model) {
@@ -49,9 +50,23 @@ class FieldRenderer {
         foreach ($properties as $property) {
             $key = get_post_meta($property->ID, 'key', true);
             $name = esc_html(get_post_meta($property->ID, 'name', true));
+            $type = get_post_meta($property->ID, 'type', true) ?: 'text';
             $value = esc_attr(get_post_meta($post->ID, $key, true));
-            echo "<p><label for='{$key}'><strong>{$name}</strong></label><br/>";
-            echo "<input type='text' name='{$key}' id='{$key}' value='{$value}' class='widefat' /></p>";
+
+            $field_class = FieldRegistry::get($type);
+
+            if ($field_class && class_exists($field_class)) {
+                // Pass $post and $property to constructor as required
+                $field_instance = new $field_class($key, $name, [], $post->ID);
+
+                if (method_exists($field_instance, 'render')) {
+                    $field_instance->render();
+                }
+            } else {
+                // fallback render for missing class or unknown type
+                echo "<p><label for='{$key}'><strong>{$name}</strong></label><br/>";
+                echo "<input type='text' name='{$key}' id='{$key}' value='{$value}' class='widefat' /></p>";
+            }
         }
     }
 
@@ -60,7 +75,6 @@ class FieldRenderer {
             return;
         }
 
-        // Get model key to determine which model this post belongs to
         $post_type = get_post_type($post_id);
         $model_post = get_posts([
             'post_type' => 'model',

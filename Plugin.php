@@ -44,6 +44,12 @@ class Plugin {
         new \F4\Model\ModelImplementor\ModelSynchronizer();
         new \F4\Model\ModelImplementor\FieldRenderer();
 
+        // Field Registration and Types || NS: \F4\Field\
+        require_once( F4_PATH . '/inc/Field/BaseField.php' );
+        require_once( F4_PATH . '/inc/Field/FieldRegistry.php' );
+        require_once( F4_PATH . '/inc/Field/TextField.php' );
+        require_once( F4_PATH . '/inc/Field/CoreFieldRegistry.php' );
+        \F4\Field\CoreFieldRegistry::register();
 
         // Tests
         require_once( F4_PATH . '/inc/Tests/TestCaseInterface.php' );
