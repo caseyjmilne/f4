@@ -40,7 +40,10 @@ class Plugin {
         require_once( F4_PATH . '/inc/Model/ModelImplementor/FieldBuilder.php' );
         require_once( F4_PATH . '/inc/Model/ModelImplementor/FormRenderer.php' );
         require_once( F4_PATH . '/inc/Model/ModelImplementor/ModelSynchronizer.php' );
+        require_once( F4_PATH . '/inc/Model/ModelImplementor/FieldRenderer.php' );
         new \F4\Model\ModelImplementor\ModelSynchronizer();
+        new \F4\Model\ModelImplementor\FieldRenderer();
+
 
         // Tests
         require_once( F4_PATH . '/inc/Tests/TestCaseInterface.php' );
