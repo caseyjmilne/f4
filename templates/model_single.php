@@ -8,7 +8,7 @@ $model = ModelLoader::getModelForPostType($post_type_key);
 
 if (!$model) {
     echo '<p>Model not found.</p>';
-    return; // Or handle error more gracefully
+    return;
 }
 
 // Load properties for this model
@@ -18,9 +18,8 @@ $properties = $property_loader->get_properties_for_model($model->getId());
 get_header();
 
 if (have_posts()) :
-    while (have_posts()) : the_post();
+    while (have_posts()) : the_post(); ?>
 
-        ?>
         <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
             <h5>Model ID: <?php echo esc_html($model->getId()); ?></h5>
             <h5>Model Title: <?php echo esc_html($model->getTitle()); ?></h5>
@@ -32,15 +31,31 @@ if (have_posts()) :
             <?php if (!empty($properties)): ?>
                 <section class="model-properties">
                     <h2>Properties</h2>
-                    <ul>
-                        <?php foreach ($properties as $property): ?>
-                            <li>
-                                <strong><?php echo esc_html(get_post_meta($property->ID, 'name', true)); ?></strong> 
-                                (Key: <?php echo esc_html(get_post_meta($property->ID, 'key', true)); ?>, 
-                                Type: <?php echo esc_html(get_post_meta($property->ID, 'type', true)); ?>)
-                            </li>
-                        <?php endforeach; ?>
-                    </ul>
+                    <table class="wp-list-table widefat fixed striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Key</th>
+                                <th>Type</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($properties as $property): 
+                                $name = get_post_meta($property->ID, 'name', true);
+                                $key  = get_post_meta($property->ID, 'key', true);
+                                $type = get_post_meta($property->ID, 'type', true);
+                                $value = get_post_meta(get_the_ID(), $key, true); // actual value from current model post
+                                ?>
+                                <tr>
+                                    <td><?php echo esc_html($name); ?></td>
+                                    <td><?php echo esc_html($key); ?></td>
+                                    <td><?php echo esc_html($type); ?></td>
+                                    <td><?php echo esc_html($value); ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
                 </section>
             <?php else: ?>
                 <p>No properties found for this model.</p>
