@@ -92,4 +92,27 @@ class ModelController {
             return new ModelInstance($post);
         }, $posts);
     }
+
+    /**
+     * Get a model by a given post type (based on _model_key meta).
+     *
+     * @param string $post_type
+     * @return ModelInstance|null
+     */
+    public function get_model_for_post_type(string $post_type): ?ModelInstance {
+        $posts = get_posts([
+            'post_type'   => 'model',
+            'post_status' => 'publish',
+            'meta_key'    => '_model_key',
+            'meta_value'  => $post_type,
+            'numberposts' => 1,
+        ]);
+
+        if (!empty($posts)) {
+            return new ModelInstance($posts[0]);
+        }
+
+        return null;
+    }
+
 }

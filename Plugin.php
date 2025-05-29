@@ -54,6 +54,8 @@ class Plugin {
         // Frontend Module || NS: \F4\Front
         require_once( F4_PATH . '/inc/Front/ModelLoader.php' );
         require_once( F4_PATH . '/inc/Front/ModelInstance.php' );
+        require_once( F4_PATH . '/inc/Front/TemplateLoader.php' );
+        new \F4\Front\TemplateLoader();
 
         // Tests
         require_once( F4_PATH . '/inc/Tests/TestCaseInterface.php' );
@@ -65,22 +67,6 @@ class Plugin {
         if ( is_admin() ) {
             new \F4\Admin\AdminMenu();
         }
-
-        /*  
-         * 
-         * Test Single Template Loading
-         * Test model: portfolio
-         * 
-         */
-        add_filter('template_include', function ($template) {
-            if (is_singular('portfolio')) {
-                $custom = F4_PATH . '/templates/single-portfolio.php';
-                if (file_exists($custom)) {
-                    return $custom;
-                }
-            }
-            return $template;
-        });
 
     }
 
