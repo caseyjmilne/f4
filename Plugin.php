@@ -55,6 +55,7 @@ class Plugin {
         require_once( F4_PATH . '/inc/Front/ModelLoader.php' );
         require_once( F4_PATH . '/inc/Front/ModelInstance.php' );
         require_once( F4_PATH . '/inc/Front/TemplateLoader.php' );
+        require_once( F4_PATH . '/inc/Front/PropertyLoader.php' );
         new \F4\Front\TemplateLoader();
 
         // Tests
