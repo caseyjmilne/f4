@@ -14,8 +14,8 @@ class Plugin {
 
     function __construct() {
 
-        require_once( F4_PATH . '/inc/ModelController.php' );
-        new ModelController();
+        require_once( F4_PATH . '/inc/Model/ModelController.php' );
+        new \F4\Model\ModelController();
 
         require_once( F4_PATH . '/inc/ModelRoutes.php' );
         new ModelRoutes();
@@ -51,6 +51,10 @@ class Plugin {
         require_once( F4_PATH . '/inc/Field/CoreFieldRegistry.php' );
         \F4\Field\CoreFieldRegistry::register();
 
+        // Frontend Module || NS: \F4\Front
+        require_once( F4_PATH . '/inc/Front/ModelLoader.php' );
+        require_once( F4_PATH . '/inc/Front/ModelInstance.php' );
+
         // Tests
         require_once( F4_PATH . '/inc/Tests/TestCaseInterface.php' );
         require_once( F4_PATH . '/inc/Tests/TestRunner.php' );
@@ -62,6 +66,22 @@ class Plugin {
             new \F4\Admin\AdminMenu();
         }
 
+        /*  
+         * 
+         * Test Single Template Loading
+         * Test model: portfolio
+         * 
+         */
+        add_filter('template_include', function ($template) {
+            if (is_singular('portfolio')) {
+                $custom = F4_PATH . '/templates/single-portfolio.php';
+                if (file_exists($custom)) {
+                    return $custom;
+                }
+            }
+            return $template;
+        });
+
     }
 
     public static function activate() {
@@ -69,8 +89,13 @@ class Plugin {
         \F4\PluginActivation::activate();
     }
 
+    public static function deactivate() {
+        
+    }
+
 }
 
 new Plugin();
 
 register_activation_hook(__FILE__, ['Plugin', 'activate']);
+register_deactivation_hook(__FILE__, ['Plugin', 'deactivate']);

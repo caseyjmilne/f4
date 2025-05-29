@@ -1,14 +1,18 @@
-<?php 
+<?php
+
+namespace F4\Model;
+
+use F4\Front\ModelInstance;
 
 class ModelController {
 
-    function __construct() {
+    public function __construct() {
         add_action('init', [$this, 'register_model_post_type']);
         add_action('add_meta_boxes', [$this, 'add_meta_boxes']);
         add_action('save_post_model', [$this, 'save_meta_box']);
     }
 
-    function register_model_post_type() {
+    public function register_model_post_type() {
         $labels = array(
             'name'               => 'Models',
             'singular_name'      => 'Model',
@@ -30,7 +34,7 @@ class ModelController {
             'public'             => true,
             'has_archive'        => true,
             'rewrite'            => array('slug' => 'models'),
-            'show_in_rest'       => true, // Enables Gutenberg & REST API
+            'show_in_rest'       => true,
             'supports'           => array('title', 'editor'),
             'menu_position'      => 20,
             'menu_icon'          => 'dashicons-database',
@@ -72,4 +76,20 @@ class ModelController {
         }
     }
 
+    /**
+     * Returns all published models as ModelInstance objects.
+     *
+     * @return ModelInstance[]
+     */
+    public function get_all_models(): array {
+        $posts = get_posts([
+            'post_type'   => 'model',
+            'post_status' => 'publish',
+            'numberposts' => -1,
+        ]);
+
+        return array_map(function($post) {
+            return new ModelInstance($post);
+        }, $posts);
+    }
 }
