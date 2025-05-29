@@ -2,4 +2,7 @@
 
 ## Next Up
 
-1. Property Value loading into templates.
+1. Complete basic functions in React App, see the Model & Property Checklist.
+2. Draft React app design in Figma.
+3. Apply design change to React app. 
+4. Make build React app and integrate into WP Admin.
