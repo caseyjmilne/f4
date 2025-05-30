@@ -2,12 +2,17 @@
 
 ## Refactoring Plans
 
-1. Move ModelRoutes.php into /inc/Model/. Namespace it. 
 2. Move non-route specific functions out of ModelRoutes and into the ModelController so they can be repurposed for direct calls. 
 3. Add ModelInstance to represent a single model instance. 
 4. Add ModelType classes; ModelTypePost, ModelTypeScalable.
 5. Move post type specific handling like CPT registration and metabox handling out of the ModelController and into ModelTypePost.
 6. Remove all instances of using get_posts() directly to fetch list of models. Replace with a ModelQuery getAll() method that returns ModelInstance.
+
+## Model Testing
+
+### Add Single Template to Model Posts
+
+Preview the details of the model including list of properties, model type/key, number of current posts for model.
 
 ## Loop Over Models to Make CPT's
 

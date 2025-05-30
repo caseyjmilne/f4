@@ -17,8 +17,8 @@ class Plugin {
         require_once( F4_PATH . '/inc/Model/ModelController.php' );
         new \F4\Model\ModelController();
 
-        require_once( F4_PATH . '/inc/ModelRoutes.php' );
-        new ModelRoutes();
+        require_once( F4_PATH . '/inc/Model/ModelRoutes.php' );
+        new \F4\Model\ModelRoutes();
 
         require_once( F4_PATH . '/inc/ModelPropertyController.php' );
         new ModelPropertyController();

@@ -1,4 +1,7 @@
 <?php
+
+namespace F4\Model;
+
 class ModelRoutes {
 
     public function __construct() {
