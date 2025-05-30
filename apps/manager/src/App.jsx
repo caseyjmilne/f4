@@ -1,10 +1,15 @@
 import { useState, useEffect } from 'react';
-import ModelProperties from './ModelProperties';
+import ModelProperties from './components/ModelProperties';
 import NewModelForm from './components/NewModelForm';
+import ModelList from './components/ModelList';
+import ModelHeader from './components/ModelHeader';
 
 function App() {
+
   const [models, setModels] = useState([]);
   const [selectedModelId, setSelectedModelId] = useState(null);
+  const [showForm, setShowForm] = useState(false);
+
 
   const fetchModels = () => {
     fetch('http://test1.local/wp-json/custom/v1/model')
@@ -24,28 +29,35 @@ function App() {
 
   return (
     <>
-      <h2>Models</h2>
-      <ul>
-        {models.map(model => (
-          <li key={model.id}>
-            <button
-              style={{ fontWeight: model.id === selectedModelId ? 'bold' : 'normal' }}
-              onClick={() => setSelectedModelId(model.id)}
-            >
-              {model.name}
-            </button>
-          </li>
-        ))}
-      </ul>
+      <div className="f4-admin">
 
-      <NewModelForm onModelAdded={fetchModels} />
+        <ModelHeader setShowForm={setShowForm} setSelectedModelId={setSelectedModelId} />
+        
+        <ModelList
+          models={models}
+          selectedModelId={selectedModelId}
+          onSelect={setSelectedModelId}
+        />
 
-      {selectedModelId && (
-        <>
-          <h3>Properties for Model ID: {selectedModelId}</h3>
-          <ModelProperties modelId={selectedModelId} />
-        </>
-      )}
+        {showForm && (
+          <NewModelForm
+            onModelAdded={() => {
+              fetchModels();
+              setShowForm(false);
+            }}
+          />
+        )}
+
+        {selectedModelId && (
+          <>
+            <header class="model-properties-header">
+              <h3>Model Properties</h3>
+              <p>For Model ID {selectedModelId}</p>
+            </header>
+            <ModelProperties modelId={selectedModelId} />
+          </>
+        )}
+      </div>
     </>
   );
 }
