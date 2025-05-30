@@ -66,6 +66,9 @@ class Plugin {
         require_once( F4_PATH . '/inc/Tests/CloneTableTest.php' );
         require_once( F4_PATH . '/inc/Tests/AddColumnTest.php' );
 
+        // React Integration
+        require_once( F4_PATH . '/inc/React/ReactBuildIntegration.php' );
+
         // Initialize main admin menu
         if ( is_admin() ) {
             new \F4\Admin\AdminMenu();

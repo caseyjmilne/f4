@@ -1,22 +1,25 @@
-<?php
+<?php 
 
 namespace F4\Admin;
+
+use F4\React\ReactBuildIntegration;
 
 class AdminMenu {
 
     public function __construct() {
         add_action('admin_menu', [$this, 'registerMenus']);
+        add_action('admin_enqueue_scripts', [$this, 'maybeEnqueueReactAssets']);
     }
 
     public function registerMenus() {
         add_menu_page(
-            'F4 Dashboard',       
-            'F4',            
-            'manage_options',      
-            'f4_dashboard', 
-            [$this, 'renderDashboard'],  
-            'dashicons-admin-generic', 
-            3                     
+            'F4 Dashboard',
+            'F4',
+            'manage_options',
+            'f4_dashboard',
+            [$this, 'renderDashboard'],
+            'dashicons-admin-generic',
+            3
         );
 
         add_submenu_page(
@@ -30,10 +33,16 @@ class AdminMenu {
     }
 
     public function renderDashboard() {
-        echo '<div class="wrap"><h1>F4 Dashboard</h1><p>Welcome to the F4 plugin dashboard.</p></div>';
+        echo '<div class="wrap"><div id="f4-app-manager"></div></div>';
     }
 
-    public function renderDebug() {
-        echo '<div class="wrap"><h1>Debug Tools</h1><p>Debug utilities and output go here.</p></div>';
+    public function maybeEnqueueReactAssets($hook) {
+        // Only enqueue on our main plugin dashboard page
+        if ($hook !== 'toplevel_page_f4_dashboard') {
+            return;
+        }
+
+        $rbi = new ReactBuildIntegration();
+        $rbi->enqueueAssets();
     }
 }
