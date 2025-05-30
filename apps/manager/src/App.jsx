@@ -8,8 +8,8 @@ import { fetchModels as fetchModelsFromApi } from './api/models';
 
 function App() {
   const [models, setModels] = useState([]);
-  const [selectedModelId, setSelectedModelId] = useState(null);
-  const [showForm, setShowForm] = useState(false);
+  const [selectedModelId, setSelectedModelId] = useState(0);
+  const [showNewModelForm, setShowNewModelForm] = useState(false);
 
   const loadModels = () => {
     fetchModelsFromApi().then(setModels);
@@ -21,24 +21,31 @@ function App() {
 
   return (
     <div className="f4-admin">
-      <ModelHeader setShowForm={setShowForm} setSelectedModelId={setSelectedModelId} />
+
+      <ModelHeader 
+        setShowForm={setShowNewModelForm} 
+        setSelectedModelId={setSelectedModelId} 
+      />
 
       <ModelList
         models={models}
         selectedModelId={selectedModelId}
-        onSelect={setSelectedModelId}
+        onSelect={(id) => {
+          setSelectedModelId(id);
+          setShowNewModelForm(false); // clear form when selecting
+        }}
       />
 
-      {showForm && (
+      {showNewModelForm && (
         <NewModelForm
           onModelAdded={() => {
             loadModels();
-            setShowForm(false);
+            setShowNewModelForm(false);
           }}
         />
       )}
 
-      {selectedModelId && (
+      {selectedModelId !== 0 && (
         <>
           <header className="model-properties-header">
             <h3>Model Properties</h3>
@@ -50,6 +57,7 @@ function App() {
           <ModelProperties modelId={selectedModelId} />
         </>
       )}
+      
     </div>
   );
 }

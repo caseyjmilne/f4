@@ -34,26 +34,28 @@ function NewModelForm({ onModelAdded }) {
   };
 
   return (
-    <div style={{ marginTop: '1em' }}>
-      <h3>Add New Model</h3>
-      <input
-        type="text"
-        placeholder="Model Name"
-        value={name}
-        onChange={e => setName(e.target.value)}
-        style={{ marginRight: '0.5em' }}
-      />
-      <input
-        type="text"
-        placeholder="Model Key"
-        value={modelKey}
-        onChange={e => setModelKey(e.target.value)}
-        style={{ marginRight: '0.5em' }}
-      />
-      <button onClick={handleAddModel} disabled={adding}>
-        {adding ? 'Adding...' : 'Add Model'}
-      </button>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+    <div class="f4-new-model-form">
+      <h3 class="f4-new-model-form__form-title">Add Model</h3>
+      <div class="f4-new-model-form__form-wrap">
+        <input
+          type="text"
+          placeholder="Model Name"
+          value={name}
+          onChange={e => setName(e.target.value)}
+          style={{ marginRight: '0.5em' }}
+        />
+        <input
+          type="text"
+          placeholder="Model Key"
+          value={modelKey}
+          onChange={e => setModelKey(e.target.value)}
+          style={{ marginRight: '0.5em' }}
+        />
+        <button onClick={handleAddModel} disabled={adding}>
+          {adding ? 'Adding...' : 'Add Model'}
+        </button>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+      </div>
     </div>
   );
 }
