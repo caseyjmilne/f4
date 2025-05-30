@@ -3,6 +3,7 @@
 namespace F4\Model;
 
 class ModelInstance {
+
     protected $post_id;
     protected $post_title;
     protected $model_key;
@@ -36,4 +37,5 @@ class ModelInstance {
 
         return $props;
     }
+    
 }
