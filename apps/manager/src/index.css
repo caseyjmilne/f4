@@ -41,7 +41,9 @@
     box-sizing: border-box;
 }
 
-.f4-models-list--item {
+/* Model Items */
+
+.f4-models-list__item {
     flex-basis: 180px;
     width: 180px;
     cursor: pointer;
@@ -51,6 +53,19 @@
     flex-shrink: 0;
     box-sizing: content-box;
 }
+
+.f4-models-list__item:hover {
+    background: rgb(170, 170, 170);
+    color: rgb(50, 50, 50);
+}
+
+.f4-models-list__item--selected {
+    background: rgb(100, 100, 100);   /* darker background */
+    color: rgb(255, 255, 255);        /* light text for contrast */
+    font-weight: bold;
+    border: 2px solid rgb(80, 80, 80); /* optional: border to emphasize selection */
+}
+
 
 .f4-add-model-button {
     padding: 8px 16px;
