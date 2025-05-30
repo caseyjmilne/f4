@@ -14,6 +14,9 @@ class Plugin {
 
     function __construct() {
 
+        // Model Module
+        require_once( F4_PATH . '/inc/Model/ModelInstance.php' );
+
         require_once( F4_PATH . '/inc/Model/ModelController.php' );
         new \F4\Model\ModelController();
 
@@ -53,7 +56,6 @@ class Plugin {
 
         // Frontend Module || NS: \F4\Front
         require_once( F4_PATH . '/inc/Front/ModelLoader.php' );
-        require_once( F4_PATH . '/inc/Front/ModelInstance.php' );
         require_once( F4_PATH . '/inc/Front/TemplateLoader.php' );
         require_once( F4_PATH . '/inc/Front/PropertyLoader.php' );
         new \F4\Front\TemplateLoader();

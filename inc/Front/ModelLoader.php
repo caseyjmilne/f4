@@ -2,6 +2,8 @@
 
 namespace F4\Front;
 
+use \F4\Model\ModelInstance;
+
 class ModelLoader {
     public static function getModelForPostType($post_type): ?ModelInstance {
         $models = get_posts([

@@ -1,6 +1,6 @@
 <?php
 
-namespace F4\Front;
+namespace F4\Model;
 
 class ModelInstance {
     protected $post_id;

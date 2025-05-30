@@ -2,7 +2,7 @@
 
 namespace F4\Model;
 
-use F4\Front\ModelInstance;
+use F4\Model\ModelInstance;
 
 class ModelController {
 
