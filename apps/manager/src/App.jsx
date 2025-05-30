@@ -53,6 +53,9 @@ function App() {
             <header class="model-properties-header">
               <h3>Model Properties</h3>
               <p>For Model ID {selectedModelId}</p>
+              <button class="f4-add-property-button">
+                + Property
+              </button>
             </header>
             <ModelProperties modelId={selectedModelId} />
           </>

@@ -73,3 +73,22 @@
     align-items: center;
     justify-content: space-between;
 }
+
+.f4-add-property-button {
+    padding: 8px 16px;
+    background-color: rgb(200,200,200);
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 200ms;
+}
+
+.f4-add-property-button:hover {
+    background-color: rgb(180,180,180);
+}
+
+.f4-property-list {
+    padding: 20px;
+}

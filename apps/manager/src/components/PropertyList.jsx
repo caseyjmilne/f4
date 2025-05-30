@@ -1,8 +1,8 @@
 import React from 'react';
 
-function PropertyList({ properties }) {
+function PropertyList({ properties, onEdit, onDelete }) {
   return (
-    <div>
+    <div class="f4-property-list">
       <h2>Properties List</h2>
       <table style={{ width: '100%', borderCollapse: 'collapse' }}>
         <thead>
@@ -11,6 +11,7 @@ function PropertyList({ properties }) {
             <th style={{ borderBottom: '1px solid #ccc', textAlign: 'left', padding: '8px' }}>Type</th>
             <th style={{ borderBottom: '1px solid #ccc', textAlign: 'left', padding: '8px' }}>Key</th>
             <th style={{ borderBottom: '1px solid #ccc', textAlign: 'left', padding: '8px' }}>Name</th>
+            <th style={{ borderBottom: '1px solid #ccc', textAlign: 'left', padding: '8px' }}>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -20,6 +21,10 @@ function PropertyList({ properties }) {
               <td style={{ borderBottom: '1px solid #eee', padding: '8px' }}>{prop.type}</td>
               <td style={{ borderBottom: '1px solid #eee', padding: '8px' }}>{prop.key}</td>
               <td style={{ borderBottom: '1px solid #eee', padding: '8px' }}>{prop.name}</td>
+              <td style={{ borderBottom: '1px solid #eee', padding: '8px' }}>
+                <button onClick={() => onEdit(prop)} style={{ marginRight: '8px' }}>Edit</button>
+                <button onClick={() => onDelete(prop.id)} style={{ color: 'red' }}>Delete</button>
+              </td>
             </tr>
           ))}
         </tbody>

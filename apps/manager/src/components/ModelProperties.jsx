@@ -6,7 +6,6 @@ function ModelProperties({ modelId }) {
   const [showForm, setShowForm] = useState(false);
   const [properties, setProperties] = useState([]);
 
-  // Fetch properties filtered by modelId (you need your API to support this filter)
   useEffect(() => {
     if (!modelId) return;
 
@@ -17,7 +16,7 @@ function ModelProperties({ modelId }) {
           id: item.id,
           key: item.key,
           name: item.name,
-          type: item.type ?? 'text', // default fallback
+          type: item.type ?? 'text',
         }));
         setProperties(formatted);
       })
@@ -28,7 +27,6 @@ function ModelProperties({ modelId }) {
 
   const handleAddProperty = async (property) => {
     try {
-      // attach modelId to new property data
       const created = await createProperty({ ...property, model_id: modelId });
       setProperties(prev => [...prev, created]);
       setShowForm(false);
@@ -52,17 +50,60 @@ function ModelProperties({ modelId }) {
     return response.json();
   }
 
+  const handleDelete = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this property?')) return;
+
+    try {
+      const response = await fetch(`http://test1.local/wp-json/custom/v1/property/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to delete property');
+      }
+
+      setProperties(prev => prev.filter(prop => prop.id !== id));
+    } catch (error) {
+      alert('Delete failed: ' + error.message);
+    }
+  };
+
+  const handleEdit = async (updatedProp) => {
+
+    try {
+      const response = await fetch(`http://test1.local/wp-json/custom/v1/property/${updatedProp.id}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedProp),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to update property');
+      }
+
+      const updated = await response.json();
+      setProperties(prev =>
+        prev.map(prop => (prop.id === updated.id ? updated : prop))
+      );
+    } catch (error) {
+      alert('Update failed: ' + error.message);
+    }
+
+  };
+
   return (
     <>
-      <div>
-        <button onClick={() => setShowForm(!showForm)}>
-          {showForm ? 'Hide' : 'Add Property'}
-        </button>
-      </div>
 
       {showForm && <AddPropertyForm onSubmit={handleAddProperty} />}
 
-      <PropertyList properties={properties} />
+      <PropertyList
+        properties={properties}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+      />
+      
     </>
   );
 }
