@@ -13,37 +13,30 @@ function ModelDetails({ model, onDelete, onEditClick }) {
 
   return (
     <div className="model-details">
-
-      <table className="model-details__table" style={{ width: '100%', borderCollapse: 'collapse' }}>
+      <table className="model-details__table">
         <tbody>
           <tr>
-            <th style={{ textAlign: 'left', padding: '8px', borderBottom: '1px solid #ccc' }}>Model ID</th>
-            <td style={{ padding: '8px', borderBottom: '1px solid #ccc' }}>{model.id}</td>
+            <th className="model-details__th">Model ID</th>
+            <td className="model-details__td">{model.id}</td>
           </tr>
           <tr>
-            <th style={{ textAlign: 'left', padding: '8px', borderBottom: '1px solid #ccc' }}>Title</th>
-            <td style={{ padding: '8px', borderBottom: '1px solid #ccc' }}>{model.title}</td>
+            <th className="model-details__th">Title</th>
+            <td className="model-details__td">{model.title}</td>
           </tr>
           <tr>
-            <th style={{ textAlign: 'left', padding: '8px', borderBottom: '1px solid #ccc' }}>Key</th>
-            <td style={{ padding: '8px', borderBottom: '1px solid #ccc' }}>{model.key}</td>
+            <th className="model-details__th">Key</th>
+            <td className="model-details__td">{model.key}</td>
           </tr>
         </tbody>
       </table>
 
-      <div style={{ marginTop: '12px' }}>
-        <button
-          className="f4-edit-model-button"
-          onClick={onEditClick}
-          style={{ marginRight: '10px' }}
-        >
+      <div className="model-details__actions">
+        <button className="model-details__edit-button" onClick={onEditClick}>
           Edit Model
         </button>
-
         <button
-          className="f4-delete-model-button"
+          className="model-details__delete-button"
           onClick={() => setShowConfirmModal(true)}
-          style={{ backgroundColor: 'red', color: 'white' }}
         >
           Delete Model
         </button>
@@ -51,18 +44,21 @@ function ModelDetails({ model, onDelete, onEditClick }) {
 
       {showConfirmModal && (
         <Modal isOpen={showConfirmModal} onClose={() => setShowConfirmModal(false)}>
-          <div style={{ padding: '20px' }}>
-            <p>Are you sure you want to delete model "<strong>{model.key}</strong>"? This cannot be undone.</p>
-            <div style={{ marginTop: '20px', textAlign: 'right' }}>
+          <div className="model-details__confirm">
+            <p>
+              Are you sure you want to delete model "<strong>{model.key}</strong>"?
+              This cannot be undone.
+            </p>
+            <div className="model-details__confirm-actions">
               <button
+                className="model-details__cancel-button"
                 onClick={() => setShowConfirmModal(false)}
-                style={{ marginRight: '10px' }}
               >
                 Cancel
               </button>
               <button
+                className="model-details__confirm-delete-button"
                 onClick={handleDelete}
-                style={{ backgroundColor: 'red', color: 'white' }}
               >
                 Confirm Delete
               </button>
