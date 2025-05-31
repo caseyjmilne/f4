@@ -4,13 +4,20 @@ import ModelList from './components/ModelList';
 import ModelHeader from './components/ModelHeader';
 import ModelProperties from './components/ModelProperties';
 import ModelDetails from './components/ModelDetails';
-import { fetchModels as fetchModelsFromApi } from './api/models';
-import { deleteModel as deleteModelFromApi } from './api/models';
+import Modal from './components/Modal';
+import EditModelForm from './components/EditModelForm';
+import {
+  fetchModels as fetchModelsFromApi,
+  deleteModel as deleteModelFromApi,
+  updateModel
+} from './api/models';
 
 function App() {
+
   const [models, setModels] = useState([]);
   const [selectedModelId, setSelectedModelId] = useState(0);
   const [showNewModelForm, setShowNewModelForm] = useState(false);
+  const [showEditModelForm, setShowEditModelForm] = useState(false);
 
   const loadModels = () => {
     fetchModelsFromApi().then(setModels);
@@ -53,19 +60,42 @@ function App() {
             onDelete={async (id) => {
               try {
                 await deleteModelFromApi(id);
-                setSelectedModelId(0); // clear selection
-                loadModels();          // reload remaining models
+                setSelectedModelId(0);
+                loadModels();
               } catch (err) {
                 alert('Failed to delete model: ' + err.message);
               }
             }}
           />
 
+          <button onClick={() => setShowEditModelForm(true)}>
+            Edit Model
+          </button>
+
           <ModelProperties selectedModelId={selectedModelId} />
         </>
       )}
+
+      {showEditModelForm && (
+        <Modal isOpen={showEditModelForm} onClose={() => setShowEditModelForm(false)}>
+          <EditModelForm
+            model={models.find((m) => m.id === selectedModelId)}
+            onSave={async (updatedModel) => {
+              try {
+                await updateModel(updatedModel);
+                loadModels();
+                setShowEditModelForm(false);
+              } catch (err) {
+                alert('Failed to update model: ' + err.message);
+              }
+            }}
+            onCancel={() => setShowEditModelForm(false)}
+          />
+        </Modal>
+      )}
       
     </div>
+
   );
 }
 

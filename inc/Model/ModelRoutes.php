@@ -2,6 +2,8 @@
 
 namespace F4\Model;
 
+use F4\ModelInstance;
+
 class ModelRoutes {
 
     public function __construct() {
@@ -23,7 +25,7 @@ class ModelRoutes {
             'callback' => [$this, 'getModel'],
             'permission_callback' => '__return_true',
             'args' => [
-                'id' => ['validate_callback' => 'is_numeric'],
+                'id' => [],
             ],
         ]);
 
@@ -42,7 +44,7 @@ class ModelRoutes {
             'callback' => [$this, 'updateModel'],
             'permission_callback' => '__return_true',
             'args' => [
-                'id' => ['validate_callback' => 'is_numeric'],
+                'id' => [],
             ],
         ]);
 

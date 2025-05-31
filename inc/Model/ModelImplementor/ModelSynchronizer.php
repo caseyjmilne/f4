@@ -33,7 +33,8 @@ class ModelSynchronizer {
                 'public' => true,
                 'show_in_menu' => true,
                 'show_in_rest' => true,
-                'supports' => ['title', 'editor'], // Static for now
+                'has_archive' => true,
+                'supports' => ['title', 'editor', 'archive'], // Static for now
             ];
 
             $this->postTypeBuilder->register($key, $args);
