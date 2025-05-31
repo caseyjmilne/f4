@@ -58,7 +58,7 @@ class ModelController {
         $posts = get_posts([
             'post_type'   => 'model',
             'post_status' => 'publish',
-            'meta_key'    => '_model_key',
+            'meta_key'    => 'model_key',
             'meta_value'  => $post_type,
             'numberposts' => 1,
         ]);
@@ -81,7 +81,7 @@ class ModelController {
             return $post_id;
         }
 
-        update_post_meta($post_id, '_model_key', $model_key);
+        update_post_meta($post_id, 'model_key', $model_key);
 
         return new ModelInstance(get_post($post_id));
     }
@@ -103,7 +103,7 @@ class ModelController {
         }
 
         if (isset($data['model_key'])) {
-            update_post_meta($id, '_model_key', sanitize_text_field($data['model_key']));
+            update_post_meta($id, 'model_key', sanitize_text_field($data['model_key']));
         }
 
         return new ModelInstance(get_post($id));

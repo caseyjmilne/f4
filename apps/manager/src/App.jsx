@@ -13,7 +13,6 @@ import {
 } from './api/models';
 
 function App() {
-
   const [models, setModels] = useState([]);
   const [selectedModelId, setSelectedModelId] = useState(0);
   const [showNewModelForm, setShowNewModelForm] = useState(false);
@@ -66,11 +65,8 @@ function App() {
                 alert('Failed to delete model: ' + err.message);
               }
             }}
+            onEditClick={() => setShowEditModelForm(true)}  // <-- moved here
           />
-
-          <button onClick={() => setShowEditModelForm(true)}>
-            Edit Model
-          </button>
 
           <ModelProperties selectedModelId={selectedModelId} />
         </>
@@ -95,7 +91,6 @@ function App() {
       )}
       
     </div>
-
   );
 }
 

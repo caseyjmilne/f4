@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 function NewModelForm({ onModelAdded }) {
-  const [name, setName] = useState('');
+  const [name, setTitle] = useState('');
   const [modelKey, setModelKey] = useState('');
   const [adding, setAdding] = useState(false);
   const [error, setError] = useState(null);
@@ -22,7 +22,7 @@ function NewModelForm({ onModelAdded }) {
     })
       .then(res => res.json())
       .then(data => {
-        setName('');
+        setTitle('');
         setModelKey('');
         onModelAdded(); // Tell parent to reload models
       })
@@ -39,9 +39,9 @@ function NewModelForm({ onModelAdded }) {
       <div className="f4-new-model-form__form-wrap">
         <input
           type="text"
-          placeholder="Model Name"
+          placeholder="Model Title"
           value={name}
-          onChange={e => setName(e.target.value)}
+          onChange={e => setTitle(e.target.value)}
           style={{ marginRight: '0.5em' }}
         />
         <input

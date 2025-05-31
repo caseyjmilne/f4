@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ModelInstance",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "The ID of the model (WP_Post ID)."
+    },
+    "title": {
+      "type": "string",
+      "description": "The title of the model (WP_Post post_title)."
+    },
+    "key": {
+      "type": ["string", "null"],
+      "description": "The model key, fetched from post meta model_key."
+    }
+  },
+  "required": ["id", "title", "key"],
+  "additionalProperties": false
+}

@@ -1,4 +1,7 @@
 function ModelList({ models, selectedModelId, onSelect }) {
+
+  console.log(models)
+
   return (
     <ul className="f4-models-list">
       {models.map(model => (
@@ -7,7 +10,7 @@ function ModelList({ models, selectedModelId, onSelect }) {
           className={`f4-models-list__item${model.id === selectedModelId ? ' f4-models-list__item--selected' : ''}`}
           onClick={() => onSelect(model.id)}
         >
-          {model.name}
+          {model.title}
         </li>
       ))}
     </ul>
