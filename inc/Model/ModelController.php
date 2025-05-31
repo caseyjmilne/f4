@@ -9,8 +9,6 @@ class ModelController {
 
     public function __construct() {
         add_action('init', [$this, 'register_model_post_type']);
-        add_action('add_meta_boxes', [$this, 'add_meta_boxes']);
-        add_action('save_post_model', [$this, 'save_meta_box']);
     }
 
     public function register_model_post_type() {
