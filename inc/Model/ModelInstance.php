@@ -4,38 +4,35 @@ namespace F4\Model;
 
 class ModelInstance {
 
-    protected $post_id;
-    protected $post_title;
-    protected $model_key;
+    protected $id;
+    protected $title;
+    protected $key;
 
     public function __construct(\WP_Post $post) {
-        $this->post_id = $post->ID;
-        $this->post_title = $post->post_title;
-        $this->model_key = get_post_meta($post->ID, 'model_key', true);
+        $this->id = $post->ID;
+        $this->title = $post->post_title;
+        $this->key = get_post_meta($post->ID, 'model_key', true);
     }
 
     public function getId() {
-        return $this->post_id;
+        return $this->id;
     }
 
     public function getTitle() {
-        return $this->post_title;
+        return $this->title;
     }
 
     public function getKey() {
-        return $this->model_key;
+        return $this->key;
     }
 
     public function getProperties(): array {
-        $props = get_posts([
+        return get_posts([
             'post_type' => 'property',
             'post_status' => 'publish',
             'meta_key' => 'model_id',
-            'meta_value' => $this->post_id,
+            'meta_value' => $this->id,
             'numberposts' => -1
         ]);
-
-        return $props;
     }
-    
 }

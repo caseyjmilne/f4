@@ -2,15 +2,20 @@
 
 namespace F4\Model;
 
-use F4\ModelInstance;
+use WP_REST_Request;
+use WP_Error;
+use function rest_ensure_response;
 
 class ModelRoutes {
 
+    protected ModelController $controller;
+
     public function __construct() {
+        $this->controller = new ModelController();
         add_action('rest_api_init', [$this, 'registerRoutes']);
     }
 
-    public function registerRoutes() {
+    public function registerRoutes(): void {
         $namespace = 'custom/v1';
         $base = 'model';
 
@@ -24,62 +29,34 @@ class ModelRoutes {
             'methods' => 'GET',
             'callback' => [$this, 'getModel'],
             'permission_callback' => '__return_true',
-            'args' => [
-                'id' => [],
-            ],
         ]);
 
         register_rest_route($namespace, '/' . $base, [
             'methods' => 'POST',
             'callback' => [$this, 'createModel'],
             'permission_callback' => '__return_true',
-            'args' => [
-                'name' => ['required' => true],
-                'model_key' => ['required' => true],
-            ],
         ]);
 
         register_rest_route($namespace, '/' . $base . '/(?P<id>\d+)', [
             'methods' => 'PUT',
             'callback' => [$this, 'updateModel'],
             'permission_callback' => '__return_true',
-            'args' => [
-                'id' => [],
-            ],
         ]);
 
         register_rest_route($namespace, '/' . $base . '/(?P<id>\d+)', [
             'methods' => 'DELETE',
             'callback' => [$this, 'deleteModel'],
             'permission_callback' => '__return_true',
-            'args' => [
-                'id' => [],
-            ],
         ]);
     }
 
     public function getModels() {
-        $args = [
-            'post_type' => 'model',
-            'post_status' => 'publish',
-            'numberposts' => -1,
-        ];
-        $posts = get_posts($args);
+        $instances = $this->controller->get_all_models();
 
-        $result = [];
-        foreach ($posts as $post) {
-            $result[] = [
-                'id' => $post->ID,
-                'name' => get_the_title($post),
-                'model_key' => get_post_meta($post->ID, 'model_key', true),
-                'slug' => $post->post_name,
-            ];
-        }
-
-        return rest_ensure_response($result);
+        return rest_ensure_response(array_map(fn($instance) => $instance->to_array(), $instances));
     }
 
-    public function getModel($request) {
+    public function getModel(WP_REST_Request $request) {
         $id = (int) $request['id'];
         $post = get_post($id);
 
@@ -87,17 +64,11 @@ class ModelRoutes {
             return new WP_Error('model_not_found', 'Model not found', ['status' => 404]);
         }
 
-        return rest_ensure_response([
-            'id' => $post->ID,
-            'name' => get_the_title($post),
-            'model_key' => get_post_meta($post->ID, 'model_key', true),
-            'slug' => $post->post_name,
-        ]);
+        return rest_ensure_response((new ModelInstance($post))->to_array());
     }
 
-    public function createModel($request) {
+    public function createModel(WP_REST_Request $request) {
         $params = $request->get_json_params();
-
         $name = sanitize_text_field($params['name'] ?? '');
         $model_key = sanitize_text_field($params['model_key'] ?? '');
 
@@ -115,17 +86,12 @@ class ModelRoutes {
             return $post_id;
         }
 
-        update_post_meta($post_id, 'model_key', $model_key);
+        update_post_meta($post_id, '_model_key', $model_key);
 
-        return rest_ensure_response([
-            'id' => $post_id,
-            'name' => $name,
-            'model_key' => $model_key,
-            'slug' => get_post_field('post_name', $post_id),
-        ]);
+        return rest_ensure_response((new ModelInstance(get_post($post_id)))->to_array());
     }
 
-    public function updateModel($request) {
+    public function updateModel(WP_REST_Request $request) {
         $id = (int) $request['id'];
         $post = get_post($id);
 
@@ -136,33 +102,26 @@ class ModelRoutes {
         $params = $request->get_json_params();
 
         $name = isset($params['name']) ? sanitize_text_field($params['name']) : get_the_title($post);
-        $model_key = isset($params['model_key']) ? sanitize_text_field($params['model_key']) : get_post_meta($id, 'model_key', true);
+        $model_key = isset($params['model_key']) ? sanitize_text_field($params['model_key']) : get_post_meta($id, '_model_key', true);
 
-        $updated_post = [
+        $update_result = wp_update_post([
             'ID' => $id,
             'post_title' => $name,
-        ];
-
-        $update_result = wp_update_post($updated_post);
+        ]);
 
         if (is_wp_error($update_result)) {
             return $update_result;
         }
 
-        update_post_meta($id, 'model_key', $model_key);
+        update_post_meta($id, '_model_key', $model_key);
 
-        return rest_ensure_response([
-            'id' => $id,
-            'name' => $name,
-            'model_key' => $model_key,
-            'slug' => get_post_field('post_name', $id),
-        ]);
+        return rest_ensure_response((new ModelInstance(get_post($id)))->to_array());
     }
 
-    public function deleteModel($request) {
+    public function deleteModel(WP_REST_Request $request) {
         $id = (int) $request['id'];
-
         $post = get_post($id);
+
         if (!$post || $post->post_type !== 'model') {
             return new WP_Error('model_not_found', 'Model not found', ['status' => 404]);
         }
