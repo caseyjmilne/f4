@@ -7,11 +7,15 @@ import {
 } from '../api/properties';
 import PropertyList from './PropertyList';
 import AddPropertyForm from './AddPropertyForm';
+import EditPropertyForm from './EditPropertyForm';
 import Modal from './Modal';
 
 function ModelProperties({ selectedModelId }) {
+
   const [properties, setProperties] = useState([]);
   const [showAddPropertyModal, setShowAddPropertyModal] = useState(false);
+  const [showEditPropertyModal, setShowEditPropertyModal] = useState(false);
+  const [selectedProperty, setSelectedProperty] = useState(null);
 
   useEffect(() => {
     if (!selectedModelId) return;
@@ -43,12 +47,19 @@ function ModelProperties({ selectedModelId }) {
     }
   };
 
-  const handleEdit = async (updatedProp) => {
+  const handleEditClick = (property) => {
+    setSelectedProperty(property);
+    setShowEditPropertyModal(true);
+  };
+
+  const handleEditSave = async (updatedProp) => {
     try {
       const updated = await updateProperty(updatedProp);
       setProperties(prev =>
         prev.map(prop => (prop.id === updated.id ? updated : prop))
       );
+      setShowEditPropertyModal(false);
+      setSelectedProperty(null);
     } catch (error) {
       alert('Update failed: ' + error.message);
     }
@@ -70,7 +81,7 @@ function ModelProperties({ selectedModelId }) {
 
       <PropertyList
         properties={properties}
-        onEdit={handleEdit}
+        onEditClick={handleEditClick}
         onDelete={handleDelete}
       />
 
@@ -79,6 +90,25 @@ function ModelProperties({ selectedModelId }) {
         onClose={() => setShowAddPropertyModal(false)}
       >
         <AddPropertyForm onSubmit={handleAddProperty} />
+      </Modal>
+
+      <Modal
+        isOpen={showEditPropertyModal}
+        onClose={() => {
+          setShowEditPropertyModal(false);
+          setSelectedProperty(null);
+        }}
+      >
+        {selectedProperty && (
+          <EditPropertyForm
+            property={selectedProperty}
+            onSave={handleEditSave}
+            onCancel={() => {
+              setShowEditPropertyModal(false);
+              setSelectedProperty(null);
+            }}
+          />
+        )}
       </Modal>
     </>
   );

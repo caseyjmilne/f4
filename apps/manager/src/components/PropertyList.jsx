@@ -1,6 +1,6 @@
 import React from 'react';
 
-function PropertyList({ properties, onEdit, onDelete }) {
+function PropertyList({ properties, onEditClick, onDelete }) {
   return (
     <div className="f4-property-list">
       <table style={{ width: '100%', borderCollapse: 'collapse' }}>
@@ -21,7 +21,7 @@ function PropertyList({ properties, onEdit, onDelete }) {
               <td style={{ borderBottom: '1px solid #eee', padding: '8px' }}>{prop.key}</td>
               <td style={{ borderBottom: '1px solid #eee', padding: '8px' }}>{prop.name}</td>
               <td style={{ borderBottom: '1px solid #eee', padding: '8px' }}>
-                <button onClick={() => onEdit(prop)} style={{ marginRight: '8px' }}>Edit</button>
+                <button onClick={() => onEditClick(prop)} style={{ marginRight: '8px' }}>Edit</button>
                 <button onClick={() => onDelete(prop.id)} style={{ color: 'red' }}>Delete</button>
               </td>
             </tr>

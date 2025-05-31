@@ -43,7 +43,7 @@ export async function deleteProperty(id) {
 
 export async function updateProperty(updatedProp) {
   const response = await fetch(`${API_BASE}/${updatedProp.id}`, {
-    method: 'POST',
+    method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(updatedProp),
   });
