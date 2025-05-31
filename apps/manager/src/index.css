@@ -37,7 +37,6 @@
     margin: 20px 20px;
     padding: 0;
     overflow-x: auto;
-    width: 100%;
     box-sizing: border-box;
 }
 
@@ -60,10 +59,9 @@
 }
 
 .f4-models-list__item--selected {
-    background: rgb(100, 100, 100);   /* darker background */
-    color: rgb(255, 255, 255);        /* light text for contrast */
+    background: rgb(100, 100, 100); 
+    color: rgb(50, 50, 50);
     font-weight: bold;
-    border: 2px solid rgb(80, 80, 80); /* optional: border to emphasize selection */
 }
 
 
@@ -123,4 +121,35 @@
     border: solid 1px rgb(180,180,180);
     padding: 32px;
     border-radius: 4px;
+}
+
+/* Modal Styles */
+.f4-modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.f4-modal-content {
+  background: white;
+  padding: 32px;
+  border-radius: 8px;
+  max-width: 600px;
+  width: 90%;
+  position: relative;
+}
+
+.f4-modal-close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
 }

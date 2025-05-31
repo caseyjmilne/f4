@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import ModelProperties from './components/ModelProperties';
 import NewModelForm from './components/NewModelForm';
 import ModelList from './components/ModelList';
 import ModelHeader from './components/ModelHeader';
+import ModelProperties from './components/ModelProperties';
 
 import { fetchModels as fetchModelsFromApi } from './api/models';
 
@@ -46,16 +46,7 @@ function App() {
       )}
 
       {selectedModelId !== 0 && (
-        <>
-          <header className="model-properties-header">
-            <h3>Model Properties</h3>
-            <p>For Model ID {selectedModelId}</p>
-            <button className="f4-add-property-button">
-              + Property
-            </button>
-          </header>
-          <ModelProperties modelId={selectedModelId} />
-        </>
+        <ModelProperties selectedModelId={selectedModelId} />
       )}
       
     </div>

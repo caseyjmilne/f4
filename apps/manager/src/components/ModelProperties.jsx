@@ -1,68 +1,42 @@
 import { useState, useEffect } from 'react';
-import AddPropertyForm from './AddPropertyForm';
+import {
+  fetchProperties,
+  createProperty,
+  deleteProperty,
+  updateProperty,
+} from '../api/properties';
 import PropertyList from './PropertyList';
+import AddPropertyForm from './AddPropertyForm';
+import Modal from './Modal';
 
-function ModelProperties({ modelId }) {
-  const [showForm, setShowForm] = useState(false);
+function ModelProperties({ selectedModelId }) {
   const [properties, setProperties] = useState([]);
+  const [showAddPropertyModal, setShowAddPropertyModal] = useState(false);
 
   useEffect(() => {
-    if (!modelId) return;
+    if (!selectedModelId) return;
 
-    fetch(`http://test1.local/wp-json/custom/v1/property?model_id=${modelId}`)
-      .then(res => res.json())
-      .then(data => {
-        const formatted = data.map(item => ({
-          id: item.id,
-          key: item.key,
-          name: item.name,
-          type: item.type ?? 'text',
-        }));
-        setProperties(formatted);
-      })
+    fetchProperties(selectedModelId)
+      .then(setProperties)
       .catch(err => {
         console.error('Failed to load properties:', err);
       });
-  }, [modelId]);
+  }, [selectedModelId]);
 
   const handleAddProperty = async (property) => {
     try {
-      const created = await createProperty({ ...property, model_id: modelId });
+      const created = await createProperty({ ...property, model_id: selectedModelId });
       setProperties(prev => [...prev, created]);
-      setShowForm(false);
+      setShowAddPropertyModal(false);
     } catch (error) {
       alert('Failed to create property: ' + error.message);
     }
   };
 
-  async function createProperty(property) {
-    const response = await fetch('http://test1.local/wp-json/custom/v1/property', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(property),
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Failed to create property');
-    }
-
-    return response.json();
-  }
-
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this property?')) return;
-
     try {
-      const response = await fetch(`http://test1.local/wp-json/custom/v1/property/${id}`, {
-        method: 'DELETE',
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to delete property');
-      }
-
+      await deleteProperty(id);
       setProperties(prev => prev.filter(prop => prop.id !== id));
     } catch (error) {
       alert('Delete failed: ' + error.message);
@@ -70,40 +44,42 @@ function ModelProperties({ modelId }) {
   };
 
   const handleEdit = async (updatedProp) => {
-
     try {
-      const response = await fetch(`http://test1.local/wp-json/custom/v1/property/${updatedProp.id}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedProp),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to update property');
-      }
-
-      const updated = await response.json();
+      const updated = await updateProperty(updatedProp);
       setProperties(prev =>
         prev.map(prop => (prop.id === updated.id ? updated : prop))
       );
     } catch (error) {
       alert('Update failed: ' + error.message);
     }
-
   };
+
+  if (!selectedModelId) return null;
 
   return (
     <>
-
-      {showForm && <AddPropertyForm onSubmit={handleAddProperty} />}
+      <header className="model-properties-header">
+        <h3>Model Properties</h3>
+        <button
+          className="f4-add-property-button"
+          onClick={() => setShowAddPropertyModal(true)}
+        >
+          + Property
+        </button>
+      </header>
 
       <PropertyList
         properties={properties}
         onEdit={handleEdit}
         onDelete={handleDelete}
       />
-      
+
+      <Modal
+        isOpen={showAddPropertyModal}
+        onClose={() => setShowAddPropertyModal(false)}
+      >
+        <AddPropertyForm onSubmit={handleAddProperty} />
+      </Modal>
     </>
   );
 }

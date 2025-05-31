@@ -34,9 +34,9 @@ function NewModelForm({ onModelAdded }) {
   };
 
   return (
-    <div class="f4-new-model-form">
-      <h3 class="f4-new-model-form__form-title">Add Model</h3>
-      <div class="f4-new-model-form__form-wrap">
+    <div className="f4-new-model-form">
+      <h3 className="f4-new-model-form__form-title">Add Model</h3>
+      <div className="f4-new-model-form__form-wrap">
         <input
           type="text"
           placeholder="Model Name"

@@ -2,8 +2,7 @@ import React from 'react';
 
 function PropertyList({ properties, onEdit, onDelete }) {
   return (
-    <div class="f4-property-list">
-      <h2>Properties List</h2>
+    <div className="f4-property-list">
       <table style={{ width: '100%', borderCollapse: 'collapse' }}>
         <thead>
           <tr>
