@@ -2,7 +2,8 @@
 
 namespace F4\Model;
 
-use F4\Model\ModelInstance;
+use WP_Error;
+use WP_Post;
 
 class ModelController {
 
@@ -43,44 +44,6 @@ class ModelController {
         register_post_type('model', $args);
     }
 
-    public function add_meta_boxes() {
-        add_meta_box(
-            'model_key_meta',
-            'Model Key',
-            [$this, 'render_meta_box'],
-            'model',
-            'advanced',
-            'default'
-        );
-    }
-
-    public function render_meta_box($post) {
-        $value = get_post_meta($post->ID, '_model_key', true);
-        wp_nonce_field('save_model_key_meta', 'model_key_meta_nonce');
-        ?>
-        <label for="model_key_field">Key:</label>
-        <input type="text" name="model_key_field" id="model_key_field" value="<?php echo esc_attr($value); ?>" style="width: 100%;">
-        <?php
-    }
-
-    public function save_meta_box($post_id) {
-        if (!isset($_POST['model_key_meta_nonce']) || !wp_verify_nonce($_POST['model_key_meta_nonce'], 'save_model_key_meta')) {
-            return;
-        }
-
-        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
-        if (!current_user_can('edit_post', $post_id)) return;
-
-        if (isset($_POST['model_key_field'])) {
-            update_post_meta($post_id, '_model_key', sanitize_text_field($_POST['model_key_field']));
-        }
-    }
-
-    /**
-     * Returns all published models as ModelInstance objects.
-     *
-     * @return ModelInstance[]
-     */
     public function get_all_models(): array {
         $posts = get_posts([
             'post_type'   => 'model',
@@ -93,12 +56,6 @@ class ModelController {
         }, $posts);
     }
 
-    /**
-     * Get a model by a given post type (based on _model_key meta).
-     *
-     * @param string $post_type
-     * @return ModelInstance|null
-     */
     public function get_model_for_post_type(string $post_type): ?ModelInstance {
         $posts = get_posts([
             'post_type'   => 'model',
@@ -115,4 +72,42 @@ class ModelController {
         return null;
     }
 
+    public function create_model(string $name, string $model_key): ModelInstance|WP_Error {
+        $post_id = wp_insert_post([
+            'post_title'   => $name,
+            'post_type'    => 'model',
+            'post_status'  => 'publish',
+        ]);
+
+        if (is_wp_error($post_id)) {
+            return $post_id;
+        }
+
+        update_post_meta($post_id, '_model_key', $model_key);
+
+        return new ModelInstance(get_post($post_id));
+    }
+
+    public function update_model(int $id, array $data): ModelInstance|WP_Error {
+        $post = get_post($id);
+        if (!$post || $post->post_type !== 'model') {
+            return new WP_Error('model_not_found', 'Model not found', ['status' => 404]);
+        }
+
+        $updated_post = [
+            'ID'          => $id,
+            'post_title'  => $data['name'] ?? $post->post_title,
+        ];
+
+        $update_result = wp_update_post($updated_post, true);
+        if (is_wp_error($update_result)) {
+            return $update_result;
+        }
+
+        if (isset($data['model_key'])) {
+            update_post_meta($id, '_model_key', sanitize_text_field($data['model_key']));
+        }
+
+        return new ModelInstance(get_post($id));
+    }
 }

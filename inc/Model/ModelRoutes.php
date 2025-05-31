@@ -76,19 +76,13 @@ class ModelRoutes {
             return new WP_Error('missing_fields', 'Name and model_key are required', ['status' => 400]);
         }
 
-        $post_id = wp_insert_post([
-            'post_title' => $name,
-            'post_type' => 'model',
-            'post_status' => 'publish',
-        ]);
+        $model = $this->controller->create_model($name, $model_key);
 
-        if (is_wp_error($post_id)) {
-            return $post_id;
+        if (!$model instanceof ModelInstance) {
+            return new WP_Error('create_failed', 'Failed to create model', ['status' => 500]);
         }
 
-        update_post_meta($post_id, '_model_key', $model_key);
-
-        return rest_ensure_response((new ModelInstance(get_post($post_id)))->to_array());
+        return rest_ensure_response($model->to_array());
     }
 
     public function updateModel(WP_REST_Request $request) {
@@ -100,22 +94,16 @@ class ModelRoutes {
         }
 
         $params = $request->get_json_params();
+        $name = isset($params['name']) ? sanitize_text_field($params['name']) : null;
+        $model_key = isset($params['model_key']) ? sanitize_text_field($params['model_key']) : null;
 
-        $name = isset($params['name']) ? sanitize_text_field($params['name']) : get_the_title($post);
-        $model_key = isset($params['model_key']) ? sanitize_text_field($params['model_key']) : get_post_meta($id, '_model_key', true);
+        $model = $this->controller->update_model($id, $name, $model_key);
 
-        $update_result = wp_update_post([
-            'ID' => $id,
-            'post_title' => $name,
-        ]);
-
-        if (is_wp_error($update_result)) {
-            return $update_result;
+        if (!$model instanceof ModelInstance) {
+            return new WP_Error('update_failed', 'Failed to update model', ['status' => 500]);
         }
 
-        update_post_meta($id, '_model_key', $model_key);
-
-        return rest_ensure_response((new ModelInstance(get_post($id)))->to_array());
+        return rest_ensure_response($model->to_array());
     }
 
     public function deleteModel(WP_REST_Request $request) {
