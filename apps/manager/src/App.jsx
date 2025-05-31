@@ -3,8 +3,9 @@ import NewModelForm from './components/NewModelForm';
 import ModelList from './components/ModelList';
 import ModelHeader from './components/ModelHeader';
 import ModelProperties from './components/ModelProperties';
-
+import ModelDetails from './components/ModelDetails';
 import { fetchModels as fetchModelsFromApi } from './api/models';
+import { deleteModel as deleteModelFromApi } from './api/models';
 
 function App() {
   const [models, setModels] = useState([]);
@@ -46,7 +47,22 @@ function App() {
       )}
 
       {selectedModelId !== 0 && (
-        <ModelProperties selectedModelId={selectedModelId} />
+        <>
+          <ModelDetails
+            model={models.find((m) => m.id === selectedModelId)}
+            onDelete={async (id) => {
+              try {
+                await deleteModelFromApi(id);
+                setSelectedModelId(0); // clear selection
+                loadModels();          // reload remaining models
+              } catch (err) {
+                alert('Failed to delete model: ' + err.message);
+              }
+            }}
+          />
+
+          <ModelProperties selectedModelId={selectedModelId} />
+        </>
       )}
       
     </div>

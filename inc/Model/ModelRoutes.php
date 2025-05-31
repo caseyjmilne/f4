@@ -51,7 +51,7 @@ class ModelRoutes {
             'callback' => [$this, 'deleteModel'],
             'permission_callback' => '__return_true',
             'args' => [
-                'id' => ['validate_callback' => 'is_numeric'],
+                'id' => [],
             ],
         ]);
     }
