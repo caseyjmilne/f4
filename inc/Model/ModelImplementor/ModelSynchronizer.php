@@ -20,7 +20,7 @@ class ModelSynchronizer {
 
         foreach ($models as $model) {
             
-            $key = get_post_meta($model->ID, '_model_key', true);
+            $key = get_post_meta($model->ID, 'model_key', true);
             $label = $model->post_title;
 
             if (!$key) {
@@ -33,8 +33,7 @@ class ModelSynchronizer {
                 'public' => true,
                 'show_in_menu' => true,
                 'show_in_rest' => true,
-                'has_archive' => true,
-                'supports' => ['title', 'editor', 'archive'], // Static for now
+                'supports' => ['title', 'editor'], // Static for now
             ];
 
             $this->postTypeBuilder->register($key, $args);

@@ -15,7 +15,7 @@ class FieldRenderer {
         $models = get_posts(['post_type' => 'model', 'post_status' => 'publish', 'numberposts' => -1]);
 
         foreach ($models as $model) {
-            $model_key = get_post_meta($model->ID, '_model_key', true);
+            $model_key = get_post_meta($model->ID, 'model_key', true);
             if (!$model_key) continue;
 
             add_meta_box(
@@ -78,7 +78,7 @@ class FieldRenderer {
         $post_type = get_post_type($post_id);
         $model_post = get_posts([
             'post_type' => 'model',
-            'meta_key' => '_model_key',
+            'meta_key' => 'model_key',
             'meta_value' => $post_type,
             'numberposts' => 1
         ]);

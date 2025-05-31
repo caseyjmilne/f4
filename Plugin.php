@@ -51,6 +51,7 @@ class Plugin {
         require_once( F4_PATH . '/inc/Field/BaseField.php' );
         require_once( F4_PATH . '/inc/Field/FieldRegistry.php' );
         require_once( F4_PATH . '/inc/Field/TextField.php' );
+        require_once( F4_PATH . '/inc/Field/NumberField.php' );
         require_once( F4_PATH . '/inc/Field/CoreFieldRegistry.php' );
         \F4\Field\CoreFieldRegistry::register();
 

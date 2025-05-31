@@ -9,7 +9,7 @@ class ModelLoader {
         $models = get_posts([
             'post_type' => 'model',
             'post_status' => 'publish',
-            'meta_key' => '_model_key',
+            'meta_key' => 'model_key',
             'meta_value' => $post_type,
             'numberposts' => 1
         ]);
