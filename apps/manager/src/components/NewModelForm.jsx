@@ -1,62 +1,79 @@
 import { useState } from 'react';
+import Modal from './Modal';
 
-function NewModelForm({ onModelAdded }) {
-  const [name, setTitle] = useState('');
-  const [modelKey, setModelKey] = useState('');
-  const [adding, setAdding] = useState(false);
-  const [error, setError] = useState(null);
+function NewModelForm({ onModelAdded, onCancel }) {
+  const [title, setTitle] = useState('');
+  const [key, setKey] = useState('');
+  const [type, setType] = useState('post');
 
-  const handleAddModel = () => {
-    if (!name.trim() || !modelKey.trim()) {
-      setError('Both name and model key are required.');
-      return;
-    }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    setError(null);
-    setAdding(true);
-
-    fetch('http://test1.local/wp-json/custom/v1/model', {
+    const response = await fetch('http://test1.local/wp-json/custom/v1/model', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, model_key: modelKey }),
-    })
-      .then(res => res.json())
-      .then(data => {
-        setTitle('');
-        setModelKey('');
-        onModelAdded(); // Tell parent to reload models
-      })
-      .catch(err => {
-        console.error('Error adding model:', err);
-        setError('Something went wrong.');
-      })
-      .finally(() => setAdding(false));
+      body: JSON.stringify({ title, model_type: type, model_key: key }),
+    });
+
+    if (response.ok) {
+      onModelAdded();
+      setTitle('');
+      setKey('');
+      setType('post');
+    } else {
+      alert('Failed to create model');
+    }
   };
 
   return (
-    <div className="f4-new-model-form">
-      <h3 className="f4-new-model-form__form-title">Add Model</h3>
-      <div className="f4-new-model-form__form-wrap">
-        <input
-          type="text"
-          placeholder="Model Title"
-          value={name}
-          onChange={e => setTitle(e.target.value)}
-          style={{ marginRight: '0.5em' }}
-        />
-        <input
-          type="text"
-          placeholder="Model Key"
-          value={modelKey}
-          onChange={e => setModelKey(e.target.value)}
-          style={{ marginRight: '0.5em' }}
-        />
-        <button onClick={handleAddModel} disabled={adding}>
-          {adding ? 'Adding...' : 'Add Model'}
-        </button>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+    <Modal isOpen={true} onClose={onCancel}>
+      <div className="f4-new-model-form">
+        <h4 className="f4-new-model-form__form-title">Add New Model</h4>
+        <form onSubmit={handleSubmit} className="f4-new-model-form__form-wrap">
+          <p>
+            <label htmlFor="model-title"><strong>Title</strong></label><br />
+            <input
+              id="model-title"
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="widefat"
+              required
+            />
+          </p>
+
+          <p>
+            <label htmlFor="model-key"><strong>Key</strong></label><br />
+            <input
+              id="model-key"
+              type="text"
+              value={key}
+              onChange={(e) => setKey(e.target.value)}
+              className="widefat"
+              required
+            />
+          </p>
+
+          <p>
+            <label htmlFor="model-type"><strong>Type</strong></label><br />
+            <select
+              id="model-type"
+              value={type}
+              onChange={(e) => setType(e.target.value)}
+              className="widefat"
+            >
+              <option value="post">Post Type</option>
+              <option value="scalable">Scalable Type</option>
+            </select>
+          </p>
+
+          <div style={{ marginTop: '16px', display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
+            <button type="button" onClick={onCancel} className="f4-cancel-button">Cancel</button>
+            <button type="submit" className="f4-add-model-button">Add Model</button>
+          </div>
+        </form>
       </div>
-    </div>
+    </Modal>
   );
 }
 

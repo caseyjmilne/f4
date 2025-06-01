@@ -44,12 +44,15 @@ function App() {
       />
 
       {showNewModelForm && (
-        <NewModelForm
-          onModelAdded={() => {
-            loadModels();
-            setShowNewModelForm(false);
-          }}
-        />
+        <Modal isOpen={showNewModelForm} onClose={() => setShowNewModelForm(false)}>
+          <NewModelForm
+            onModelAdded={() => {
+              loadModels();
+              setShowNewModelForm(false);
+            }}
+            onCancel={() => setShowNewModelForm(false)}
+          />
+        </Modal>
       )}
 
       {selectedModelId !== 0 && (

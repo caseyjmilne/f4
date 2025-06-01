@@ -69,15 +69,15 @@ class ModelRoutes {
 
     public function createModel(WP_REST_Request $request) {
         $params = $request->get_json_params();
-        $name = sanitize_text_field($params['name'] ?? '');
+        $title = sanitize_text_field($params['title'] ?? '');
         $model_type = sanitize_text_field($params['model_type'] ?? '');
         $model_key = sanitize_text_field($params['model_key'] ?? '');
 
-        if (empty($name) || empty($model_type) || empty($model_key)) {
-            return new WP_Error('missing_fields', 'Name, model_type and model_key are required', ['status' => 400]);
+        if (empty($title) || empty($model_type) || empty($model_key)) {
+            return new WP_Error('missing_fields', 'Title, model_type and model_key are required', ['status' => 400]);
         }
 
-        $model = $this->controller->create_model($name, $model_key, $model_type);
+        $model = $this->controller->create_model($title, $model_key, $model_type);
 
         if (!$model instanceof ModelInstance) {
             return new WP_Error('create_failed', 'Failed to create model', ['status' => 500]);
