@@ -70,13 +70,14 @@ class ModelRoutes {
     public function createModel(WP_REST_Request $request) {
         $params = $request->get_json_params();
         $name = sanitize_text_field($params['name'] ?? '');
+        $model_type = sanitize_text_field($params['model_type'] ?? '');
         $model_key = sanitize_text_field($params['model_key'] ?? '');
 
-        if (empty($name) || empty($model_key)) {
-            return new WP_Error('missing_fields', 'Name and model_key are required', ['status' => 400]);
+        if (empty($name) || empty($model_type) || empty($model_key)) {
+            return new WP_Error('missing_fields', 'Name, model_type and model_key are required', ['status' => 400]);
         }
 
-        $model = $this->controller->create_model($name, $model_key);
+        $model = $this->controller->create_model($name, $model_key, $model_type);
 
         if (!$model instanceof ModelInstance) {
             return new WP_Error('create_failed', 'Failed to create model', ['status' => 500]);
@@ -95,9 +96,10 @@ class ModelRoutes {
 
         $params = $request->get_json_params();
         $title = isset($params['name']) ? sanitize_text_field($params['title']) : null;
+        $model_type = isset($params['model_type']) ? sanitize_text_field($params['model_type']) : null;
         $model_key = isset($params['model_key']) ? sanitize_text_field($params['model_key']) : null;
 
-        $model = $this->controller->update_model($id, $title, $model_key);
+        $model = $this->controller->update_model($id, $title, $model_key, $model_type);
 
         if (!$model instanceof ModelInstance) {
             return new WP_Error('update_failed', 'Failed to update model', ['status' => 500]);

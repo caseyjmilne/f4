@@ -70,7 +70,7 @@ class ModelController {
         return null;
     }
 
-    public function create_model(string $name, string $model_key): ModelInstance|WP_Error {
+    public function create_model(string $name, string $model_key, string $model_type): ModelInstance|WP_Error {
         $post_id = wp_insert_post([
             'post_title'   => $name,
             'post_type'    => 'model',
@@ -81,6 +81,7 @@ class ModelController {
             return $post_id;
         }
 
+        update_post_meta($post_id, 'model_type', $model_type);
         update_post_meta($post_id, 'model_key', $model_key);
 
         return new ModelInstance(get_post($post_id));
@@ -100,6 +101,10 @@ class ModelController {
         $update_result = wp_update_post($updated_post, true);
         if (is_wp_error($update_result)) {
             return $update_result;
+        }
+
+        if (isset($data['model_type'])) {
+            update_post_meta($id, 'model_type', sanitize_text_field($data['model_type']));
         }
 
         if (isset($data['model_key'])) {

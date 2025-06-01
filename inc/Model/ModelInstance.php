@@ -5,6 +5,7 @@ namespace F4\Model;
 class ModelInstance {
 
     protected $id;
+    protected $type;
     protected $title;
     protected $key;
 
@@ -16,6 +17,10 @@ class ModelInstance {
 
     public function getId() {
         return $this->id;
+    }
+
+    public function getType() {
+        return $this->title;
     }
 
     public function getTitle() {
