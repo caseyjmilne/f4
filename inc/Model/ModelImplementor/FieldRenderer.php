@@ -31,6 +31,7 @@ class FieldRenderer {
     }
 
     public function renderBox($post, $meta) {
+
         $model_id = $meta['args']['model_id'];
         $properties = get_posts([
             'post_type' => 'property',
