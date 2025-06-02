@@ -85,31 +85,24 @@ function ModelProperties({ selectedModelId }) {
         onDelete={handleDelete}
       />
 
-      <Modal
-        isOpen={showAddPropertyModal}
-        onClose={() => setShowAddPropertyModal(false)}
-      >
-        <AddPropertyForm onSubmit={handleAddProperty} />
-      </Modal>
+      {showAddPropertyModal && (
+        <AddPropertyForm
+          onSubmit={handleAddProperty}
+          onCancel={() => setShowAddPropertyModal(false)}
+        />
+      )}
 
-      <Modal
-        isOpen={showEditPropertyModal}
-        onClose={() => {
-          setShowEditPropertyModal(false);
-          setSelectedProperty(null);
-        }}
-      >
-        {selectedProperty && (
-          <EditPropertyForm
-            property={selectedProperty}
-            onSave={handleEditSave}
-            onCancel={() => {
-              setShowEditPropertyModal(false);
-              setSelectedProperty(null);
-            }}
-          />
-        )}
-      </Modal>
+      {showEditPropertyModal && selectedProperty && (
+        <EditPropertyForm
+          property={selectedProperty}
+          onSave={handleEditSave}
+          onCancel={() => {
+            setShowEditPropertyModal(false);
+            setSelectedProperty(null);
+          }}
+        />
+      )}
+
     </>
   );
 }
