@@ -10,6 +10,6 @@ class NumberField extends BaseField {
         $name = esc_html($this->name);
 
         echo "<p><label for='{$key}'><strong>{$name}</strong></label><br/>";
-        echo "<input field-type='number98989' type='number' name='{$key}' id='{$key}' value='{$value}' class='widefat' /></p>";
+        echo "<input type='number' name='{$key}' id='{$key}' value='{$value}' class='widefat' /></p>";
     }
 }

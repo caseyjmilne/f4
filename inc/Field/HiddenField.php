@@ -1,0 +1,13 @@
+<?php
+
+namespace F4\Field;
+
+class HiddenField extends BaseField {
+
+    public function render() {
+        $value = esc_attr($this->getValue());
+        $key = esc_attr($this->key);
+
+        echo "<input type='hidden' name='{$key}' id='{$key}' value='{$value}' />";
+    }
+}
