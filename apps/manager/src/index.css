@@ -253,3 +253,44 @@ padding: 4px 12px;
     justify-content: space-between;
     align-items: center;
 }
+
+.f4-new-model-form {
+  padding: 1rem;
+}
+
+.f4-new-model-form__form-title {
+  margin-bottom: 1rem;
+}
+
+.f4-new-model-form__form-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.f4-new-model-form__field-group {
+  margin-bottom: 1rem;
+}
+
+.f4-new-model-form__field-label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.f4-new-model-form__field-input {
+  width: 100%;
+  padding: 0.5rem;
+  box-sizing: border-box;
+}
+
+.f4-new-model-form__actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 1rem;
+}
+
+.f4-cancel-button,
+.f4-add-model-button {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}

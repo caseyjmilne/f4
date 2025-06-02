@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Modal from './Modal';
 
-function NewModelForm({ onModelAdded, onCancel }) {
+function AddModelForm({ onModelAdded, onCancel }) {
   const [title, setTitle] = useState('');
   const [key, setKey] = useState('');
   const [type, setType] = useState('post');
@@ -30,44 +30,51 @@ function NewModelForm({ onModelAdded, onCancel }) {
       <div className="f4-new-model-form">
         <h4 className="f4-new-model-form__form-title">Add New Model</h4>
         <form onSubmit={handleSubmit} className="f4-new-model-form__form-wrap">
-          <p>
-            <label htmlFor="model-title"><strong>Title</strong></label><br />
+          
+          <div className="f4-new-model-form__field-group">
+            <label htmlFor="model-title" className="f4-new-model-form__field-label">
+              <strong>Title</strong>
+            </label>
             <input
               id="model-title"
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="widefat"
+              className="f4-new-model-form__field-input widefat"
               required
             />
-          </p>
+          </div>
 
-          <p>
-            <label htmlFor="model-key"><strong>Key</strong></label><br />
+          <div className="f4-new-model-form__field-group">
+            <label htmlFor="model-key" className="f4-new-model-form__field-label">
+              <strong>Key</strong>
+            </label>
             <input
               id="model-key"
               type="text"
               value={key}
               onChange={(e) => setKey(e.target.value)}
-              className="widefat"
+              className="f4-new-model-form__field-input widefat"
               required
             />
-          </p>
+          </div>
 
-          <p>
-            <label htmlFor="model-type"><strong>Type</strong></label><br />
+          <div className="f4-new-model-form__field-group">
+            <label htmlFor="model-type" className="f4-new-model-form__field-label">
+              <strong>Type</strong>
+            </label>
             <select
               id="model-type"
               value={type}
               onChange={(e) => setType(e.target.value)}
-              className="widefat"
+              className="f4-new-model-form__field-input widefat"
             >
               <option value="post">Post Type</option>
               <option value="scalable">Scalable Type</option>
             </select>
-          </p>
+          </div>
 
-          <div style={{ marginTop: '16px', display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
+          <div className="f4-new-model-form__actions">
             <button type="button" onClick={onCancel} className="f4-cancel-button">Cancel</button>
             <button type="submit" className="f4-add-model-button">Add Model</button>
           </div>
@@ -77,4 +84,4 @@ function NewModelForm({ onModelAdded, onCancel }) {
   );
 }
 
-export default NewModelForm;
+export default AddModelForm;

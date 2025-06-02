@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import NewModelForm from './components/NewModelForm';
+import AddModelForm from './components/AddModelForm';
 import ModelList from './components/ModelList';
 import ModelHeader from './components/ModelHeader';
 import ModelProperties from './components/ModelProperties';
@@ -15,7 +15,7 @@ import {
 function App() {
   const [models, setModels] = useState([]);
   const [selectedModelId, setSelectedModelId] = useState(0);
-  const [showNewModelForm, setShowNewModelForm] = useState(false);
+  const [showAddModelForm, setShowAddModelForm] = useState(false);
   const [showEditModelForm, setShowEditModelForm] = useState(false);
 
   const loadModels = () => {
@@ -30,7 +30,7 @@ function App() {
     <div className="f4-admin">
 
       <ModelHeader 
-        setShowForm={setShowNewModelForm} 
+        setShowForm={setShowAddModelForm} 
         setSelectedModelId={setSelectedModelId} 
       />
 
@@ -39,18 +39,18 @@ function App() {
         selectedModelId={selectedModelId}
         onSelect={(id) => {
           setSelectedModelId(id);
-          setShowNewModelForm(false); // clear form when selecting
+          setShowAddModelForm(false); // clear form when selecting
         }}
       />
 
-      {showNewModelForm && (
-        <Modal isOpen={showNewModelForm} onClose={() => setShowNewModelForm(false)}>
-          <NewModelForm
+      {showAddModelForm && (
+        <Modal isOpen={showAddModelForm} onClose={() => setShowAddModelForm(false)}>
+          <AddModelForm
             onModelAdded={() => {
               loadModels();
-              setShowNewModelForm(false);
+              setShowAddModelForm(false);
             }}
-            onCancel={() => setShowNewModelForm(false)}
+            onCancel={() => setShowAddModelForm(false)}
           />
         </Modal>
       )}
