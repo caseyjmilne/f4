@@ -29,6 +29,13 @@ class Plugin {
         require_once( F4_PATH . '/inc/ModelPropertyRoutes.php' );
         new ModelPropertyRoutes();
 
+        require_once( F4_PATH . '/inc/Model/ModelType.php' );
+        require_once( F4_PATH . '/inc/Model/ModelTypeInterface.php' );
+        require_once( F4_PATH . '/inc/Model/ModelTypePost.php' );
+        require_once( F4_PATH . '/inc/Model/ModelTypeScalable.php' );
+
+        // Database Handlers.
+
         require_once( F4_PATH . '/inc/DatabaseHandler.php' );
         require_once(F4_PATH . '/inc/Database/TableCloner.php');
 

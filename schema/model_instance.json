@@ -14,8 +14,13 @@
     "key": {
       "type": ["string", "null"],
       "description": "The model key, fetched from post meta model_key."
+    },
+    "type": {
+      "type": "string",
+      "enum": ["post_type", "scalable_type"],
+      "description": "The storage type of the model. 'post_type' uses native WP post meta. 'scalable_type' uses custom database tables."
     }
   },
-  "required": ["id", "title", "key"],
+  "required": ["id", "title", "key", "type"],
   "additionalProperties": false
 }
