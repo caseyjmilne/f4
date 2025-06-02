@@ -38,11 +38,11 @@ function ModelDetails({ model, onDelete, onEditClick }) {
       </table>
 
       <div className="model-details__actions">
-        <button className="model-details__edit-button" onClick={onEditClick}>
+        <button className="f4-button" onClick={onEditClick}>
           Edit Model
         </button>
         <button
-          className="model-details__delete-button"
+          className="f4-button f4-button--secondary"
           onClick={() => setShowConfirmModal(true)}
         >
           Delete Model
@@ -56,15 +56,15 @@ function ModelDetails({ model, onDelete, onEditClick }) {
               Are you sure you want to delete model "<strong>{model.key}</strong>"?
               This cannot be undone.
             </p>
-            <div className="model-details__confirm-actions">
+            <div className="f4-form-actions">
               <button
-                className="model-details__cancel-button"
+                className="f4-button f4-button--secondary"
                 onClick={() => setShowConfirmModal(false)}
               >
                 Cancel
               </button>
               <button
-                className="model-details__confirm-delete-button"
+                className="f4-button"
                 onClick={handleDelete}
               >
                 Confirm Delete

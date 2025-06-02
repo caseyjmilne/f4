@@ -72,7 +72,7 @@ function ModelProperties({ selectedModelId }) {
       <header className="model-properties-header">
         <h3>Model Properties</h3>
         <button
-          className="f4-add-property-button"
+          className="f4-button"
           onClick={() => setShowAddPropertyModal(true)}
         >
           + Property

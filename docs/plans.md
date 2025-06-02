@@ -70,5 +70,10 @@ Property blocks render out the properties of a given model. Number render with f
 
 Front end rendering initial load with default query result. Apply event handlers to the filters. Send requests to query API endpoint, get results and use Gutenberg reactivity to swap content.
 
+Enhancements Noted 2025-06-01
+
+1. Add link to model (post type) to the model details.
+2. Add record count (post count) for the model in model details. 
+3. 
 
 

@@ -28,7 +28,7 @@ function AddModelForm({ onModelAdded, onCancel }) {
   return (
     <Modal isOpen={true} onClose={onCancel}>
       <div className="f4-new-model-form">
-        <h4 className="f4-new-model-form__form-title">Add New Model</h4>
+        <h4 className="f4-new-model-form__form-title">Add Model</h4>
         <form onSubmit={handleSubmit} className="f4-new-model-form__form-wrap">
           
           <div className="f4-new-model-form__field-group">
@@ -40,7 +40,7 @@ function AddModelForm({ onModelAdded, onCancel }) {
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="f4-new-model-form__field-input widefat"
+              className="f4-form__field-input"
               required
             />
           </div>
@@ -54,7 +54,7 @@ function AddModelForm({ onModelAdded, onCancel }) {
               type="text"
               value={key}
               onChange={(e) => setKey(e.target.value)}
-              className="f4-new-model-form__field-input widefat"
+              className="f4-form__field-input"
               required
             />
           </div>
@@ -67,16 +67,16 @@ function AddModelForm({ onModelAdded, onCancel }) {
               id="model-type"
               value={type}
               onChange={(e) => setType(e.target.value)}
-              className="f4-new-model-form__field-input widefat"
+              className="f4-form__field-input"
             >
               <option value="post">Post Type</option>
               <option value="scalable">Scalable Type</option>
             </select>
           </div>
 
-          <div className="f4-new-model-form__actions">
-            <button type="button" onClick={onCancel} className="f4-cancel-button">Cancel</button>
-            <button type="submit" className="f4-add-model-button">Add Model</button>
+          <div className="f4-form-actions">
+            <button type="button" onClick={onCancel} className="f4-button f4-button--secondary">Cancel</button>
+            <button type="submit" className="f4-button">Add Model</button>
           </div>
         </form>
       </div>

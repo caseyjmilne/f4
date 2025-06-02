@@ -1,11 +1,10 @@
 import { useState } from 'react';
 
 function EditModelForm({ model, onSave, onCancel }) {
+
   const [key, setKey] = useState(model.key);
   const [title, setTitle] = useState(model.title);
   const [type, setType] = useState(model.type || 'post_type');
-
-  console.log('current type is '+type);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -18,40 +17,49 @@ function EditModelForm({ model, onSave, onCancel }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="edit-model-form">
+    <div className="f4-new-model-form">
+      <h4 className="f4-new-model-form__form-title">Edit Model</h4>
+      <form onSubmit={handleSubmit} className="f4-new-model-form__form-wrap">
 
-      <div className="edit-model-form-field-group">
-        <label>Key</label>
-        <input
-          type="text"
-          value={key}
-          onChange={(e) => setKey(e.target.value)}
-        />
-      </div>
+        <div className="f4-new-model-form__field-group">
+          <label className="f4-new-model-form__field-label">Key</label>
+          <input
+            type="text"
+            value={key}
+            onChange={(e) => setKey(e.target.value)}
+            className="f4-form__field-input"
+          />
+        </div>
 
-      <div className="edit-model-form-field-group">
-        <label>Title</label>
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-      </div>
+        <div className="f4-new-model-form__field-group">
+          <label className="f4-new-model-form__field-label">Title</label>
+          <input
+            type="text"
+            value={title}
+            className="f4-form__field-input"
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </div>
 
-      <div className="edit-model-form-field-group">
-        <label>Type</label>
-        <select value={type} onChange={(e) => setType(e.target.value)}>
-          <option value="post">Post Type</option>
-          <option value="scalable">Scalable Type</option>
-        </select>
-      </div>
+        <div className="f4-new-model-form__field-group">
+          <label className="f4-new-model-form__field-label">Type</label>
+          <select 
+            value={type} 
+            onChange={(e) => setType(e.target.value)}
+            className="f4-form__field-input"
+          >
+            <option value="post">Post Type</option>
+            <option value="scalable">Scalable Type</option>
+          </select>
+        </div>
 
-      <div className="edit-model-form-actions">
-        <button type="button" onClick={onCancel}>Cancel</button>
-        <button type="submit">Save</button>
-      </div>
+        <div className="edit-model-form-actions">
+          <button type="button" onClick={onCancel} className="f4-button f4-button--secondary">Cancel</button>
+          <button type="submit" className="f4-button">Save</button>
+        </div>
 
-    </form>
+      </form>
+    </div>
   );
 }
 
