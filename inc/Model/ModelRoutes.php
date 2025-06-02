@@ -95,11 +95,12 @@ class ModelRoutes {
         }
 
         $params = $request->get_json_params();
-        $title = isset($params['name']) ? sanitize_text_field($params['title']) : null;
-        $model_type = isset($params['model_type']) ? sanitize_text_field($params['model_type']) : null;
-        $model_key = isset($params['model_key']) ? sanitize_text_field($params['model_key']) : null;
+        $args = [];
+        $args['title'] = isset($params['name']) ? sanitize_text_field($params['title']) : null;
+        $args['model_type'] = isset($params['model_type']) ? sanitize_text_field($params['model_type']) : null;
+        $args['model_key'] = isset($params['model_key']) ? sanitize_text_field($params['model_key']) : null;
 
-        $model = $this->controller->update_model($id, $title, $model_key, $model_type);
+        $model = $this->controller->update_model($id, $args);
 
         if (!$model instanceof ModelInstance) {
             return new WP_Error('update_failed', 'Failed to update model', ['status' => 500]);
