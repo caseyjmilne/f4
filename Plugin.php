@@ -4,6 +4,7 @@
  * Plugin Name: F4
  * Author: Casey J. Milne
  * Description: Scalable fields for WordPress with powerful data modelling and dynamic content support. 
+ * Version: 0.0.1
  */
 
 define( 'F4_URL', plugin_dir_url( __FILE__ ) );
@@ -23,11 +24,11 @@ class Plugin {
         require_once( F4_PATH . '/inc/Model/ModelRoutes.php' );
         new \F4\Model\ModelRoutes();
 
-        require_once( F4_PATH . '/inc/ModelPropertyController.php' );
-        new ModelPropertyController();
+        require_once( F4_PATH . '/inc/Property/PropertyController.php' );
+        new \F4\Property\PropertyController();
 
-        require_once( F4_PATH . '/inc/ModelPropertyRoutes.php' );
-        new ModelPropertyRoutes();
+        require_once( F4_PATH . '/inc/Property/PropertyRoutes.php' );
+        new \F4\Property\PropertyRoutes();
 
         require_once( F4_PATH . '/inc/Model/ModelType.php' );
         require_once( F4_PATH . '/inc/Model/ModelTypeInterface.php' );
