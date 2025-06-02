@@ -19,6 +19,23 @@ function AddPropertyForm({ onSubmit, onCancel }) {
       <div className="f4-new-model-form">
         <h4 className="f4-new-model-form__form-title">Add Property</h4>
         <form onSubmit={handleSubmit} className="f4-new-model-form__form-wrap">
+
+          <div className="f4-new-model-form__field-group">
+            <label htmlFor="property-type" className="f4-new-model-form__field-label">
+              <strong>Type</strong>
+            </label>
+            <select
+              id="property-type"
+              value={type}
+              onChange={(e) => setType(e.target.value)}
+              className="f4-form__field-input"
+            >
+              <option value="text">Text</option>
+              <option value="number">Number</option>
+              <option value="hidden">Hidden</option>
+            </select>
+          </div>
+
           <div className="f4-new-model-form__field-group">
             <label htmlFor="property-key" className="f4-new-model-form__field-label">
               <strong>Key</strong>
@@ -45,22 +62,6 @@ function AddPropertyForm({ onSubmit, onCancel }) {
               className="f4-form__field-input"
               required
             />
-          </div>
-
-          <div className="f4-new-model-form__field-group">
-            <label htmlFor="property-type" className="f4-new-model-form__field-label">
-              <strong>Type</strong>
-            </label>
-            <select
-              id="property-type"
-              value={type}
-              onChange={(e) => setType(e.target.value)}
-              className="f4-form__field-input"
-            >
-              <option value="text">Text</option>
-              <option value="number">Number</option>
-              <option value="boolean">Boolean</option>
-            </select>
           </div>
 
           <div className="f4-form-actions">
