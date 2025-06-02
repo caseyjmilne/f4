@@ -5,6 +5,8 @@ function EditModelForm({ model, onSave, onCancel }) {
   const [title, setTitle] = useState(model.title);
   const [type, setType] = useState(model.type || 'post_type');
 
+  console.log('current type is '+type);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     onSave({
@@ -39,8 +41,8 @@ function EditModelForm({ model, onSave, onCancel }) {
       <div className="edit-model-form-field-group">
         <label>Type</label>
         <select value={type} onChange={(e) => setType(e.target.value)}>
-          <option value="post_type">Post Type</option>
-          <option value="scalable_type">Scalable Type</option>
+          <option value="post">Post Type</option>
+          <option value="scalable">Scalable Type</option>
         </select>
       </div>
 
