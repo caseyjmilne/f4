@@ -12,6 +12,7 @@ class ModelInstance {
     public function __construct(\WP_Post $post) {
         $this->id = $post->ID;
         $this->title = $post->post_title;
+        $this->type = get_post_meta($post->ID, 'model_type', true);
         $this->key = get_post_meta($post->ID, 'model_key', true);
     }
 

@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import Modal from './Modal';
 
 function ModelDetails({ model, onDelete, onEditClick }) {
+
+  console.log(model)
+
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   if (!model) return null;
@@ -16,8 +19,12 @@ function ModelDetails({ model, onDelete, onEditClick }) {
       <table className="model-details__table">
         <tbody>
           <tr>
-            <th className="model-details__th">Model ID</th>
+            <th className="model-details__th">ID</th>
             <td className="model-details__td">{model.id}</td>
+          </tr>
+          <tr>
+            <th className="model-details__th">Type</th>
+            <td className="model-details__td">{model.type}</td>
           </tr>
           <tr>
             <th className="model-details__th">Title</th>
