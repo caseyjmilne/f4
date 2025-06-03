@@ -24,10 +24,11 @@ class Plugin {
         require_once( F4_PATH . '/inc/Model/ModelRoutes.php' );
         new \F4\Model\ModelRoutes();
 
+        // Properties.
         require_once( F4_PATH . '/inc/Property/PropertyController.php' );
-        new \F4\Property\PropertyController();
-
+        require_once( F4_PATH . '/inc/Property/PropertyInstance.php' );
         require_once( F4_PATH . '/inc/Property/PropertyRoutes.php' );
+        new \F4\Property\PropertyController();
         new \F4\Property\PropertyRoutes();
 
         require_once( F4_PATH . '/inc/Model/ModelType.php' );
