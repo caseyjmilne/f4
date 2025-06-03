@@ -13,7 +13,7 @@ class FieldRoutes {
             'methods'  => 'GET',
             'callback' => [self::class, 'getFieldTypeInfo'],
             'permission_callback' => function () {
-                return current_user_can('edit_posts');
+                return true;
             },
         ]);
 
@@ -21,7 +21,7 @@ class FieldRoutes {
             'methods'  => 'GET',
             'callback' => [self::class, 'getFieldTypeList'],
             'permission_callback' => function () {
-                return current_user_can('edit_posts');
+                return true;
             },
         ]);
     }

@@ -3,8 +3,6 @@ import Modal from './Modal';
 
 function ModelDetails({ model, onDelete, onEditClick }) {
 
-  console.log(model)
-
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   if (!model) return null;

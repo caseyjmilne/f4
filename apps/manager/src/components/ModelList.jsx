@@ -1,7 +1,5 @@
 function ModelList({ models, selectedModelId, onSelect }) {
 
-  console.log(models)
-
   return (
     <ul className="f4-models-list">
       {models.map(model => (
