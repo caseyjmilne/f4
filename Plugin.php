@@ -58,11 +58,14 @@ class Plugin {
         // Field Registration and Types || NS: \F4\Field\
         require_once( F4_PATH . '/inc/Field/BaseField.php' );
         require_once( F4_PATH . '/inc/Field/FieldRegistry.php' );
-        require_once( F4_PATH . '/inc/Field/TextField.php' );
-        require_once( F4_PATH . '/inc/Field/NumberField.php' );
-        require_once( F4_PATH . '/inc/Field/HiddenField.php' );
+        require_once( F4_PATH . '/inc/Field/FieldType/TextField.php' );
+        require_once( F4_PATH . '/inc/Field/FieldType/NumberField.php' );
+        require_once( F4_PATH . '/inc/Field/FieldType/HiddenField.php' );
+        require_once( F4_PATH . '/inc/Field/FieldType/SelectField.php' );
         require_once( F4_PATH . '/inc/Field/CoreFieldRegistry.php' );
+        require_once( F4_PATH . '/inc/Field/FieldRoutes.php' );
         \F4\Field\CoreFieldRegistry::register();
+        \F4\Field\FieldRoutes::register();
 
         // Frontend Module || NS: \F4\Front
         require_once( F4_PATH . '/inc/Front/ModelLoader.php' );

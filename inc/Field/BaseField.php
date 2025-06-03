@@ -25,4 +25,12 @@ abstract class BaseField {
     public function getValue() {
         return get_post_meta($this->post_id, $this->key, true);
     }
+
+    /**
+     * Determines whether this field type supports an "Append" setting.
+     * Subclasses can override to return true.
+     */
+    public static function supportsSettingAppend(): bool {
+        return false;
+    }
 }

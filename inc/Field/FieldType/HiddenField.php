@@ -1,6 +1,8 @@
 <?php
 
-namespace F4\Field;
+namespace F4\Field\FieldType;
+
+use F4\Field\BaseField;
 
 class HiddenField extends BaseField {
 
