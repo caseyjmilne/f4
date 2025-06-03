@@ -11,11 +11,11 @@ import EditPropertyForm from './EditPropertyForm';
 import Modal from './Modal';
 
 function ModelProperties({ selectedModelId }) {
-
   const [properties, setProperties] = useState([]);
   const [showAddPropertyModal, setShowAddPropertyModal] = useState(false);
   const [showEditPropertyModal, setShowEditPropertyModal] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState(null);
+  const [propertyToDelete, setPropertyToDelete] = useState(null); // ⬅️ new
 
   useEffect(() => {
     if (!selectedModelId) return;
@@ -37,11 +37,16 @@ function ModelProperties({ selectedModelId }) {
     }
   };
 
-  const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this property?')) return;
+  const handleDelete = (id) => {
+    setPropertyToDelete(id); // open confirmation modal
+  };
+
+  const confirmDelete = async () => {
+    if (!propertyToDelete) return;
     try {
-      await deleteProperty(id);
-      setProperties(prev => prev.filter(prop => prop.id !== id));
+      await deleteProperty(propertyToDelete);
+      setProperties(prev => prev.filter(prop => prop.id !== propertyToDelete));
+      setPropertyToDelete(null);
     } catch (error) {
       alert('Delete failed: ' + error.message);
     }
@@ -103,6 +108,29 @@ function ModelProperties({ selectedModelId }) {
         />
       )}
 
+      {/* Delete confirmation modal */}
+      {propertyToDelete !== null && (
+        <Modal isOpen={true} onClose={() => setPropertyToDelete(null)}>
+          <div className="f4-modal-confirm">
+            <h4>Confirm Delete</h4>
+            <p>Are you sure you want to delete this property?</p>
+            <div className="f4-form-actions">
+              <button
+                className="f4-button f4-button--secondary"
+                onClick={() => setPropertyToDelete(null)}
+              >
+                Cancel
+              </button>
+              <button
+                className="f4-button f4-button--danger"
+                onClick={confirmDelete}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </Modal>
+      )}
     </>
   );
 }
