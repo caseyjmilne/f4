@@ -1,10 +1,21 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Modal from './Modal';
+import { fetchFieldTypes } from '../api/field';
 
 function AddPropertyForm({ onSubmit, onCancel }) {
   const [key, setKey] = useState('');
   const [name, setName] = useState('');
   const [type, setType] = useState('text');
+  const [fieldOptions, setFieldOptions] = useState([]);
+
+  useEffect(() => {
+    fetchFieldTypes()
+      .then(setFieldOptions)
+      .catch((err) => {
+        console.error('Failed to load field types', err);
+        setFieldOptions([{ label: 'Text', value: 'text' }]); // fallback
+      });
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -30,9 +41,11 @@ function AddPropertyForm({ onSubmit, onCancel }) {
               onChange={(e) => setType(e.target.value)}
               className="f4-form__field-input"
             >
-              <option value="text">Text</option>
-              <option value="number">Number</option>
-              <option value="hidden">Hidden</option>
+              {fieldOptions.map(({ label, value }) => (
+                <option key={value} value={value}>
+                  {label}
+                </option>
+              ))}
             </select>
           </div>
 
