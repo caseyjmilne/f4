@@ -9,7 +9,7 @@ function AddModelForm({ onModelAdded, onCancel }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await fetch('http://test1.local/wp-json/custom/v1/model', {
+    const response = await fetch('http://test1.local/wp-json/f4/v1/model', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ title, model_type: type, model_key: key }),

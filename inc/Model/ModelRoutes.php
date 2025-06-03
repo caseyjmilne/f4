@@ -16,7 +16,7 @@ class ModelRoutes {
     }
 
     public function registerRoutes(): void {
-        $namespace = 'custom/v1';
+        $namespace = 'f4/v1';
         $base = 'model';
 
         register_rest_route($namespace, '/' . $base, [

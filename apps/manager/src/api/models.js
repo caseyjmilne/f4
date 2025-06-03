@@ -2,7 +2,7 @@
 
 export async function fetchModels() {
   try {
-    const response = await fetch('http://test1.local/wp-json/custom/v1/model');
+    const response = await fetch('http://test1.local/wp-json/f4/v1/model');
     if (!response.ok) {
       throw new Error(`HTTP error ${response.status}`);
     }
@@ -14,7 +14,7 @@ export async function fetchModels() {
 }
 
 export async function deleteModel(id) {
-  const response = await fetch(`http://test1.local/wp-json/custom/v1/model/${id}`, {
+  const response = await fetch(`http://test1.local/wp-json/f4/v1/model/${id}`, {
     method: 'DELETE',
   });
 
@@ -28,7 +28,7 @@ export async function deleteModel(id) {
 
 export async function updateModel(model) {
 
-  const response = await fetch(`http://test1.local/wp-json/custom/v1/model/${model.id}`, {
+  const response = await fetch(`http://test1.local/wp-json/f4/v1/model/${model.id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(model),

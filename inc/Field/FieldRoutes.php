@@ -9,7 +9,7 @@ class FieldRoutes {
     }
 
     public static function registerRoutes() {
-        register_rest_route('custom/v1', '/field/(?P<type>[a-zA-Z0-9_-]+)', [
+        register_rest_route('f4/v1', '/field/(?P<type>[a-zA-Z0-9_-]+)', [
             'methods'  => 'GET',
             'callback' => [self::class, 'getFieldTypeInfo'],
             'permission_callback' => function () {
@@ -17,7 +17,7 @@ class FieldRoutes {
             },
         ]);
 
-        register_rest_route('custom/v1', '/fields', [
+        register_rest_route('f4/v1', '/fields', [
             'methods'  => 'GET',
             'callback' => [self::class, 'getFieldTypeList'],
             'permission_callback' => function () {

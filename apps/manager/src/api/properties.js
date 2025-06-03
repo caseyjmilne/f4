@@ -1,4 +1,4 @@
-const API_BASE = 'http://test1.local/wp-json/custom/v1/property';
+const API_BASE = 'http://test1.local/wp-json/f4/v1/property';
 
 export async function fetchProperties(modelId) {
   const response = await fetch(`${API_BASE}?model_id=${modelId}`);

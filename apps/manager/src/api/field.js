@@ -1,4 +1,4 @@
-const FIELD_API_BASE = 'http://test1.local/wp-json/custom/v1/field';
+const FIELD_API_BASE = 'http://test1.local/wp-json/f4/v1/field';
 
 export async function fetchFieldTypes() {
   const response = await fetch(`${FIELD_API_BASE}s`); // plural endpoint: /field**s**

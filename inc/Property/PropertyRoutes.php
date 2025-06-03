@@ -14,25 +14,25 @@ class PropertyRoutes {
     }
 
     public function register_routes() {
-        register_rest_route('custom/v1', '/property', [
+        register_rest_route('f4/v1', '/property', [
             'methods' => 'GET',
             'callback' => [$this, 'get_properties'],
             'permission_callback' => '__return_true',
         ]);
 
-        register_rest_route('custom/v1', '/property', [
+        register_rest_route('f4/v1', '/property', [
             'methods' => 'POST',
             'callback' => [$this, 'create_property'],
             'permission_callback' => '__return_true',
         ]);
 
-        register_rest_route('custom/v1', '/property/(?P<id>\d+)', [
+        register_rest_route('f4/v1', '/property/(?P<id>\d+)', [
             'methods' => 'PUT',
             'callback' => [$this, 'update_property'],
             'permission_callback' => '__return_true',
         ]);
 
-        register_rest_route('custom/v1', '/property/(?P<id>\d+)', [
+        register_rest_route('f4/v1', '/property/(?P<id>\d+)', [
             'methods' => 'DELETE',
             'callback' => [$this, 'delete_property'],
             'permission_callback' => '__return_true',
