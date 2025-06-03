@@ -13,6 +13,12 @@ class SelectField extends BaseField {
         $choices = isset($this->args['choices']) && is_array($this->args['choices']) ? $this->args['choices'] : [];
         $append = isset($this->args['append']) ? esc_html($this->args['append']) : '';
 
+        $choices = array(
+            'opt1' => 'Opt 1',
+            'opt2' => 'Opt 2',
+            'opt3' => 'Opt 3',
+        );
+
         echo "<p><label for='{$key}'><strong>{$name}</strong></label><br/>";
         echo "<select name='{$key}' id='{$key}' class='widefat'>";
         foreach ($choices as $choice_value => $label) {
