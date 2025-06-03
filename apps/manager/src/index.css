@@ -286,3 +286,25 @@ padding: 4px 12px;
   gap: 12px;
   margin-top: 1rem;
 }
+
+.f4-property-list__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.f4-property-list__cell {
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+}
+
+.f4-property-list__cell--header {
+  border-bottom: 1px solid #ccc;
+  font-weight: bold;
+}
+
+.f4-property-list__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

@@ -15,7 +15,7 @@ function ModelProperties({ selectedModelId }) {
   const [showAddPropertyModal, setShowAddPropertyModal] = useState(false);
   const [showEditPropertyModal, setShowEditPropertyModal] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState(null);
-  const [propertyToDelete, setPropertyToDelete] = useState(null); // ⬅️ new
+  const [propertyToDelete, setPropertyToDelete] = useState(null);
 
   useEffect(() => {
     if (!selectedModelId) return;

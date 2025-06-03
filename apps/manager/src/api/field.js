@@ -1,7 +1,7 @@
 const FIELD_API_BASE = 'http://test1.local/wp-json/f4/v1/field';
 
 export async function fetchFieldTypes() {
-  const response = await fetch(`${FIELD_API_BASE}s`); // plural endpoint: /field**s**
+  const response = await fetch(`${FIELD_API_BASE}s`);
   if (!response.ok) {
     throw new Error('Failed to fetch field types');
   }

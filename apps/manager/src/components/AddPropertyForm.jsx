@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import Modal from './Modal';
-import { fetchFieldTypes } from '../api/field';
+import { fetchFieldTypes, fetchFieldTypeDetails } from '../api/field';
 
 function AddPropertyForm({ onSubmit, onCancel }) {
   const [key, setKey] = useState('');
   const [name, setName] = useState('');
   const [type, setType] = useState('text');
+  const [append, setAppend] = useState('');
   const [fieldOptions, setFieldOptions] = useState([]);
+  const [fieldMeta, setFieldMeta] = useState(null);
 
   useEffect(() => {
     fetchFieldTypes()
@@ -17,12 +19,27 @@ function AddPropertyForm({ onSubmit, onCancel }) {
       });
   }, []);
 
+  useEffect(() => {
+    if (!type) return;
+    fetchFieldTypeDetails(type)
+      .then(setFieldMeta)
+      .catch((err) => {
+        console.error('Failed to load field type info', err);
+        setFieldMeta(null);
+      });
+  }, [type]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit({ key, name, type });
+    const payload = { key, name, type };
+    if (fieldMeta?.supports_append) {
+      payload.append = append;
+    }
+    onSubmit(payload);
     setKey('');
     setName('');
     setType('text');
+    setAppend('');
   };
 
   return (
@@ -76,6 +93,21 @@ function AddPropertyForm({ onSubmit, onCancel }) {
               required
             />
           </div>
+
+          {fieldMeta?.supports_append && (
+            <div className="f4-new-model-form__field-group">
+              <label htmlFor="property-append" className="f4-new-model-form__field-label">
+                <strong>Append</strong>
+              </label>
+              <input
+                id="property-append"
+                type="text"
+                value={append}
+                onChange={(e) => setAppend(e.target.value)}
+                className="f4-form__field-input"
+              />
+            </div>
+          )}
 
           <div className="f4-form-actions">
             <button type="button" onClick={onCancel} className="f4-button f4-button--secondary">Cancel</button>
