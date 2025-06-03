@@ -1,12 +1,23 @@
 import { useState, useEffect } from 'react';
 import Modal from './Modal';
+import { fetchFieldTypes } from '../api/field';
 
 export default function EditPropertyForm({ property, onSave, onCancel }) {
   const [formData, setFormData] = useState({ ...property });
+  const [fieldOptions, setFieldOptions] = useState([]);
 
   useEffect(() => {
     setFormData({ ...property });
   }, [property]);
+
+  useEffect(() => {
+    fetchFieldTypes()
+      .then(setFieldOptions)
+      .catch((err) => {
+        console.error('Failed to load field types', err);
+        setFieldOptions([{ label: 'Text', value: 'text' }]); // fallback
+      });
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,9 +46,11 @@ export default function EditPropertyForm({ property, onSave, onCancel }) {
               onChange={handleChange}
               className="f4-form__field-input"
             >
-              <option value="text">Text</option>
-              <option value="number">Number</option>
-              <option value="hidden">Hidden</option>
+              {fieldOptions.map(({ label, value }) => (
+                <option key={value} value={value}>
+                  {label}
+                </option>
+              ))}
             </select>
           </div>
 
