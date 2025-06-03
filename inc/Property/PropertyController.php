@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace F4\Property;
 
@@ -23,18 +23,11 @@ class PropertyController {
         $posts = get_posts($args);
 
         return array_map(function ($post) {
-            return [
-                'id'   => $post->ID,
-                'type' => get_post_meta($post->ID, 'type', true),
-                'key'  => get_post_meta($post->ID, 'key', true),
-                'name' => get_post_meta($post->ID, 'name', true),
-                'model_id' => get_post_meta($post->ID, 'model_id', true),
-            ];
+            return (new PropertyInstance($post))->to_array();
         }, $posts);
     }
 
     public function create_property(array $data) {
-        // validation could be here or upstream in Routes
         if (empty($data['name']) || empty($data['key']) || empty($data['model_id'])) {
             return new \WP_Error('missing_fields', 'Missing required fields', ['status' => 400]);
         }
@@ -55,13 +48,8 @@ class PropertyController {
         update_post_meta($post_id, 'name', sanitize_text_field($data['name']));
         update_post_meta($post_id, 'model_id', (int) $data['model_id']);
 
-        return [
-            'id'       => $post_id,
-            'type'     => $data['type'] ?? '',
-            'key'      => $data['key'],
-            'name'     => $data['name'],
-            'model_id' => $data['model_id'],
-        ];
+        $post = get_post($post_id);
+        return (new PropertyInstance($post))->to_array();
     }
 
     public function update_property($id, array $data) {
@@ -96,13 +84,8 @@ class PropertyController {
             update_post_meta($id, 'model_id', (int) $data['model_id']);
         }
 
-        return [
-            'id'       => $id,
-            'type'     => $data['type'] ?? get_post_meta($id, 'type', true),
-            'key'      => $data['key'] ?? get_post_meta($id, 'key', true),
-            'name'     => $data['name'] ?? get_post_meta($id, 'name', true),
-            'model_id' => $data['model_id'] ?? get_post_meta($id, 'model_id', true),
-        ];
+        $post = get_post($id);
+        return (new PropertyInstance($post))->to_array();
     }
 
     public function delete_property($id) {
