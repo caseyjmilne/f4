@@ -123,13 +123,15 @@
 }
 
 .f4-modal-content {
-  background: white;
+  background-color: rgb(240,240,240);
   padding: 40px;
   border-radius: 8px;
   max-width: 600px;
   min-height: 200px;
+  max-height: 75vh;
   width: 90%;
   position: relative;
+  overflow-y: auto;
 }
 
 .f4-modal-close {

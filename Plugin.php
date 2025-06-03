@@ -63,6 +63,7 @@ class Plugin {
         require_once( F4_PATH . '/inc/Field/FieldType/NumberField.php' );
         require_once( F4_PATH . '/inc/Field/FieldType/HiddenField.php' );
         require_once( F4_PATH . '/inc/Field/FieldType/SelectField.php' );
+        require_once( F4_PATH . '/inc/Field/FieldType/TextareaField.php' );
         require_once( F4_PATH . '/inc/Field/CoreFieldRegistry.php' );
         require_once( F4_PATH . '/inc/Field/FieldRoutes.php' );
         \F4\Field\CoreFieldRegistry::register();
