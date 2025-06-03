@@ -24,6 +24,15 @@ class AdminMenu {
 
         add_submenu_page(
             'f4_dashboard',
+            'Dashboard',
+            'Dashboard',
+            'manage_options',
+            'f4_dashboard',
+            [$this, 'renderDashboard'],
+        );
+
+        add_submenu_page(
+            'f4_dashboard',
             'F4 Debug Tools',
             'Debug',
             'manage_options',

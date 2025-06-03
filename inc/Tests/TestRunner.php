@@ -5,8 +5,9 @@ namespace F4\Tests;
 class TestRunner {
 
     protected $tests = [
-        'clone_table' => CloneTableTest::class,
-        'add_column'  => AddColumnTest::class,
+        'clone_table'      => CloneTableTest::class,
+        'add_column'       => AddColumnTest::class,
+        'list_field_types' => ListFieldTypesTest::class
     ];
 
     public function run($key) {
