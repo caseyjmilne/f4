@@ -35,10 +35,16 @@ class FieldRoutes {
         }
 
         return rest_ensure_response([
-            'type'            => $type,
-            'class'           => $class,
-            'label'           => self::getLabelFromClass($class),
-            'supports_append' => method_exists($class, 'supportsSettingAppend') ? $class::supportsSettingAppend() : false,
+            'type'              => $type,
+            'class'             => $class,
+            'label'             => self::getLabelFromClass($class),
+            'supports'          => [
+                'append'      => method_exists($class, 'supportsSettingAppend') ? $class::supportsSettingAppend() : false,
+                'prepend'     => method_exists($class, 'supportsSettingPrepend') ? $class::supportsSettingPrepend() : false,
+                'placeholder' => method_exists($class, 'supportsSettingPlaceholder') ? $class::supportsSettingPlaceholder() : false,
+                'rows'        => method_exists($class, 'supportsSettingRows') ? $class::supportsSettingRows() : false,
+                'maxLength'   => method_exists($class, 'supportsSettingMaxLength') ? $class::supportsSettingMaxLength() : false,
+            ]
         ]);
     }
 

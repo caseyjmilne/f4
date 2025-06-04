@@ -6,9 +6,9 @@ function AddPropertyForm({ onSubmit, onCancel }) {
   const [key, setKey] = useState('');
   const [name, setName] = useState('');
   const [type, setType] = useState('text');
-  const [append, setAppend] = useState('');
   const [fieldOptions, setFieldOptions] = useState([]);
-  const [fieldMeta, setFieldMeta] = useState(null);
+  const [fieldSettings, setFieldSettings] = useState({});
+  const [settings, setSettings] = useState({});
 
   useEffect(() => {
     fetchFieldTypes()
@@ -21,25 +21,28 @@ function AddPropertyForm({ onSubmit, onCancel }) {
 
   useEffect(() => {
     if (!type) return;
+
     fetchFieldTypeDetails(type)
-      .then(setFieldMeta)
-      .catch((err) => {
-        console.error('Failed to load field type info', err);
-        setFieldMeta(null);
+      .then(data => {
+        setFieldSettings(data.supports || {});
+      })
+      .catch(err => {
+        console.error('Failed to load field settings', err);
+        setFieldSettings({});
       });
   }, [type]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const payload = { key, name, type };
-    if (fieldMeta?.supports_append) {
-      payload.append = append;
-    }
-    onSubmit(payload);
+    onSubmit({ key, name, type, settings });
     setKey('');
     setName('');
     setType('text');
-    setAppend('');
+    setSettings({});
+  };
+
+  const handleSettingChange = (field, value) => {
+    setSettings(prev => ({ ...prev, [field]: value }));
   };
 
   return (
@@ -94,20 +97,84 @@ function AddPropertyForm({ onSubmit, onCancel }) {
             />
           </div>
 
-          {fieldMeta?.supports_append && (
+          {/* Optional settings */}
+          {fieldSettings.prepend && (
             <div className="f4-new-model-form__field-group">
-              <label htmlFor="property-append" className="f4-new-model-form__field-label">
-                <strong>Append</strong>
+              <label htmlFor="setting-prepend" className="f4-new-model-form__field-label">
+                <strong>Prepend</strong>
               </label>
               <input
-                id="property-append"
+                id="setting-prepend"
                 type="text"
-                value={append}
-                onChange={(e) => setAppend(e.target.value)}
                 className="f4-form__field-input"
+                value={settings.prepend || ''}
+                onChange={e => handleSettingChange('prepend', e.target.value)}
               />
             </div>
           )}
+
+          {fieldSettings.append && (
+            <div className="f4-new-model-form__field-group">
+              <label htmlFor="setting-append" className="f4-new-model-form__field-label">
+                <strong>Append</strong>
+              </label>
+              <input
+                id="setting-append"
+                type="text"
+                className="f4-form__field-input"
+                value={settings.append || ''}
+                onChange={e => handleSettingChange('append', e.target.value)}
+              />
+            </div>
+          )}
+
+          {fieldSettings.placeholder && (
+            <div className="f4-new-model-form__field-group">
+              <label htmlFor="setting-placeholder" className="f4-new-model-form__field-label">
+                <strong>Placeholder</strong>
+              </label>
+              <input
+                id="setting-placeholder"
+                type="text"
+                className="f4-form__field-input"
+                value={settings.placeholder || ''}
+                onChange={e => handleSettingChange('placeholder', e.target.value)}
+              />
+            </div>
+          )}
+
+          {fieldSettings.rows && (
+            <div className="f4-new-model-form__field-group">
+              <label htmlFor="setting-rows" className="f4-new-model-form__field-label">
+                <strong>Rows</strong>
+              </label>
+              <input
+                id="setting-rows"
+                type="number"
+                min="1"
+                className="f4-form__field-input"
+                value={settings.rows || ''}
+                onChange={e => handleSettingChange('rows', e.target.value)}
+              />
+            </div>
+          )}
+
+          {fieldSettings.maxLength && (
+            <div className="f4-new-model-form__field-group">
+              <label htmlFor="setting-maxLength" className="f4-new-model-form__field-label">
+                <strong>Max Length</strong>
+              </label>
+              <input
+                id="setting-maxLength"
+                type="number"
+                min="1"
+                className="f4-form__field-input"
+                value={settings.maxLength || ''}
+                onChange={e => handleSettingChange('maxLength', e.target.value)}
+              />
+            </div>
+          )}
+
 
           <div className="f4-form-actions">
             <button type="button" onClick={onCancel} className="f4-button f4-button--secondary">Cancel</button>

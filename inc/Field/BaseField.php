@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace F4\Field;
 
@@ -27,10 +27,25 @@ abstract class BaseField {
     }
 
     /**
-     * Determines whether this field type supports an "Append" setting.
-     * Subclasses can override to return true.
+     * Settings support: override in subclasses as needed.
      */
     public static function supportsSettingAppend(): bool {
+        return false;
+    }
+
+    public static function supportsSettingPrepend(): bool {
+        return false;
+    }
+
+    public static function supportsSettingPlaceholder(): bool {
+        return false;
+    }
+
+    public static function supportsSettingRows(): bool {
+        return false;
+    }
+
+    public static function supportsSettingMaxLength(): bool {
         return false;
     }
 }
