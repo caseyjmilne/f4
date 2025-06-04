@@ -15,5 +15,6 @@ class CoreFieldRegistry {
         FieldRegistry::register('email', \F4\Field\FieldType\EmailField::class);
         FieldRegistry::register('password', \F4\Field\FieldType\PasswordField::class);
         FieldRegistry::register('wysiwyg', \F4\Field\FieldType\WysiwygField::class);
+        FieldRegistry::register('group', \F4\Field\FieldType\GroupField::class);
     }
 }

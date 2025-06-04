@@ -60,6 +60,7 @@ class Plugin {
         require_once( F4_PATH . '/inc/Field/BaseField.php' );
         require_once( F4_PATH . '/inc/Field/FieldRegistry.php' );
         require_once( F4_PATH . '/inc/Field/CoreFieldRegistry.php' );
+        require_once( F4_PATH . '/inc/Field/FieldFactory.php' );
         require_once( F4_PATH . '/inc/Field/FieldRoutes.php' );
         require_once( F4_PATH . '/inc/Field/FieldType/TextField.php' );
         require_once( F4_PATH . '/inc/Field/FieldType/NumberField.php' );
@@ -71,6 +72,7 @@ class Plugin {
         require_once( F4_PATH . '/inc/Field/FieldType/EmailField.php' );
         require_once( F4_PATH . '/inc/Field/FieldType/PasswordField.php' );
         require_once( F4_PATH . '/inc/Field/FieldType/WysiwygField.php' );
+        require_once( F4_PATH . '/inc/Field/FieldType/GroupField.php' );
         \F4\Field\CoreFieldRegistry::register();
         \F4\Field\FieldRoutes::register();
 
