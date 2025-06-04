@@ -29,8 +29,8 @@ class ReactBuildIntegration {
         $files = glob($this->assetDir . "/*.$type");
         foreach ($files as $file) {
             $filename = basename($file);
-            // Match filenames like index-Fr6Dq8lF.js
-            if (preg_match('/^index-[a-zA-Z0-9]+\.'. preg_quote($type, '/') .'$/', $filename)) {
+            // Match filenames like index-Fr6Dq8_l-F.js
+            if (preg_match('/^index[-_a-zA-Z0-9]+\.'. preg_quote($type, '/') .'$/', $filename)) {
                 return $filename;
             }
         }
