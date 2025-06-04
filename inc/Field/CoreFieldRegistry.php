@@ -12,5 +12,6 @@ class CoreFieldRegistry {
         FieldRegistry::register('select', \F4\Field\FieldType\SelectField::class);
         FieldRegistry::register('image', \F4\Field\FieldType\ImageField::class);
         FieldRegistry::register('url', \F4\Field\FieldType\UrlField::class);
+        FieldRegistry::register('url', \F4\Field\FieldType\EmailField::class);
     }
 }

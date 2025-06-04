@@ -59,6 +59,8 @@ class Plugin {
         // Field Registration and Types || NS: \F4\Field\
         require_once( F4_PATH . '/inc/Field/BaseField.php' );
         require_once( F4_PATH . '/inc/Field/FieldRegistry.php' );
+        require_once( F4_PATH . '/inc/Field/CoreFieldRegistry.php' );
+        require_once( F4_PATH . '/inc/Field/FieldRoutes.php' );
         require_once( F4_PATH . '/inc/Field/FieldType/TextField.php' );
         require_once( F4_PATH . '/inc/Field/FieldType/NumberField.php' );
         require_once( F4_PATH . '/inc/Field/FieldType/HiddenField.php' );
@@ -66,8 +68,7 @@ class Plugin {
         require_once( F4_PATH . '/inc/Field/FieldType/TextareaField.php' );
         require_once( F4_PATH . '/inc/Field/FieldType/ImageField.php' );
         require_once( F4_PATH . '/inc/Field/FieldType/UrlField.php' );
-        require_once( F4_PATH . '/inc/Field/CoreFieldRegistry.php' );
-        require_once( F4_PATH . '/inc/Field/FieldRoutes.php' );
+        require_once( F4_PATH . '/inc/Field/FieldType/EmailField.php' );
         \F4\Field\CoreFieldRegistry::register();
         \F4\Field\FieldRoutes::register();
 
