@@ -30,8 +30,13 @@ function ModelProperties({ selectedModelId }) {
   const handleAddProperty = async (property) => {
     try {
       const created = await createProperty({ ...property, model_id: selectedModelId });
+
       setProperties(prev => [...prev, created]);
-      setShowAddPropertyModal(false);
+
+      // Optionally hide modal only when adding to root
+      if (!property.parent_id) {
+        setShowAddPropertyModal(false);
+      }
     } catch (error) {
       alert('Failed to create property: ' + error.message);
     }
@@ -91,6 +96,7 @@ function ModelProperties({ selectedModelId }) {
         properties={properties}
         onEditClick={handleEditClick}
         onDelete={handleDelete}
+        onAdd={handleAddProperty}
       />
 
       {showAddPropertyModal && (

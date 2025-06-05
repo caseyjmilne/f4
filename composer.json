@@ -1,0 +1,16 @@
+{
+    "name": "cjm/f4",
+    "description": "F4 fields and data management plugin for WordPress.",
+    "authors": [
+        {
+            "name": "Casey Milne",
+            "email": "cjmofficio@gmail.com"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^12.1"
+    },
+    "scripts": {
+        "test": "phpunit"
+    }
+}

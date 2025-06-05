@@ -14,6 +14,7 @@ function PropertyList({ properties, onEditClick, onDelete, onAdd, parentId = 0, 
             onEditClick={onEditClick}
             onDelete={onDelete}
             onAdd={onAdd}
+            parentId={parentId}
             level={level}
           />
         </li>
