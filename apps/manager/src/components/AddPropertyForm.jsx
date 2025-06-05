@@ -44,7 +44,6 @@ function AddPropertyForm({ parentId = 0, onSubmit, onCancel }) {
       });
   }, [type]);
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit({ key, name, type, settings, parent_id: parentId });

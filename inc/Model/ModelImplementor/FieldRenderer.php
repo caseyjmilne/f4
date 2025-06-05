@@ -56,6 +56,9 @@ class FieldRenderer {
 
             $field_class = FieldRegistry::get($type);
 
+            echo "Field at 59 FieldRenderer is type of: ";
+            var_dump($type);
+
             if ($field_class && class_exists($field_class)) {
                 // Pass $post and $property to constructor as required
                 $field_instance = new $field_class($key, $name, [], $post->ID);

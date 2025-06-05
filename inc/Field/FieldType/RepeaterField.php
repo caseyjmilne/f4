@@ -1,18 +1,12 @@
 <?php
 
-namespace F4\Field;
+namespace F4\Field\FieldType;
 
-class RepeaterField {
+use F4\Field\BaseField;
 
-    public static function getType() {
-        return 'repeater';
-    }
+class RepeaterField extends BaseField {
 
-    public static function getLabel() {
-        return 'Repeater';
-    }
-
-    public static function supportsNestedFields() {
+    public static function supportsNestedFields(): bool {
         return true;
     }
 
@@ -40,26 +34,8 @@ class RepeaterField {
         // Optional: if you're rendering field settings in PHP, not JS
     }
 
-    public static function sanitizeSettings($settings) {
-        return [
-            'min' => isset($settings['min']) ? (int) $settings['min'] : 0,
-            'max' => isset($settings['max']) ? (int) $settings['max'] : 0,
-            'layout' => sanitize_text_field($settings['layout'] ?? 'vertical'),
-        ];
+    public function render() {
+        echo 'Repeater Field Render.';
     }
 
-    public static function validate($value, $settings = []) {
-        if (!is_array($value)) return false;
-
-        $min = $settings['min'] ?? 0;
-        $max = $settings['max'] ?? 0;
-        $count = count($value);
-
-        if ($min > 0 && $count < $min) return false;
-        if ($max > 0 && $count > $max) return false;
-
-        // Optionally: validate each subfield instance here
-
-        return true;
-    }
 }

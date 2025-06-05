@@ -10,7 +10,7 @@ export async function fetchFieldTypes() {
 
   return data.map(item => ({
     label: item.label,
-    value: item.value,
+    value: item.type,
   }));
 }
 
