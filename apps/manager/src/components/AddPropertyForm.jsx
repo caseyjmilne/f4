@@ -25,17 +25,25 @@ function AddPropertyForm({ parentId = 0, onSubmit, onCancel }) {
 
     fetchFieldTypeDetails(type)
       .then(data => {
+        const supports = data.supports || {};
+        setFieldSettings(supports);
 
-        console.log(29)
-        console.log(data)
-
-        setFieldSettings(data.supports || {});
+        // Reset settings only to supported keys, preserving empty values
+        const newSettings = {};
+        if (supports.prepend) newSettings.prepend = '';
+        if (supports.append) newSettings.append = '';
+        if (supports.placeholder) newSettings.placeholder = '';
+        if (supports.rows) newSettings.rows = '';
+        if (supports.maxLength) newSettings.maxLength = '';
+        setSettings(newSettings);
       })
       .catch(err => {
         console.error('Failed to load field settings', err);
         setFieldSettings({});
+        setSettings({});
       });
   }, [type]);
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
