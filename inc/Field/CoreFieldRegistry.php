@@ -17,5 +17,6 @@ class CoreFieldRegistry {
         FieldRegistry::register('wysiwyg', \F4\Field\FieldType\WysiwygField::class);
         FieldRegistry::register('group', \F4\Field\FieldType\GroupField::class);
         FieldRegistry::register('repeater', \F4\Field\FieldType\GroupField::class);
+        FieldRegistry::register('range', \F4\Field\FieldType\RangeField::class);
     }
 }
