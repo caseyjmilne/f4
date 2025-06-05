@@ -1,6 +1,7 @@
 import PropertyItem from './PropertyItem';
 
 function PropertyList({ properties, onEditClick, onDelete, onAdd, parentId = 0, level = 0 }) {
+  
   const filtered = properties.filter(p => (p.parent_id ?? 0) === parentId);
 
   return (
@@ -19,6 +20,7 @@ function PropertyList({ properties, onEditClick, onDelete, onAdd, parentId = 0, 
       ))}
     </ul>
   );
+  
 }
 
 export default PropertyList;

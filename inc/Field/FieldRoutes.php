@@ -50,20 +50,32 @@ class FieldRoutes {
     }
 
     public static function getFieldTypeList() {
+
         $types = FieldRegistry::all();
-        $options = [];
+        $data = [];
 
         foreach ($types as $key => $class) {
             if (!class_exists($class)) continue;
 
-            $options[] = [
-                'label' => self::getLabelFromClass($class),
-                'value' => $key,
+            $data[] = [
+                'type'   => $key,
+                'class'  => $class,
+                'label'  => self::getLabelFromClass($class),
+                'supports' => [
+                    'append'       => method_exists($class, 'supportsSettingAppend') ? $class::supportsSettingAppend() : false,
+                    'prepend'      => method_exists($class, 'supportsSettingPrepend') ? $class::supportsSettingPrepend() : false,
+                    'placeholder'  => method_exists($class, 'supportsSettingPlaceholder') ? $class::supportsSettingPlaceholder() : false,
+                    'rows'         => method_exists($class, 'supportsSettingRows') ? $class::supportsSettingRows() : false,
+                    'maxLength'    => method_exists($class, 'supportsSettingMaxLength') ? $class::supportsSettingMaxLength() : false,
+                    'nestedFields' => method_exists($class, 'supportsNestedFields') ? $class::supportsNestedFields() : false,
+                ],
             ];
         }
 
-        return rest_ensure_response($options);
+        return rest_ensure_response($data);
+        
     }
+
 
     protected static function getLabelFromClass($class) {
         $parts = explode('\\', $class);
