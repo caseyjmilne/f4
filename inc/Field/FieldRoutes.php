@@ -35,22 +35,21 @@ class FieldRoutes {
         }
 
         return rest_ensure_response([
-            'type'              => $type,
-            'class'             => $class,
-            'label'             => self::getLabelFromClass($class),
-            'supports'          => [
-                'append'       => method_exists($class, 'supportsSettingAppend') ? $class::supportsSettingAppend() : false,
-                'prepend'      => method_exists($class, 'supportsSettingPrepend') ? $class::supportsSettingPrepend() : false,
-                'placeholder'  => method_exists($class, 'supportsSettingPlaceholder') ? $class::supportsSettingPlaceholder() : false,
-                'rows'         => method_exists($class, 'supportsSettingRows') ? $class::supportsSettingRows() : false,
-                'maxLength'    => method_exists($class, 'supportsSettingMaxLength') ? $class::supportsSettingMaxLength() : false,
-                'nestedFields' => method_exists($class, 'supportsNestedFields') ? $class::supportsNestedFields() : false,
+            'type'     => $class::getType(),
+            'class'    => $class,
+            'label'    => $class::getLabel(),
+            'supports' => [
+                'append'       => $class::supportsSettingAppend(),
+                'prepend'      => $class::supportsSettingPrepend(),
+                'placeholder'  => $class::supportsSettingPlaceholder(),
+                'rows'         => $class::supportsSettingRows(),
+                'maxLength'    => $class::supportsSettingMaxLength(),
+                'nestedFields' => $class::supportsNestedFields(),
             ]
         ]);
     }
 
     public static function getFieldTypeList() {
-
         $types = FieldRegistry::all();
         $data = [];
 
@@ -58,28 +57,20 @@ class FieldRoutes {
             if (!class_exists($class)) continue;
 
             $data[] = [
-                'type'   => $key,
-                'class'  => $class,
-                'label'  => self::getLabelFromClass($class),
+                'type'     => $class::getType(),
+                'class'    => $class,
+                'label'    => $class::getLabel(),
                 'supports' => [
-                    'append'       => method_exists($class, 'supportsSettingAppend') ? $class::supportsSettingAppend() : false,
-                    'prepend'      => method_exists($class, 'supportsSettingPrepend') ? $class::supportsSettingPrepend() : false,
-                    'placeholder'  => method_exists($class, 'supportsSettingPlaceholder') ? $class::supportsSettingPlaceholder() : false,
-                    'rows'         => method_exists($class, 'supportsSettingRows') ? $class::supportsSettingRows() : false,
-                    'maxLength'    => method_exists($class, 'supportsSettingMaxLength') ? $class::supportsSettingMaxLength() : false,
-                    'nestedFields' => method_exists($class, 'supportsNestedFields') ? $class::supportsNestedFields() : false,
+                    'append'       => $class::supportsSettingAppend(),
+                    'prepend'      => $class::supportsSettingPrepend(),
+                    'placeholder'  => $class::supportsSettingPlaceholder(),
+                    'rows'         => $class::supportsSettingRows(),
+                    'maxLength'    => $class::supportsSettingMaxLength(),
+                    'nestedFields' => $class::supportsNestedFields(),
                 ],
             ];
         }
 
         return rest_ensure_response($data);
-        
-    }
-
-
-    protected static function getLabelFromClass($class) {
-        $parts = explode('\\', $class);
-        $name = str_replace('Field', '', end($parts));
-        return ucwords(str_replace('_', ' ', $name));
     }
 }
