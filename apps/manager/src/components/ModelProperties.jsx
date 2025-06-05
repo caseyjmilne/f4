@@ -75,6 +75,13 @@ function ModelProperties({ selectedModelId }) {
     }
   };
 
+  const handleReorder = (newOrder, parentId) => {
+    const reordered = properties.filter(p => p.parent_id !== parentId);
+    const reindexed = newOrder.map((p, index) => ({ ...p, order: index }));
+
+    setProperties([...reordered, ...reindexed]);
+  };
+
   if (!selectedModelId) return null;
 
   console.log('Properties at 75, ModelProperties.jsx')
@@ -97,6 +104,7 @@ function ModelProperties({ selectedModelId }) {
         onEditClick={handleEditClick}
         onDelete={handleDelete}
         onAdd={handleAddProperty}
+        onReorder={handleReorder}
       />
 
       {showAddPropertyModal && (
