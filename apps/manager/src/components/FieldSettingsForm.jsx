@@ -1,6 +1,10 @@
 function FieldSettingsForm({ settings, fieldSettings, onChange }) {
+
   const handleChange = (field, value) => {
-    onChange(prev => ({ ...prev, [field]: value }));
+    onChange(prev => ({
+      ...prev,
+      [field]: value
+    }));
   };
 
   return (

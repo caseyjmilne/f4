@@ -23,9 +23,25 @@ export default function EditPropertyForm({ property, onSave, onCancel }) {
 
   useEffect(() => {
     if (!formData.type) return;
+
     fetchFieldTypeDetails(formData.type)
       .then(data => {
-        setFieldSettings(data.supports || {});
+        const supports = data.supports || {};
+        setFieldSettings(supports);
+
+        // Patch formData.settings to ensure all supported keys exist
+        setFormData(prev => {
+          const currentSettings = prev.settings || {};
+          const patchedSettings = { ...currentSettings };
+
+          if (supports.prepend && patchedSettings.prepend === undefined) patchedSettings.prepend = '';
+          if (supports.append && patchedSettings.append === undefined) patchedSettings.append = '';
+          if (supports.placeholder && patchedSettings.placeholder === undefined) patchedSettings.placeholder = '';
+          if (supports.rows && patchedSettings.rows === undefined) patchedSettings.rows = '';
+          if (supports.maxLength && patchedSettings.maxLength === undefined) patchedSettings.maxLength = '';
+
+          return { ...prev, settings: patchedSettings };
+        });
       })
       .catch(err => {
         console.error('Failed to load field settings', err);
@@ -38,8 +54,17 @@ export default function EditPropertyForm({ property, onSave, onCancel }) {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSettingsChange = (newSettings) => {
-    setFormData(prev => ({ ...prev, settings: newSettings }));
+  const handleSettingsChange = (updater) => {
+    setFormData(prev => {
+      const newSettings = typeof updater === 'function'
+        ? updater(prev.settings || {})
+        : updater;
+
+      return {
+        ...prev,
+        settings: { ...prev.settings, ...newSettings }
+      };
+    });
   };
 
   const handleSubmit = (e) => {
