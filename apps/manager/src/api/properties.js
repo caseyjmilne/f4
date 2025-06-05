@@ -57,3 +57,17 @@ export async function updateProperty(updatedProp) {
 
   return response.json();
 }
+
+export async function updatePropertyOrder(properties) {
+  const res = await fetch(`${API_BASE}/order`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(properties),
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to update order');
+  }
+
+  return await res.json();
+}

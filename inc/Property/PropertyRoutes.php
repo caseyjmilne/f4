@@ -37,6 +37,23 @@ class PropertyRoutes {
             'callback' => [$this, 'delete_property'],
             'permission_callback' => '__return_true',
         ]);
+
+        register_rest_route('f4/v1', '/property/order', [
+            'methods'  => 'POST',
+            'callback' => function (\WP_REST_Request $request) {
+                $items = $request->get_json_params();
+                foreach ($items as $item) {
+                    wp_update_post([
+                        'ID'         => $item['id'],
+                        'menu_order' => $item['order'], // use WordPress built-in field
+                    ]);
+                    update_post_meta($item['id'], 'parent_id', $item['parent_id']); // or use custom DB structure
+                }
+                return rest_ensure_response(['success' => true]);
+            },
+            'permission_callback' => '__return_true',
+        ]);
+
     }
 
     public function get_properties(\WP_REST_Request $request) {

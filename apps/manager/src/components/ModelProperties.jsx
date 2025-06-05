@@ -4,6 +4,7 @@ import {
   createProperty,
   deleteProperty,
   updateProperty,
+  updatePropertyOrder,
 } from '../api/properties';
 import PropertyList from './PropertyList';
 import AddPropertyForm from './AddPropertyForm';
@@ -75,11 +76,27 @@ function ModelProperties({ selectedModelId }) {
     }
   };
 
-  const handleReorder = (newOrder, parentId) => {
-    const reordered = properties.filter(p => p.parent_id !== parentId);
-    const reindexed = newOrder.map((p, index) => ({ ...p, order: index }));
+  const handleReorder = async (newOrder, parentId) => {
+    // Build updated structure
+    const reordered = newOrder.map((item, index) => ({
+      ...item,
+      order: index,
+      parent_id: parentId,
+    }));
 
-    setProperties([...reordered, ...reindexed]);
+    // Update local state
+    setProperties((prev) => {
+      const unchanged = prev.filter(p => p.parent_id !== parentId);
+      return [...unchanged, ...reordered];
+    });
+
+    // Save to DB
+    try {
+      await updatePropertyOrder(reordered);
+    } catch (err) {
+      console.error('Failed to save order', err);
+      alert('Could not save new order.');
+    }
   };
 
   if (!selectedModelId) return null;

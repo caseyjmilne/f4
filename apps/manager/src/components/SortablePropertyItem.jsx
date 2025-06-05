@@ -10,12 +10,14 @@ function SortablePropertyItem(props) {
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    cursor: 'grab',
   };
 
   return (
-    <li ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      <PropertyItem {...props} />
+    <li ref={setNodeRef} style={style}>
+      <PropertyItem
+        {...props}
+        dragHandleProps={{ ...attributes, ...listeners }}
+      />
     </li>
   );
 }

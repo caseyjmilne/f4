@@ -40,9 +40,12 @@ class PropertyController {
     }
 
     public function get_properties($model_id = null) {
+
         $args = [
             'post_type'   => 'property',
             'numberposts' => -1,
+            'orderby'     => 'menu_order',
+            'order'       => 'ASC',
         ];
 
         if ($model_id) {
@@ -60,7 +63,7 @@ class PropertyController {
         return array_map(function ($post) {
             return (new PropertyInstance($post))->to_array();
         }, $posts);
-
+        
     }
 
     public function create_property(array $data) {
