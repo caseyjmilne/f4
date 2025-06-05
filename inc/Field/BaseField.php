@@ -86,4 +86,9 @@ abstract class BaseField {
     public static function supportsSettingMaxLength(): bool {
         return false;
     }
+
+    public static function supportsNestedFields(): bool {
+        return false;
+    }
+
 }

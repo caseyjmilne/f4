@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import Modal from './Modal';
-import { fetchFieldTypes } from '../api/field';
+import FieldSettingsForm from './FieldSettingsForm';
+import { fetchFieldTypes, fetchFieldTypeDetails } from '../api/field';
 
 export default function EditPropertyForm({ property, onSave, onCancel }) {
   const [formData, setFormData] = useState({ ...property });
   const [fieldOptions, setFieldOptions] = useState([]);
+  const [fieldSettings, setFieldSettings] = useState({});
 
   useEffect(() => {
     setFormData({ ...property });
@@ -15,13 +17,29 @@ export default function EditPropertyForm({ property, onSave, onCancel }) {
       .then(setFieldOptions)
       .catch((err) => {
         console.error('Failed to load field types', err);
-        setFieldOptions([{ label: 'Text', value: 'text' }]); // fallback
+        setFieldOptions([{ label: 'Text', value: 'text' }]);
       });
   }, []);
+
+  useEffect(() => {
+    if (!formData.type) return;
+    fetchFieldTypeDetails(formData.type)
+      .then(data => {
+        setFieldSettings(data.supports || {});
+      })
+      .catch(err => {
+        console.error('Failed to load field settings', err);
+        setFieldSettings({});
+      });
+  }, [formData.type]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSettingsChange = (newSettings) => {
+    setFormData(prev => ({ ...prev, settings: newSettings }));
   };
 
   const handleSubmit = (e) => {
@@ -83,6 +101,12 @@ export default function EditPropertyForm({ property, onSave, onCancel }) {
               required
             />
           </div>
+
+          <FieldSettingsForm
+            settings={formData.settings || {}}
+            fieldSettings={fieldSettings}
+            onChange={handleSettingsChange}
+          />
 
           <div className="f4-form-actions">
             <button type="button" onClick={onCancel} className="f4-button f4-button--secondary">

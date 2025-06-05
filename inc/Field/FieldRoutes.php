@@ -39,11 +39,12 @@ class FieldRoutes {
             'class'             => $class,
             'label'             => self::getLabelFromClass($class),
             'supports'          => [
-                'append'      => method_exists($class, 'supportsSettingAppend') ? $class::supportsSettingAppend() : false,
-                'prepend'     => method_exists($class, 'supportsSettingPrepend') ? $class::supportsSettingPrepend() : false,
-                'placeholder' => method_exists($class, 'supportsSettingPlaceholder') ? $class::supportsSettingPlaceholder() : false,
-                'rows'        => method_exists($class, 'supportsSettingRows') ? $class::supportsSettingRows() : false,
-                'maxLength'   => method_exists($class, 'supportsSettingMaxLength') ? $class::supportsSettingMaxLength() : false,
+                'append'       => method_exists($class, 'supportsSettingAppend') ? $class::supportsSettingAppend() : false,
+                'prepend'      => method_exists($class, 'supportsSettingPrepend') ? $class::supportsSettingPrepend() : false,
+                'placeholder'  => method_exists($class, 'supportsSettingPlaceholder') ? $class::supportsSettingPlaceholder() : false,
+                'rows'         => method_exists($class, 'supportsSettingRows') ? $class::supportsSettingRows() : false,
+                'maxLength'    => method_exists($class, 'supportsSettingMaxLength') ? $class::supportsSettingMaxLength() : false,
+                'nestedFields' => method_exists($class, 'supportsNestedFields') ? $class::supportsNestedFields() : false,
             ]
         ]);
     }
