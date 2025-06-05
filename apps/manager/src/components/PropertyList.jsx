@@ -1,8 +1,7 @@
-// PropertyList.jsx
 import PropertyItem from './PropertyItem';
 
-function PropertyList({ properties, onEditClick, onDelete, parentId = null, level = 0 }) {
-  const filtered = properties.filter(p => p.parent_id === parentId);
+function PropertyList({ properties, onEditClick, onDelete, onAdd, parentId = 0, level = 0 }) {
+  const filtered = properties.filter(p => (p.parent_id ?? 0) === parentId);
 
   return (
     <ul className={`property-list level-${level}`}>
@@ -10,17 +9,11 @@ function PropertyList({ properties, onEditClick, onDelete, parentId = null, leve
         <li key={prop.id}>
           <PropertyItem
             property={prop}
-            onEditClick={onEditClick}
-            onDelete={onDelete}
-            level={level}
-          />
-          {/* Recursively render children */}
-          <PropertyList
             properties={properties}
             onEditClick={onEditClick}
             onDelete={onDelete}
-            parentId={prop.id}
-            level={level + 1}
+            onAdd={onAdd}
+            level={level}
           />
         </li>
       ))}

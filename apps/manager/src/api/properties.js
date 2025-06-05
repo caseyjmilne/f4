@@ -7,6 +7,8 @@ export async function fetchProperties(modelId) {
 
   return data.map(item => ({
     id: item.id,
+    model_id: item.model_id,
+    parent_id: item.parent_id,
     key: item.key,
     name: item.name,
     type: item.type ?? 'text',

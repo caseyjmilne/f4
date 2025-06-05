@@ -60,6 +60,7 @@ class PropertyController {
         return array_map(function ($post) {
             return (new PropertyInstance($post))->to_array();
         }, $posts);
+
     }
 
     public function create_property(array $data) {

@@ -72,6 +72,9 @@ function ModelProperties({ selectedModelId }) {
 
   if (!selectedModelId) return null;
 
+  console.log('Properties at 75, ModelProperties.jsx')
+  console.log(properties)
+
   return (
     <>
       <header className="model-properties-header">
