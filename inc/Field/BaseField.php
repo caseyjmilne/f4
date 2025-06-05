@@ -17,6 +17,25 @@ abstract class BaseField {
     }
 
     /**
+     * Return the field type key used for registration.
+     * Subclasses should override.
+     */
+    public static function getType(): string {
+        $parts = explode('\\', static::class);
+        $class = end($parts);
+        return strtolower(str_replace('Field', '', $class));
+    }
+
+    /**
+     * Return a human-readable label for the field type.
+     * Subclasses can override for nicer names.
+     */
+    public static function getLabel(): string {
+        $type = static::getType();
+        return ucwords(str_replace('_', ' ', $type));
+    }
+
+    /**
      * Render the field’s HTML.
      * Field types should override this.
      */

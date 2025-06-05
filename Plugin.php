@@ -73,6 +73,7 @@ class Plugin {
         require_once( F4_PATH . '/inc/Field/FieldType/PasswordField.php' );
         require_once( F4_PATH . '/inc/Field/FieldType/WysiwygField.php' );
         require_once( F4_PATH . '/inc/Field/FieldType/GroupField.php' );
+        require_once( F4_PATH . '/inc/Field/FieldType/RepeaterField.php' );
         \F4\Field\CoreFieldRegistry::register();
         \F4\Field\FieldRoutes::register();
 
