@@ -75,6 +75,8 @@ class Plugin {
         require_once( F4_PATH . '/inc/Field/FieldType/GroupField.php' );
         require_once( F4_PATH . '/inc/Field/FieldType/RepeaterField.php' );
         require_once( F4_PATH . '/inc/Field/FieldType/RangeField.php' );
+        require_once( F4_PATH . '/inc/Field/FieldType/FileField.php' );
+        require_once( F4_PATH . '/inc/Field/FieldType/TrueFalseField.php' );
         \F4\Field\CoreFieldRegistry::register();
         \F4\Field\FieldRoutes::register();
 

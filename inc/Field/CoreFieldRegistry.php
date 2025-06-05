@@ -18,5 +18,7 @@ class CoreFieldRegistry {
         FieldRegistry::register('group', \F4\Field\FieldType\GroupField::class);
         FieldRegistry::register('repeater', \F4\Field\FieldType\RepeaterField::class);
         FieldRegistry::register('range', \F4\Field\FieldType\RangeField::class);
+        FieldRegistry::register('file', \F4\Field\FieldType\FileField::class);
+        FieldRegistry::register('file', \F4\Field\FieldType\TrueFalseField::class);
     }
 }
