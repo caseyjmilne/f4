@@ -25,5 +25,8 @@ class CoreFieldRegistry {
         FieldRegistry::register('post', \F4\Field\FieldType\PostField::class);
         FieldRegistry::register('page', \F4\Field\FieldType\PageField::class);
         FieldRegistry::register('color', \F4\Field\FieldType\ColorField::class);
+        FieldRegistry::register('date', \F4\Field\FieldType\DateField::class);
+        FieldRegistry::register('post_relationship', \F4\Field\FieldType\PostRelationshipField::class);
+        FieldRegistry::register('date', \F4\Field\FieldType\TaxonomyField::class);
     }
 }

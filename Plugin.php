@@ -80,6 +80,9 @@ class Plugin {
         require_once( F4_PATH . '/inc/Field/FieldType/PostField.php' );
         require_once( F4_PATH . '/inc/Field/FieldType/PageField.php' );
         require_once( F4_PATH . '/inc/Field/FieldType/ColorField.php' );
+        require_once( F4_PATH . '/inc/Field/FieldType/DateField.php' );
+        require_once( F4_PATH . '/inc/Field/FieldType/PostRelationshipField.php' );
+        require_once( F4_PATH . '/inc/Field/FieldType/TaxonomyField.php' );
         \F4\Field\CoreFieldRegistry::register();
         \F4\Field\FieldRoutes::register();
 
