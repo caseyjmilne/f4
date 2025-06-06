@@ -2,6 +2,8 @@
 
 namespace F4\Model\ModelImplementor;
 
+use F4\Model\ModelController;
+use F4\Model\ModelInstance;
 use F4\Field\FieldRegistry;
 
 class FieldRenderer {
@@ -12,10 +14,12 @@ class FieldRenderer {
     }
 
     public function registerFieldsBox() {
-        $models = get_posts(['post_type' => 'model', 'post_status' => 'publish', 'numberposts' => -1]);
+
+        $mc = new ModelController();
+        $models = $mc->get_all_models();
 
         foreach ($models as $model) {
-            $model_key = get_post_meta($model->ID, 'model_key', true);
+            $model_key = $model->getKey();
             if (!$model_key) continue;
 
             add_meta_box(
@@ -25,7 +29,7 @@ class FieldRenderer {
                 $model_key,
                 'normal',
                 'default',
-                ['model_id' => $model->ID]
+                ['model_id' => $model->getId()]
             );
         }
     }
@@ -33,31 +37,23 @@ class FieldRenderer {
     public function renderBox($post, $meta) {
 
         $model_id = $meta['args']['model_id'];
-        $properties = get_posts([
-            'post_type' => 'property',
-            'post_status' => 'publish',
-            'meta_key' => 'model_id',
-            'meta_value' => $model_id,
-            'numberposts' => -1
-        ]);
+        $model_post = get_post( $model_id );
+        $model = new ModelInstance( $model_post );
 
-        if (empty($properties)) {
+        if (empty($model->getProperties())) {
             echo '<p>No F4 Fields for this Model.</p>';
             return;
         }
 
         wp_nonce_field('f4_fields_nonce_action', 'f4_fields_nonce');
 
-        foreach ($properties as $property) {
-            $key = get_post_meta($property->ID, 'key', true);
-            $name = esc_html(get_post_meta($property->ID, 'name', true));
-            $type = get_post_meta($property->ID, 'type', true) ?: 'text';
-            $value = esc_attr(get_post_meta($post->ID, $key, true));
+        foreach ($model->getProperties() as $property) {
+            $key   = $property->getKey();
+            $name  = $property->getName();
+            $type  = $property->getType();
+            $value = esc_attr(get_post_meta($post->ID, $property->getKey(), true));
 
             $field_class = FieldRegistry::get($type);
-
-            echo "Field at 59 FieldRenderer is type of: ";
-            var_dump($type);
 
             if ($field_class && class_exists($field_class)) {
                 // Pass $post and $property to constructor as required

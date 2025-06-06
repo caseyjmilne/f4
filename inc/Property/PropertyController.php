@@ -66,6 +66,33 @@ class PropertyController {
         
     }
 
+    public function get_property_instances($model_id = null) {
+
+        $args = [
+            'post_type'   => 'property',
+            'numberposts' => -1,
+            'orderby'     => 'menu_order',
+            'order'       => 'ASC',
+        ];
+
+        if ($model_id) {
+            $args['meta_query'] = [
+                [
+                    'key'     => 'model_id',
+                    'value'   => $model_id,
+                    'compare' => '='
+                ]
+            ];
+        }
+
+        $posts = get_posts($args);
+
+        return array_map(function ($post) {
+            return new PropertyInstance($post);
+        }, $posts);
+        
+    }
+
     public function create_property(array $data) {
         if (empty($data['name']) || empty($data['key']) || empty($data['model_id'])) {
             return new \WP_Error('missing_fields', 'Missing required fields', ['status' => 400]);
