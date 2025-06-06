@@ -77,6 +77,9 @@ class Plugin {
         require_once( F4_PATH . '/inc/Field/FieldType/TrueFalseField.php' );
         require_once( F4_PATH . '/inc/Field/FieldType/CheckboxField.php' );
         require_once( F4_PATH . '/inc/Field/FieldType/RadioField.php' );
+        require_once( F4_PATH . '/inc/Field/FieldType/PostField.php' );
+        require_once( F4_PATH . '/inc/Field/FieldType/PageField.php' );
+        require_once( F4_PATH . '/inc/Field/FieldType/ColorField.php' );
         \F4\Field\CoreFieldRegistry::register();
         \F4\Field\FieldRoutes::register();
 

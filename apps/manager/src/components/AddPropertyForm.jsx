@@ -4,6 +4,11 @@ import FieldSettingsForm from './FieldSettingsForm';
 import { fetchFieldTypes, fetchFieldTypeDetails } from '../api/field';
 
 function AddPropertyForm({ parentId = 0, onSubmit, onCancel }) {
+
+  console.log('parentId at 8, AddPropertyForm')
+  console.log(parentId)
+
+
   const [key, setKey] = useState('');
   const [name, setName] = useState('');
   const [type, setType] = useState('text');
