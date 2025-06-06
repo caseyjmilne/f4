@@ -19,7 +19,7 @@ class CoreFieldRegistry {
         FieldRegistry::register('repeater', \F4\Field\FieldType\RepeaterField::class);
         FieldRegistry::register('range', \F4\Field\FieldType\RangeField::class);
         FieldRegistry::register('file', \F4\Field\FieldType\FileField::class);
-        FieldRegistry::register('file', \F4\Field\FieldType\TrueFalseField::class);
+        FieldRegistry::register('true_false', \F4\Field\FieldType\TrueFalseField::class);
         FieldRegistry::register('checkbox', \F4\Field\FieldType\CheckboxField::class);
         FieldRegistry::register('radio', \F4\Field\FieldType\RadioField::class);
         FieldRegistry::register('post', \F4\Field\FieldType\PostField::class);
@@ -28,5 +28,7 @@ class CoreFieldRegistry {
         FieldRegistry::register('date', \F4\Field\FieldType\DateField::class);
         FieldRegistry::register('post_relationship', \F4\Field\FieldType\PostRelationshipField::class);
         FieldRegistry::register('date', \F4\Field\FieldType\TaxonomyField::class);
+        FieldRegistry::register('user', \F4\Field\FieldType\UserField::class);
+        FieldRegistry::register('button_group', \F4\Field\FieldType\ButtonGroupField::class);
     }
 }

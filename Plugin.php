@@ -83,6 +83,8 @@ class Plugin {
         require_once( F4_PATH . '/inc/Field/FieldType/DateField.php' );
         require_once( F4_PATH . '/inc/Field/FieldType/PostRelationshipField.php' );
         require_once( F4_PATH . '/inc/Field/FieldType/TaxonomyField.php' );
+        require_once( F4_PATH . '/inc/Field/FieldType/UserField.php' );
+        require_once( F4_PATH . '/inc/Field/FieldType/ButtonGroupField.php' );
         \F4\Field\CoreFieldRegistry::register();
         \F4\Field\FieldRoutes::register();
 

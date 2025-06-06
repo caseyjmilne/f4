@@ -74,6 +74,27 @@ Enhancements Noted 2025-06-01
 
 1. Add link to model (post type) to the model details.
 2. Add record count (post count) for the model in model details. 
-3. 
+
+# Missing Field Types 
+
+Compared to ACF Pro.
+
+oembed (embedding external media)
+
+gallery (multi-image selector)
+
+button_group (button-based select UI)
+
+link (URL/link selector)
+
+google_map (map selector)
+
+date_time_picker (date + time selector)
+
+time_picker (time selector)
+
+flexible_content (layout builder field)
+
+clone (clone another field/group)
 
 
