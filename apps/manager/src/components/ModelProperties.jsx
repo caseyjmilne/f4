@@ -29,6 +29,10 @@ function ModelProperties({ selectedModelId }) {
   }, [selectedModelId]);
 
   const handleAddProperty = async (property) => {
+
+    console.log('property at 33 ModelProperties')
+    console.log(property)
+
     try {
       const created = await createProperty({ ...property, model_id: selectedModelId });
 

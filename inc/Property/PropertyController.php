@@ -109,6 +109,7 @@ class PropertyController {
             return $post_id;
         }
 
+        update_post_meta($post_id, 'parent_id', sanitize_text_field($data['parent_id'] ?? ''));
         update_post_meta($post_id, 'type', sanitize_text_field($data['type'] ?? ''));
         update_post_meta($post_id, 'key', sanitize_text_field($data['key']));
         update_post_meta($post_id, 'name', sanitize_text_field($data['name']));
