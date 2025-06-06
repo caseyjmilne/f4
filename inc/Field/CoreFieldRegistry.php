@@ -20,5 +20,7 @@ class CoreFieldRegistry {
         FieldRegistry::register('range', \F4\Field\FieldType\RangeField::class);
         FieldRegistry::register('file', \F4\Field\FieldType\FileField::class);
         FieldRegistry::register('file', \F4\Field\FieldType\TrueFalseField::class);
+        FieldRegistry::register('checkbox', \F4\Field\FieldType\CheckboxField::class);
+        FieldRegistry::register('radio', \F4\Field\FieldType\RadioField::class);
     }
 }
