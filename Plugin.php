@@ -60,6 +60,7 @@ class Plugin {
         require_once( F4_PATH . '/inc/Field/CoreFieldRegistry.php' );
         require_once( F4_PATH . '/inc/Field/FieldFactory.php' );
         require_once( F4_PATH . '/inc/Field/FieldRoutes.php' );
+        require_once( F4_PATH . '/inc/Field/FieldSettings.php' );
         require_once( F4_PATH . '/inc/Field/FieldType/TextField.php' );
         require_once( F4_PATH . '/inc/Field/FieldType/NumberField.php' );
         require_once( F4_PATH . '/inc/Field/FieldType/HiddenField.php' );

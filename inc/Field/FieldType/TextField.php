@@ -12,6 +12,10 @@ class TextField extends BaseField {
         $name = esc_html($this->name);
         $append = isset($this->args['append']) ? esc_html($this->args['append']) : '';
 
+        echo '<pre>';
+        var_dump($this);
+        echo '</pre>';
+
         echo "<p><label for='{$key}'><strong>{$name}</strong></label><br/>";
         echo "<input type='text' name='{$key}' id='{$key}' value='{$value}' class='widefat' />";
         if ($append !== '') {
