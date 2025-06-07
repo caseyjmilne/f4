@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace F4\Front;
 
@@ -6,25 +6,50 @@ use F4\Model\ModelController;
 
 class TemplateLoader {
 
+    protected ModelController $modelController;
+
     public function __construct() {
-        add_filter('template_include', [$this, 'loadTemplate']);
+        $this->modelController = new ModelController();
+
+        add_filter('template_include', [$this, 'handleSingleTemplate']);
+        add_filter('template_include', [$this, 'handleArchiveTemplate']);
     }
 
-    public function loadTemplate($template) {
-        if (!is_singular()) return $template;
-
-        $post_type = get_post_type();
-
-        $modelController = new ModelController();
-        $model = $modelController->get_model_for_post_type($post_type);
-
-        if ($model) {
-            $custom_template = F4_PATH . '/templates/model_single.php';
-            if (file_exists($custom_template)) {
-                return $custom_template;
-            }
+    public function handleSingleTemplate($template) {
+        if (!is_singular()) {
+            return $template;
         }
 
-        return $template;
+        $post_type = get_post_type();
+        if (!$post_type) {
+            return $template;
+        }
+
+        $model = $this->modelController->get_model_for_post_type($post_type);
+        if (!$model) {
+            return $template;
+        }
+
+        $custom_template = F4_PATH . '/templates/model_single.php';
+        return file_exists($custom_template) ? $custom_template : $template;
+    }
+
+    public function handleArchiveTemplate($template) {
+        if (!is_post_type_archive()) {
+            return $template;
+        }
+
+        $post_type = get_query_var('post_type');
+        if (!$post_type || is_array($post_type)) {
+            return $template;
+        }
+
+        $model = $this->modelController->get_model_for_post_type($post_type);
+        if (!$model) {
+            return $template;
+        }
+
+        $custom_template = F4_PATH . '/templates/model_archive.php';
+        return file_exists($custom_template) ? $custom_template : $template;
     }
 }

@@ -12,6 +12,7 @@ class ModelSynchronizer {
     }
 
     public function syncAllModels(): void {
+        
         $models = get_posts([
             'post_type' => 'model',
             'post_status' => 'publish',
@@ -19,7 +20,6 @@ class ModelSynchronizer {
         ]);
 
         foreach ($models as $model) {
-            
             $key = get_post_meta($model->ID, 'model_key', true);
             $label = $model->post_title;
 
@@ -33,10 +33,13 @@ class ModelSynchronizer {
                 'public' => true,
                 'show_in_menu' => true,
                 'show_in_rest' => true,
-                'supports' => ['title', 'editor'], // Static for now
+                'supports' => ['title', 'editor'],
+                'has_archive' => true,
+                'rewrite' => ['slug' => $key],
             ];
 
             $this->postTypeBuilder->register($key, $args);
         }
+
     }
 }
