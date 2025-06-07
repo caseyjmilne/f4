@@ -12,7 +12,7 @@ class UserField extends BaseField
      * - roles: array of allowed WP user roles (e.g. ['administrator', 'editor'])
      * - multiple: boolean to allow selecting multiple users
      */
-    public function getSupportedSettings(): array
+    public static function getSupportedSettings(): array
     {
         return [
             'roles'    => ['administrator', 'editor', 'author', 'contributor', 'subscriber'], // default allowed roles, can be customized per instance

@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace F4\Field;
 
@@ -8,72 +8,47 @@ abstract class BaseField {
     protected $name;
     protected $args;
     protected $post_id;
+    protected $settings = [];
 
     public function __construct($key, $name, $args = [], $post_id = null) {
         $this->key     = $key;
         $this->name    = $name;
         $this->args    = $args;
         $this->post_id = $post_id;
+
+        // Normalize settings on construction
+        $this->settings = FieldSettings::sanitize($args['settings'] ?? [], static::class);
     }
 
-    /**
-     * Return the field type key used for registration.
-     * Subclasses should override.
-     */
     public static function getType(): string {
         $parts = explode('\\', static::class);
         $class = end($parts);
         return strtolower(str_replace('Field', '', $class));
     }
 
-    /**
-     * Return a human-readable label for the field type.
-     * Subclasses can override for nicer names.
-     */
     public static function getLabel(): string {
         $type = static::getType();
         return ucwords(str_replace('_', ' ', $type));
     }
 
-    /**
-     * Render the field’s HTML.
-     * Field types should override this.
-     */
     abstract public function render();
 
-    /**
-     * Save a simple text/ID value to post meta.
-     * Field types storing non-string values should override.
-     */
     public function save($value) {
         update_post_meta($this->post_id, $this->key, sanitize_text_field($value));
     }
 
-    /**
-     * Retrieve the saved value from post meta.
-     */
     public function getValue() {
         return get_post_meta($this->post_id, $this->key, true);
     }
 
-    /**
-     * Return an array of WP script handles this field needs.
-     */
     public static function getFieldScripts(): array {
         return [];
     }
 
-    /**
-     * Return an array of WP style handles this field needs.
-     */
     public static function getFieldStyles(): array {
         return [];
     }
 
-    /**
-     * Enqueue all scripts/styles returned by getFieldScripts()/getFieldStyles().
-     * Should be called before rendering the field (e.g. in admin_enqueue_scripts).
-     */
     public static function enqueueFieldAssets() {
         foreach (static::getFieldStyles() as $style) {
             wp_enqueue_style($style);
@@ -83,31 +58,21 @@ abstract class BaseField {
         }
     }
 
-    /**
-     * Settings support: override in subclasses as needed.
-     */
-    public static function supportsSettingAppend(): bool {
-        return false;
+    // Field setting support flags
+    public static function supportsSettingAppend(): bool { return false; }
+    public static function supportsSettingPrepend(): bool { return false; }
+    public static function supportsSettingPlaceholder(): bool { return false; }
+    public static function supportsSettingRows(): bool { return false; }
+    public static function supportsSettingMaxLength(): bool { return false; }
+    public static function supportsNestedFields(): bool { return false; }
+
+    // NEW: Central method fields override to define settings
+    public static function getSupportedSettings(): array {
+        return [];
     }
 
-    public static function supportsSettingPrepend(): bool {
-        return false;
+    // Optional getter for templates
+    public function getSetting(string $key, $default = null) {
+        return $this->settings[$key] ?? $default;
     }
-
-    public static function supportsSettingPlaceholder(): bool {
-        return false;
-    }
-
-    public static function supportsSettingRows(): bool {
-        return false;
-    }
-
-    public static function supportsSettingMaxLength(): bool {
-        return false;
-    }
-
-    public static function supportsNestedFields(): bool {
-        return false;
-    }
-
 }
