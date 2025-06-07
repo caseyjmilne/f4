@@ -9,7 +9,7 @@ function FieldSettingsForm({ settings, fieldSettings, onChange }) {
 
   return (
     <>
-      {fieldSettings.prepend && (
+      {fieldSettings.includes('prepend') && (
         <div className="f4-new-model-form__field-group">
           <label htmlFor="setting-prepend" className="f4-new-model-form__field-label">
             <strong>Prepend</strong>
@@ -24,7 +24,7 @@ function FieldSettingsForm({ settings, fieldSettings, onChange }) {
         </div>
       )}
 
-      {fieldSettings.append && (
+      {fieldSettings.includes('append') && (
         <div className="f4-new-model-form__field-group">
           <label htmlFor="setting-append" className="f4-new-model-form__field-label">
             <strong>Append</strong>
@@ -39,7 +39,7 @@ function FieldSettingsForm({ settings, fieldSettings, onChange }) {
         </div>
       )}
 
-      {fieldSettings.placeholder && (
+      {fieldSettings.includes('placeholder') && (
         <div className="f4-new-model-form__field-group">
           <label htmlFor="setting-placeholder" className="f4-new-model-form__field-label">
             <strong>Placeholder</strong>
@@ -54,7 +54,7 @@ function FieldSettingsForm({ settings, fieldSettings, onChange }) {
         </div>
       )}
 
-      {fieldSettings.rows && (
+      {fieldSettings.includes('rows') && (
         <div className="f4-new-model-form__field-group">
           <label htmlFor="setting-rows" className="f4-new-model-form__field-label">
             <strong>Rows</strong>
@@ -70,7 +70,7 @@ function FieldSettingsForm({ settings, fieldSettings, onChange }) {
         </div>
       )}
 
-      {fieldSettings.maxLength && (
+      {fieldSettings.includes('maxLength') && (
         <div className="f4-new-model-form__field-group">
           <label htmlFor="setting-maxLength" className="f4-new-model-form__field-label">
             <strong>Max Length</strong>

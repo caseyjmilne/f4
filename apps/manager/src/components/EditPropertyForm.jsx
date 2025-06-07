@@ -6,7 +6,7 @@ import { fetchFieldTypes, fetchFieldTypeDetails } from '../api/field';
 export default function EditPropertyForm({ property, onSave, onCancel }) {
   const [formData, setFormData] = useState({ ...property });
   const [fieldOptions, setFieldOptions] = useState([]);
-  const [fieldSettings, setFieldSettings] = useState({});
+  const [fieldSettings, setFieldSettings] = useState([]); // now expecting array
 
   useEffect(() => {
     setFormData({ ...property });
@@ -26,26 +26,28 @@ export default function EditPropertyForm({ property, onSave, onCancel }) {
 
     fetchFieldTypeDetails(formData.type)
       .then(data => {
-        const supports = data.supports || {};
-        setFieldSettings(supports);
+        console.log('Field type details:', data);
+
+        const supported = Array.isArray(data.supportedSettings) ? data.supportedSettings : [];
+        setFieldSettings(supported);
 
         // Patch formData.settings to ensure all supported keys exist
         setFormData(prev => {
           const currentSettings = prev.settings || {};
           const patchedSettings = { ...currentSettings };
 
-          if (supports.prepend && patchedSettings.prepend === undefined) patchedSettings.prepend = '';
-          if (supports.append && patchedSettings.append === undefined) patchedSettings.append = '';
-          if (supports.placeholder && patchedSettings.placeholder === undefined) patchedSettings.placeholder = '';
-          if (supports.rows && patchedSettings.rows === undefined) patchedSettings.rows = '';
-          if (supports.maxLength && patchedSettings.maxLength === undefined) patchedSettings.maxLength = '';
+          for (const setting of supported) {
+            if (!(setting in patchedSettings)) {
+              patchedSettings[setting] = '';
+            }
+          }
 
           return { ...prev, settings: patchedSettings };
         });
       })
       .catch(err => {
         console.error('Failed to load field settings', err);
-        setFieldSettings({});
+        setFieldSettings([]);
       });
   }, [formData.type]);
 

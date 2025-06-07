@@ -30,4 +30,6 @@ Maybe it's pointless to have the terminology properties when we are just making 
 
 ## No front end forms support
 
-## 
+## Field Settings not saved 
+
+http://test1.local/wp-json/f4/v1/property does not seem to handle settings, which are sent.

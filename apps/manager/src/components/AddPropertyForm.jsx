@@ -4,16 +4,11 @@ import FieldSettingsForm from './FieldSettingsForm';
 import { fetchFieldTypes, fetchFieldTypeDetails } from '../api/field';
 
 function AddPropertyForm({ parentId = 0, onSubmit, onCancel }) {
-
-  console.log('parentId at 8, AddPropertyForm')
-  console.log(parentId)
-
-
   const [key, setKey] = useState('');
   const [name, setName] = useState('');
   const [type, setType] = useState('text');
   const [fieldOptions, setFieldOptions] = useState([]);
-  const [fieldSettings, setFieldSettings] = useState({});
+  const [fieldSettings, setFieldSettings] = useState([]); // now an array
   const [settings, setSettings] = useState({});
 
   useEffect(() => {
@@ -30,21 +25,22 @@ function AddPropertyForm({ parentId = 0, onSubmit, onCancel }) {
 
     fetchFieldTypeDetails(type)
       .then(data => {
-        const supports = data.supports || {};
-        setFieldSettings(supports);
+        console.log('Field type details:', data);
 
-        // Reset settings only to supported keys, preserving empty values
+        const supported = Array.isArray(data.supportedSettings) ? data.supportedSettings : [];
+
+        setFieldSettings(supported);
+
         const newSettings = {};
-        if (supports.prepend) newSettings.prepend = '';
-        if (supports.append) newSettings.append = '';
-        if (supports.placeholder) newSettings.placeholder = '';
-        if (supports.rows) newSettings.rows = '';
-        if (supports.maxLength) newSettings.maxLength = '';
+        for (const setting of supported) {
+          newSettings[setting] = '';
+        }
+
         setSettings(newSettings);
       })
       .catch(err => {
         console.error('Failed to load field settings', err);
-        setFieldSettings({});
+        setFieldSettings([]);
         setSettings({});
       });
   }, [type]);
@@ -63,7 +59,7 @@ function AddPropertyForm({ parentId = 0, onSubmit, onCancel }) {
       <div className="f4-new-model-form">
         <h4 className="f4-new-model-form__form-title">Add Property</h4>
         <form onSubmit={handleSubmit} className="f4-new-model-form__form-wrap">
-
+          
           <div className="f4-new-model-form__field-group">
             <label htmlFor="property-type" className="f4-new-model-form__field-label">
               <strong>Type</strong>
