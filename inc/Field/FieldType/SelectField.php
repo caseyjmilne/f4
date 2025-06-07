@@ -32,7 +32,4 @@ class SelectField extends BaseField {
         echo "</p>";
     }
 
-    public static function supportsSettingAppend(): bool {
-        return true;
-    }
 }

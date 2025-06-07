@@ -58,14 +58,6 @@ abstract class BaseField {
         }
     }
 
-    // Field setting support flags
-    public static function supportsSettingAppend(): bool { return false; }
-    public static function supportsSettingPrepend(): bool { return false; }
-    public static function supportsSettingPlaceholder(): bool { return false; }
-    public static function supportsSettingRows(): bool { return false; }
-    public static function supportsSettingMaxLength(): bool { return false; }
-    public static function supportsNestedFields(): bool { return false; }
-
     // NEW: Central method fields override to define settings
     public static function getSupportedSettings(): array {
         return [];
@@ -75,4 +67,9 @@ abstract class BaseField {
     public function getSetting(string $key, $default = null) {
         return $this->settings[$key] ?? $default;
     }
+
+    public static function supportsNestedFields(): bool {
+        return false;
+    }
+
 }

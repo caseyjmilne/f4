@@ -6,15 +6,15 @@ use F4\Field\BaseField;
 
 class TextField extends BaseField {
 
+    public static function getSupportedSettings(): array {
+        return ['append', 'placeholder', 'prepend', 'maxLength'];
+    }
+
     public function render() {
         $value = esc_attr($this->getValue());
         $key = esc_attr($this->key);
         $name = esc_html($this->name);
-        $append = isset($this->args['append']) ? esc_html($this->args['append']) : '';
-
-        echo '<pre>';
-        var_dump($this);
-        echo '</pre>';
+        $append = esc_html($this->getSetting('append', ''));
 
         echo "<p><label for='{$key}'><strong>{$name}</strong></label><br/>";
         echo "<input type='text' name='{$key}' id='{$key}' value='{$value}' class='widefat' />";
@@ -24,7 +24,4 @@ class TextField extends BaseField {
         echo "</p>";
     }
 
-    public static function supportsSettingAppend(): bool {
-        return true;
-    }
 }

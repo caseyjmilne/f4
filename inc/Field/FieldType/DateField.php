@@ -27,10 +27,4 @@ class DateField extends BaseField {
         echo "</p>";
     }
 
-    /**
-     * This field supports a placeholder setting.
-     */
-    public static function supportsSettingPlaceholder(): bool {
-        return true;
-    }
 }

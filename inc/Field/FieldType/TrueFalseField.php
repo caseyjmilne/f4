@@ -37,10 +37,4 @@ class TrueFalseField extends BaseField {
         return $input === '1' ? 1 : 0;
     }
 
-    /**
-     * Default value support.
-     */
-    public static function supportsSettingDefault(): bool {
-        return true;
-    }
 }

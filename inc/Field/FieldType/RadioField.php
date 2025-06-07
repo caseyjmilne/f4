@@ -41,17 +41,4 @@ class RadioField extends BaseField {
         update_post_meta($this->post_id, $this->key, sanitize_text_field($value));
     }
 
-    /**
-     * Default value support.
-     */
-    public static function supportsSettingDefault(): bool {
-        return true;
-    }
-
-    /**
-     * This field supports a list of choices.
-     */
-    public static function supportsSettingChoices(): bool {
-        return true;
-    }
 }

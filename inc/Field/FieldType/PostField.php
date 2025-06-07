@@ -44,10 +44,4 @@ class PostField extends BaseField {
         update_post_meta($this->post_id, $this->key, intval($value));
     }
 
-    /**
-     * Support a `post_type` setting in the field definition.
-     */
-    public static function supportsSettingPlaceholder(): bool {
-        return true;
-    }
 }

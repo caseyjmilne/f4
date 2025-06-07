@@ -53,10 +53,4 @@ class PostRelationshipField extends BaseField {
         return is_array($value) ? $value : [];
     }
 
-    /**
-     * Support post_types setting.
-     */
-    public static function supportsSettingPostTypes(): bool {
-        return true;
-    }
 }

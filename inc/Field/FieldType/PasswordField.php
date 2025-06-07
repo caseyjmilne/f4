@@ -16,12 +16,5 @@ class PasswordField extends BaseField {
         echo "<input type='password' name='{$key}' id='{$key}' class='widefat' value='{$value}' />";
         echo "</p>";
     }
-
-    public static function supportsSettingPlaceholder(): bool {
-        return true;
-    }
-
-    public static function supportsSettingMaxLength(): bool {
-        return true;
-    }
+    
 }

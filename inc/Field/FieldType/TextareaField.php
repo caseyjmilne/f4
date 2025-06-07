@@ -17,8 +17,4 @@ class TextareaField extends BaseField {
         echo "</p>";
     }
 
-    public static function supportsSettingRows(): bool {
-        return true;
-    }
-
 }

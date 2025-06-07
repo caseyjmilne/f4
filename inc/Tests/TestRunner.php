@@ -5,9 +5,10 @@ namespace F4\Tests;
 class TestRunner {
 
     protected $tests = [
-        'clone_table'      => CloneTableTest::class,
-        'add_column'       => AddColumnTest::class,
-        'list_field_types' => ListFieldTypesTest::class
+        'clone_table'              => CloneTableTest::class,
+        'add_column'               => AddColumnTest::class,
+        'list_field_types'         => ListFieldTypesTest::class,
+        'api_field_type_response'  => FieldTypeApiResponseTest::class, // ✅ Added here
     ];
 
     public function run($key) {

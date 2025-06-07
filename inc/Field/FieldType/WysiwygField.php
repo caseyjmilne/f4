@@ -19,24 +19,5 @@ class WysiwygField extends BaseField {
             'teeny'         => false,
         ]);
     }
-
-    public static function supportsSettingRows(): bool {
-        return true;
-    }
-
-    public static function supportsSettingPlaceholder(): bool {
-        return false; // Not directly supported by TinyMCE
-    }
-
-    public static function supportsSettingAppend(): bool {
-        return false;
-    }
-
-    public static function supportsSettingPrepend(): bool {
-        return false;
-    }
-
-    public static function supportsSettingMaxLength(): bool {
-        return false;
-    }
+    
 }

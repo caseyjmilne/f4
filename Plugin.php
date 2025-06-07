@@ -101,6 +101,7 @@ class Plugin {
         require_once( F4_PATH . '/inc/Tests/CloneTableTest.php' );
         require_once( F4_PATH . '/inc/Tests/AddColumnTest.php' );
         require_once( F4_PATH . '/inc/Tests/ListFieldTypesTest.php' );
+        require_once( F4_PATH . '/inc/Tests/FieldTypeApiResponseTest.php' );
 
         // React Integration
         require_once( F4_PATH . '/inc/React/ReactBuildIntegration.php' );

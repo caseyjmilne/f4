@@ -18,18 +18,6 @@ class RepeaterField extends BaseField {
         ];
     }
 
-    public static function supportsSettingMin() {
-        return true;
-    }
-
-    public static function supportsSettingMax() {
-        return true;
-    }
-
-    public static function supportsSettingLayout() {
-        return true;
-    }
-
     public static function renderSettings($settings = []) {
         // Optional: if you're rendering field settings in PHP, not JS
     }

@@ -21,10 +21,6 @@ class UrlField extends BaseField {
         update_post_meta($this->post_id, $this->key, esc_url_raw($value));
     }
 
-    public static function supportsSettingPlaceholder(): bool {
-        return true;
-    }
-
     public static function getLabel(): string {
         return 'URL';
     }

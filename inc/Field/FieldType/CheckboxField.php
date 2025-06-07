@@ -44,17 +44,4 @@ class CheckboxField extends BaseField {
         update_post_meta($this->post_id, $this->key, implode(',', $cleaned));
     }
 
-    /**
-     * Default value support.
-     */
-    public static function supportsSettingDefault(): bool {
-        return true;
-    }
-
-    /**
-     * This field supports a list of choices.
-     */
-    public static function supportsSettingChoices(): bool {
-        return true;
-    }
 }

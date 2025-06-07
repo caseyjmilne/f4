@@ -56,10 +56,4 @@ class TaxonomyField extends BaseField {
         return is_array($value) ? $value : [];
     }
 
-    /**
-     * Support taxonomies setting.
-     */
-    public static function supportsSettingTaxonomies(): bool {
-        return true;
-    }
 }

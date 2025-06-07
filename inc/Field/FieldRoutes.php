@@ -12,17 +12,13 @@ class FieldRoutes {
         register_rest_route('f4/v1', '/field/(?P<type>[a-zA-Z0-9_-]+)', [
             'methods'  => 'GET',
             'callback' => [self::class, 'getFieldTypeInfo'],
-            'permission_callback' => function () {
-                return true;
-            },
+            'permission_callback' => fn() => true,
         ]);
 
         register_rest_route('f4/v1', '/fields', [
             'methods'  => 'GET',
             'callback' => [self::class, 'getFieldTypeList'],
-            'permission_callback' => function () {
-                return true;
-            },
+            'permission_callback' => fn() => true,
         ]);
     }
 
@@ -35,17 +31,10 @@ class FieldRoutes {
         }
 
         return rest_ensure_response([
-            'type'     => $class::getType(),
-            'class'    => $class,
-            'label'    => $class::getLabel(),
-            'supports' => [
-                'append'       => $class::supportsSettingAppend(),
-                'prepend'      => $class::supportsSettingPrepend(),
-                'placeholder'  => $class::supportsSettingPlaceholder(),
-                'rows'         => $class::supportsSettingRows(),
-                'maxLength'    => $class::supportsSettingMaxLength(),
-                'nestedFields' => $class::supportsNestedFields(),
-            ]
+            'type'              => $class::getType(),
+            'class'             => $class,
+            'label'             => $class::getLabel(),
+            'supportedSettings' => $class::getSupportedSettings(),
         ]);
     }
 
@@ -57,17 +46,10 @@ class FieldRoutes {
             if (!class_exists($class)) continue;
 
             $data[] = [
-                'type'     => $class::getType(),
-                'class'    => $class,
-                'label'    => $class::getLabel(),
-                'supports' => [
-                    'append'       => $class::supportsSettingAppend(),
-                    'prepend'      => $class::supportsSettingPrepend(),
-                    'placeholder'  => $class::supportsSettingPlaceholder(),
-                    'rows'         => $class::supportsSettingRows(),
-                    'maxLength'    => $class::supportsSettingMaxLength(),
-                    'nestedFields' => $class::supportsNestedFields(),
-                ],
+                'type'              => $class::getType(),
+                'class'             => $class,
+                'label'             => $class::getLabel(),
+                'supportedSettings' => $class::getSupportedSettings(),
             ];
         }
 

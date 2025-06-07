@@ -54,11 +54,4 @@ class ButtonGroupField extends BaseField
         }
     }
 
-    /**
-     * This field supports appending text (optional).
-     */
-    public static function supportsSettingAppend(): bool
-    {
-        return true;
-    }
 }

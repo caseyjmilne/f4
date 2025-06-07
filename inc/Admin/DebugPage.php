@@ -24,9 +24,10 @@ class DebugPage {
         }
 
         echo '<form method="post">';
-        echo '<button class="button button-primary" name="run_test" value="clone_table">Test: Clone Table</button> ';
+        echo '<button class="button" name="run_test" value="clone_table">Test: Clone Table</button> ';
         echo '<button class="button" name="run_test" value="add_column">Test: Add Column</button> ';
         echo '<button class="button" name="run_test" value="list_field_types">Test: List Field Types</button>';
+        echo '<button class="button" name="run_test" value="api_field_type_response">Test: API Field Type Response</button>';
         echo '</form></div>';
     }
 }
