@@ -115,6 +115,10 @@ class PropertyController {
         update_post_meta($post_id, 'name', sanitize_text_field($data['name']));
         update_post_meta($post_id, 'model_id', (int) $data['model_id']);
 
+        if (!empty($data['settings']) && is_array($data['settings'])) {
+            update_post_meta($post_id, 'settings', $data['settings']);
+        }
+
         $post = get_post($post_id);
         return (new PropertyInstance($post))->to_array();
     }
@@ -149,6 +153,10 @@ class PropertyController {
 
         if (isset($data['model_id'])) {
             update_post_meta($id, 'model_id', (int) $data['model_id']);
+        }
+
+        if (isset($data['settings']) && is_array($data['settings'])) {
+            update_post_meta($id, 'settings', $data['settings']);
         }
 
         $post = get_post($id);

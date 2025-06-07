@@ -6,11 +6,11 @@ class PropertyInstance {
 
     protected $id;
     protected $model_id;
+    protected $parent_id = 0;
     protected $key;
     protected $name;
     protected $type;
-    protected $parent_id = 0;
-    protected $test = 132;
+    protected $settings;
 
     public function __construct(\WP_Post $post) {
         $this->id = $post->ID;
@@ -19,6 +19,7 @@ class PropertyInstance {
         $this->name = get_post_meta($post->ID, 'name', true);
         $this->type = get_post_meta($post->ID, 'type', true);
         $this->parent_id = (int) get_post_meta($post->ID, 'parent_id', true) ?: 0;
+        $this->settings = get_post_meta($post->ID, 'settings', true);
     }
 
     public function getId() {
@@ -45,14 +46,19 @@ class PropertyInstance {
         return $this->parent_id;
     }
 
+    public function getSettings() {
+        return $this->settings;
+    }
+
     public function to_array(): array {
         return [
-            'id' => $this->id,
-            'model_id' => $this->model_id,
-            'key' => $this->key,
-            'name' => $this->name,
-            'type' => $this->type,
-            'parent_id' => $this->getParentId(), // ensures 0 is included
+            'id'        => $this->id,
+            'model_id'  => $this->model_id,
+            'key'       => $this->key,
+            'name'      => $this->name,
+            'type'      => $this->type,
+            'parent_id' => $this->getParentId(),
+            'settings'  => $this->getSettings(),
         ];
     }
 
