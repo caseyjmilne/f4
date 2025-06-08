@@ -20,8 +20,6 @@ export default class SelectFilter extends FacetFilterBase {
       this.select.appendChild(option);
     });
 
-    this.container.innerHTML = '';
-
     if (this.label) {
       const labelElem = document.createElement('label');
       labelElem.htmlFor = this.select.id;

@@ -17,9 +17,20 @@
         </label>
     </div>
 
-    <div id="records" class="archive__records">
+    <div id="records" class="archive__records" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
         Loading...
     </div>
+
+    <template id="record-template">
+        <div class="archive__record">
+            <img class="archive__record-image" src="{image}" alt="{title}">
+            <div class="archive__record-content">
+                <h3 class="archive__record-title">{title}</h3>
+                <p class="archive__record-summary">{summary}</p>
+                <p class="archive__record-author">By {author}</p>
+            </div>
+        </div>
+    </template>
 
     <div class="archive__pagination">
         <button class="archive__pagination-btn">Prev</button>
@@ -29,14 +40,34 @@
 </div>
 
 <script>
+const archiveConfig = {
+    recordsPerRow: 3,
+    // Add more config options as needed
+};
+
 document.addEventListener('DOMContentLoaded', function() {
+    // Set grid columns based on config
+    const recordsContainer = document.getElementById('records');
+    recordsContainer.style.display = 'grid';
+    recordsContainer.style.gridTemplateColumns = `repeat(${archiveConfig.recordsPerRow}, 1fr)`;
+    recordsContainer.style.gap = '24px';
+
     fetch('/wp-json/f4/v1/collection/refresh')
         .then(response => response.json())
         .then(data => {
-            document.getElementById('records').textContent = 'Response: ' + JSON.stringify(data);
+            const template = document.getElementById('record-template').innerHTML;
+            recordsContainer.innerHTML = '';
+            data.forEach(record => {
+                let html = template
+                    .replace(/{image}/g, record.image)
+                    .replace(/{title}/g, record.title)
+                    .replace(/{summary}/g, record.summary)
+                    .replace(/{author}/g, record.author);
+                recordsContainer.insertAdjacentHTML('beforeend', html);
+            });
         })
         .catch(error => {
-            document.getElementById('records').textContent = 'Error: ' + error;
+            recordsContainer.textContent = 'Error: ' + error;
         });
 });
 </script>

@@ -24,7 +24,7 @@ class CollectionRoutes {
             $record->title = "Record Title $i";
             $record->description = "Description for record $i.";
             $record->summary = "Summary $i";
-            $record->image = "https://via.placeholder.com/150?text=Image+$i";
+            $record->image = "https://placehold.co/300x200?text=Image+$i";
             $record->author = "Author $i";
             $records[] = $record;
         }
