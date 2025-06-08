@@ -26,7 +26,6 @@ export default function EditPropertyForm({ property, onSave, onCancel }) {
 
     fetchFieldTypeDetails(formData.type)
       .then(data => {
-        console.log('Field type details:', data);
 
         const supported = Array.isArray(data.supportedSettings) ? data.supportedSettings : [];
         setFieldSettings(supported);

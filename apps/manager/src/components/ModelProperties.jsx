@@ -10,6 +10,9 @@ import PropertyList from './PropertyList';
 import AddPropertyForm from './AddPropertyForm';
 import EditPropertyForm from './EditPropertyForm';
 import Modal from './Modal';
+import { DndContext, closestCenter, DragOverlay } from '@dnd-kit/core';
+import PropertyItem from './PropertyItem'; // or whatever you want to show as overlay
+import { handlePropertyDragEnd } from '../dnd/handlePropertyDragEnd';
 
 function ModelProperties({ selectedModelId }) {
   const [properties, setProperties] = useState([]);
@@ -17,7 +20,8 @@ function ModelProperties({ selectedModelId }) {
   const [showEditPropertyModal, setShowEditPropertyModal] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [propertyToDelete, setPropertyToDelete] = useState(null);
-  const [activeId, setActiveId] = useState(null); // <-- Add this line
+  const [activeId, setActiveId] = useState(null);
+  const [draggedProperty, setDraggedProperty] = useState(null);
 
   useEffect(() => {
     if (!selectedModelId) return;
@@ -30,9 +34,6 @@ function ModelProperties({ selectedModelId }) {
   }, [selectedModelId]);
 
   const handleAddProperty = async (property) => {
-
-    console.log('property at 33 ModelProperties')
-    console.log(property)
 
     try {
       const created = await createProperty({ ...property, model_id: selectedModelId });
@@ -104,75 +105,190 @@ function ModelProperties({ selectedModelId }) {
     }
   };
 
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+    setActiveId(null);
+    setDraggedProperty(null);
+
+    if (!over) return;
+
+    // DropZone id format: dropzone-parentId-index
+    if (over.id.startsWith('dropzone-')) {
+      const [, parentIdStr, indexStr] = over.id.split('-');
+      const newParentId = Number(parentIdStr);
+      const insertAt = Number(indexStr);
+
+      // Remove dragged from its old position
+      const withoutDragged = properties.filter(p => p.id !== active.id);
+
+      // Find siblings in new parent
+      const siblings = withoutDragged.filter(p => (p.parent_id ?? 0) === newParentId);
+
+      // Insert at the correct position
+      const newSiblings = [
+        ...siblings.slice(0, insertAt),
+        { ...properties.find(p => p.id === active.id), parent_id: newParentId },
+        ...siblings.slice(insertAt),
+      ];
+
+      // Reassign order
+      const reordered = newSiblings.map((item, idx) => ({
+        ...item,
+        order: idx,
+        parent_id: newParentId,
+      }));
+
+      // Merge back into properties
+      const updatedProperties = withoutDragged
+        .filter(p => (p.parent_id ?? 0) !== newParentId)
+        .concat(reordered);
+
+      setProperties(updatedProperties);
+      handleReorder(reordered, newParentId);
+      return;
+    }
+
+    // Fallback: dropped on an item (could be child or sibling)
+    const dragged = properties.find(p => p.id === active.id);
+    if (!dragged) return;
+
+    const overProp = properties.find(p => p.id === over.id);
+
+    let newParentId = 0;
+    if (overProp && ['group', 'repeater'].includes(overProp.type)) {
+      newParentId = overProp.id;
+    } else if (overProp) {
+      newParentId = overProp.parent_id ?? 0;
+    } else {
+      // Dropped at root level (not on an item)
+      newParentId = 0;
+    }
+
+    const siblings = properties
+      .filter(p => (p.parent_id ?? 0) === newParentId && p.id !== dragged.id);
+
+    const overIndex = siblings.findIndex(p => p.id === over.id);
+    const insertAt = overIndex === -1 ? siblings.length : overIndex;
+
+    const newSiblings = [
+      ...siblings.slice(0, insertAt),
+      { ...dragged, parent_id: newParentId },
+      ...siblings.slice(insertAt)
+    ];
+
+    const reordered = newSiblings.map((item, idx) => ({
+      ...item,
+      order: idx,
+      parent_id: newParentId,
+    }));
+
+    // Only remove the dragged item, not all siblings
+    const updatedProperties = properties
+      .filter(p => p.id !== dragged.id)
+      .concat(reordered);
+
+    setProperties(updatedProperties);
+
+    handleReorder(reordered, newParentId);
+  };
+
   if (!selectedModelId) return null;
 
-  console.log('Properties at 75, ModelProperties.jsx')
-  console.log(properties)
-
   return (
-    <>
-      <header className="model-properties-header">
-        <h3>Model Properties</h3>
-        <button
-          className="f4-button"
-          onClick={() => setShowAddPropertyModal(true)}
-        >
-          + Property
-        </button>
-      </header>
+    <DndContext
+      collisionDetection={closestCenter}
+      onDragEnd={event =>
+        handlePropertyDragEnd({
+          event,
+          properties,
+          setProperties,
+          handleReorder,
+          setActiveId,
+          setDraggedProperty,
+        })
+      }
+      onDragStart={event => {
+        setActiveId(event.active.id);
+        setDraggedProperty(properties.find(p => p.id === event.active.id));
+      }}
+    >
+      <>
+        <header className="model-properties-header">
+          <h3>Model Properties</h3>
+          <button
+            className="f4-button"
+            onClick={() => setShowAddPropertyModal(true)}
+          >
+            + Property
+          </button>
+        </header>
 
-      <PropertyList
-        properties={properties}
-        onEditClick={handleEditClick}
-        onDelete={handleDelete}
-        onAdd={handleAddProperty}
-        onReorder={handleReorder}
-        activeId={activeId}           // <-- Add this line
-        setActiveId={setActiveId}     // <-- Add this line
-      />
-
-      {showAddPropertyModal && (
-        <AddPropertyForm
-          onSubmit={handleAddProperty}
-          onCancel={() => setShowAddPropertyModal(false)}
+        <PropertyList
+          properties={properties}
+          onEditClick={handleEditClick}
+          onDelete={handleDelete}
+          onAdd={handleAddProperty}
+          onReorder={handleReorder}
+          parentId={0}
+          level={0}
+          activeId={activeId}
+          setActiveId={setActiveId}
         />
-      )}
 
-      {showEditPropertyModal && selectedProperty && (
-        <EditPropertyForm
-          property={selectedProperty}
-          onSave={handleEditSave}
-          onCancel={() => {
-            setShowEditPropertyModal(false);
-            setSelectedProperty(null);
-          }}
-        />
-      )}
+        {showAddPropertyModal && (
+          <AddPropertyForm
+            onSubmit={handleAddProperty}
+            onCancel={() => setShowAddPropertyModal(false)}
+          />
+        )}
 
-      {/* Delete confirmation modal */}
-      {propertyToDelete !== null && (
-        <Modal isOpen={true} onClose={() => setPropertyToDelete(null)}>
-          <div className="f4-modal-confirm">
-            <h4>Confirm Delete</h4>
-            <p>Are you sure you want to delete this property?</p>
-            <div className="f4-form-actions">
-              <button
-                className="f4-button f4-button--secondary"
-                onClick={() => setPropertyToDelete(null)}
-              >
-                Cancel
-              </button>
-              <button
-                className="f4-button f4-button--danger"
-                onClick={confirmDelete}
-              >
-                Delete
-              </button>
+        {showEditPropertyModal && selectedProperty && (
+          <EditPropertyForm
+            property={selectedProperty}
+            onSave={handleEditSave}
+            onCancel={() => {
+              setShowEditPropertyModal(false);
+              setSelectedProperty(null);
+            }}
+          />
+        )}
+
+        {/* Delete confirmation modal */}
+        {propertyToDelete !== null && (
+          <Modal isOpen={true} onClose={() => setPropertyToDelete(null)}>
+            <div className="f4-modal-confirm">
+              <h4>Confirm Delete</h4>
+              <p>Are you sure you want to delete this property?</p>
+              <div className="f4-form-actions">
+                <button
+                  className="f4-button f4-button--secondary"
+                  onClick={() => setPropertyToDelete(null)}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="f4-button f4-button--danger"
+                  onClick={confirmDelete}
+                >
+                  Delete
+                </button>
+              </div>
             </div>
-          </div>
-        </Modal>
-      )}
-    </>
+          </Modal>
+        )}
+
+        <DragOverlay>
+          {draggedProperty ? (
+            <PropertyItem
+              property={draggedProperty}
+              properties={properties}
+              level={0}
+              // pass other props as needed
+            />
+          ) : null}
+        </DragOverlay>
+      </>
+    </DndContext>
   );
 }
 
