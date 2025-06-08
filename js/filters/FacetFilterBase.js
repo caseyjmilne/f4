@@ -37,7 +37,7 @@ export default class FacetFilterBase {
   }
 
   dispatch() {
-    const event = new CustomEvent("facetFilterChange", {
+    const event = new CustomEvent("facet-filter-change", {
       detail: {
         id: this.id,
         value: this.currentValue,

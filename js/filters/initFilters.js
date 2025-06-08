@@ -1,12 +1,16 @@
 import SelectFilter from './SelectFilter.js';
 
-// Filters (will be from API or localized JSON). 
-const filters = 
-[
-  { id: 'category', label: 'Category', options: [{ value: 'all', label: 'All' }, { value: 'books', label: 'Books' }, { value: 'electronics', label: 'Electronics' }] },
-  { id: 'price', label: 'Price Range', options: [{ value: 'all', label: 'All' }, { value: 'low', label: 'Low' }, { value: 'high', label: 'High' }] }
+// Single filter: Numbers 5-15
+const filters = [
+  {
+    id: 'field1_min',
+    label: 'Minimum Value',
+    options: Array.from({ length: 11 }, (_, i) => {
+      const value = i + 5;
+      return { value, label: value.toString() };
+    }),
+  },
 ];
-
 
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.getElementById('filter-container');

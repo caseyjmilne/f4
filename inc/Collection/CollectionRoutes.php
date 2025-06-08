@@ -18,11 +18,31 @@ class CollectionRoutes {
     public static function refresh_collection($request) {
         $records = [];
 
-        $query = new \WP_Query([
+        // Example: get filter value from request (e.g., ?field1_min=10)
+        $field1_min = $request->get_param('field1_min');
+
+        // Build meta_query if filter is present
+        $meta_query = [];
+        if ($field1_min !== null && $field1_min !== '') {
+            $meta_query[] = [
+                'key'     => 'field1',
+                'value'   => $field1_min,
+                'type'    => 'NUMERIC',
+                'compare' => '>=',
+            ];
+        }
+
+        $query_args = [
             'post_type'      => 'country',
             'posts_per_page' => 5,
             'post_status'    => 'publish',
-        ]);
+        ];
+
+        if (!empty($meta_query)) {
+            $query_args['meta_query'] = $meta_query;
+        }
+
+        $query = new \WP_Query($query_args);
 
         if ($query->have_posts()) {
             while ($query->have_posts()) {

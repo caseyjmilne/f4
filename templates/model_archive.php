@@ -45,14 +45,19 @@ const archiveConfig = {
     // Add more config options as needed
 };
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Set grid columns based on config
+let filters = {}; // Store filter values here
+
+function fetchAndRenderRecords() {
     const recordsContainer = document.getElementById('records');
     recordsContainer.style.display = 'grid';
     recordsContainer.style.gridTemplateColumns = `repeat(${archiveConfig.recordsPerRow}, 1fr)`;
     recordsContainer.style.gap = '24px';
 
-    fetch('/wp-json/f4/v1/collection/refresh')
+    // Build query string from filters
+    const params = new URLSearchParams(filters).toString();
+    const url = '/wp-json/f4/v1/collection/refresh' + (params ? `?${params}` : '');
+
+    fetch(url)
         .then(response => response.json())
         .then(data => {
             const template = document.getElementById('record-template').innerHTML;
@@ -69,6 +74,17 @@ document.addEventListener('DOMContentLoaded', function() {
         .catch(error => {
             recordsContainer.textContent = 'Error: ' + error;
         });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    fetchAndRenderRecords();
+
+    // Listen for filter changes
+    window.addEventListener('facet-filter-change', function(e) {
+        // e.detail.id and e.detail.value
+        filters[e.detail.id] = e.detail.value;
+        fetchAndRenderRecords();
+    });
 });
 </script>
 
