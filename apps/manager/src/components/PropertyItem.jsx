@@ -3,7 +3,7 @@ import Modal from './Modal';
 import AddPropertyForm from './AddPropertyForm';
 import PropertyList from './PropertyList';
 
-function PropertyItem({ property, properties, onEditClick, onDelete, onAdd, level = 0, dragHandleProps }) {
+function PropertyItem({ property, properties, onEditClick, onDelete, onAdd, onReorder, level = 0, dragHandleProps, activeId, setActiveId }) {
   const [showAddChildModal, setShowAddChildModal] = useState(false);
   const supportsNested = ['group', 'repeater'].includes(property.type);
 
@@ -28,8 +28,11 @@ function PropertyItem({ property, properties, onEditClick, onDelete, onAdd, leve
           onEditClick={onEditClick}
           onDelete={onDelete}
           onAdd={onAdd}
+          onReorder={onReorder}
           parentId={property.id}
           level={level + 1}
+          activeId={activeId}
+          setActiveId={setActiveId}
         />
       )}
 

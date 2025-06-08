@@ -1,50 +1,52 @@
-import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
+import React from 'react';
 import {
   SortableContext,
   verticalListSortingStrategy,
-  arrayMove,
 } from '@dnd-kit/sortable';
 
 import SortablePropertyItem from './SortablePropertyItem';
+import DropZone from './DropZone';
 
-function PropertyList({ properties, onEditClick, onDelete, onAdd, onReorder, parentId = 0, level = 0 }) {
+function PropertyList({
+  properties,
+  onEditClick,
+  onDelete,
+  onAdd,
+  onReorder = () => {},
+  parentId = 0,
+  level = 0,
+  activeId,
+  setActiveId,
+}) {
   const filtered = properties.filter((p) => (p.parent_id ?? 0) === parentId);
-  const itemIds = filtered.map((p) => p.id);
-
-  const sensors = useSensors(useSensor(PointerSensor));
-
-  const handleDragEnd = (event) => {
-    const { active, over } = event;
-
-    if (active.id !== over?.id) {
-      const oldIndex = filtered.findIndex((item) => item.id === active.id);
-      const newIndex = filtered.findIndex((item) => item.id === over?.id);
-
-      const newOrder = arrayMove(filtered, oldIndex, newIndex);
-
-      onReorder(newOrder, parentId);
-    }
-  };
+  const visibleItems = activeId ? filtered.filter(p => p.id !== activeId) : filtered;
+  const visibleItemIds = visibleItems.map((p) => p.id);
 
   return (
-    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-      <SortableContext items={itemIds} strategy={verticalListSortingStrategy}>
-        <ul className={`property-list level-${level}`}>
-          {filtered.map((prop) => (
+    <SortableContext items={visibleItemIds} strategy={verticalListSortingStrategy}>
+      <ul className={`property-list level-${level}`}>
+        {/* Drop zone at the very top */}
+        <DropZone id={`dropzone-${parentId}-0`} />
+        {visibleItems.map((prop, idx) => (
+          <React.Fragment key={prop.id}>
             <SortablePropertyItem
-              key={prop.id}
               property={prop}
               properties={properties}
               onEditClick={onEditClick}
               onDelete={onDelete}
               onAdd={onAdd}
-              level={level}
+              onReorder={onReorder}
               parentId={parentId}
+              level={level}
+              activeId={activeId}
+              setActiveId={setActiveId}
             />
-          ))}
-        </ul>
-      </SortableContext>
-    </DndContext>
+            {/* Drop zone after each item */}
+            <DropZone id={`dropzone-${parentId}-${idx + 1}`} />
+          </React.Fragment>
+        ))}
+      </ul>
+    </SortableContext>
   );
 }
 

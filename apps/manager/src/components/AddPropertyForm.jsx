@@ -25,7 +25,6 @@ function AddPropertyForm({ parentId = 0, onSubmit, onCancel }) {
 
     fetchFieldTypeDetails(type)
       .then(data => {
-        console.log('Field type details:', data);
 
         const supported = Array.isArray(data.supportedSettings) ? data.supportedSettings : [];
 
