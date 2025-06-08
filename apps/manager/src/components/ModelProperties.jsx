@@ -17,6 +17,7 @@ function ModelProperties({ selectedModelId }) {
   const [showEditPropertyModal, setShowEditPropertyModal] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [propertyToDelete, setPropertyToDelete] = useState(null);
+  const [activeId, setActiveId] = useState(null); // <-- Add this line
 
   useEffect(() => {
     if (!selectedModelId) return;
@@ -126,6 +127,8 @@ function ModelProperties({ selectedModelId }) {
         onDelete={handleDelete}
         onAdd={handleAddProperty}
         onReorder={handleReorder}
+        activeId={activeId}           // <-- Add this line
+        setActiveId={setActiveId}     // <-- Add this line
       />
 
       {showAddPropertyModal && (

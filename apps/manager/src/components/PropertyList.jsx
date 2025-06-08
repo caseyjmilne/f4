@@ -1,4 +1,11 @@
-import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  useSensor,
+  useSensors
+} from '@dnd-kit/core';
+
 import {
   SortableContext,
   verticalListSortingStrategy,
@@ -7,7 +14,17 @@ import {
 
 import SortablePropertyItem from './SortablePropertyItem';
 
-function PropertyList({ properties, onEditClick, onDelete, onAdd, onReorder, parentId = 0, level = 0 }) {
+function PropertyList({
+  properties,
+  onEditClick,
+  onDelete,
+  onAdd,
+  onReorder = () => {}, // fallback to avoid TypeError
+  parentId = 0,
+  level = 0,
+  activeId,
+  setActiveId,
+}) {
   const filtered = properties.filter((p) => (p.parent_id ?? 0) === parentId);
   const itemIds = filtered.map((p) => p.id);
 
@@ -15,19 +32,26 @@ function PropertyList({ properties, onEditClick, onDelete, onAdd, onReorder, par
 
   const handleDragEnd = (event) => {
     const { active, over } = event;
+    setActiveId(null);
 
-    if (active.id !== over?.id) {
-      const oldIndex = filtered.findIndex((item) => item.id === active.id);
-      const newIndex = filtered.findIndex((item) => item.id === over?.id);
+    if (!over || active.id === over.id) return;
 
-      const newOrder = arrayMove(filtered, oldIndex, newIndex);
+    const oldIndex = filtered.findIndex((item) => item.id === active.id);
+    const newIndex = filtered.findIndex((item) => item.id === over.id);
 
-      onReorder(newOrder, parentId);
-    }
+    if (oldIndex === -1 || newIndex === -1) return;
+
+    const newOrder = arrayMove(filtered, oldIndex, newIndex);
+    onReorder(newOrder, parentId);
   };
 
   return (
-    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragEnd={handleDragEnd}
+      onDragStart={(event) => setActiveId(event.active.id)}
+    >
       <SortableContext items={itemIds} strategy={verticalListSortingStrategy}>
         <ul className={`property-list level-${level}`}>
           {filtered.map((prop) => (
@@ -38,8 +62,11 @@ function PropertyList({ properties, onEditClick, onDelete, onAdd, onReorder, par
               onEditClick={onEditClick}
               onDelete={onDelete}
               onAdd={onAdd}
-              level={level}
+              onReorder={onReorder}
               parentId={parentId}
+              level={level}
+              activeId={activeId}
+              setActiveId={setActiveId}
             />
           ))}
         </ul>
