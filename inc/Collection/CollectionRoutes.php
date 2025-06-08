@@ -1,6 +1,8 @@
 <?php
 
-namespace F4;
+namespace F4\Collection;
+
+use \F4\Record\Record;
 
 class CollectionRoutes {
     public static function register_routes() {
@@ -14,9 +16,19 @@ class CollectionRoutes {
     }
 
     public static function refresh_collection($request) {
-        return rest_ensure_response(1);
+        $records = [];
+
+        for ($i = 1; $i <= 5; $i++) {
+            $record = new Record();
+            $record->id = $i;
+            $record->title = "Record Title $i";
+            $record->description = "Description for record $i.";
+            $record->summary = "Summary $i";
+            $record->image = "https://via.placeholder.com/150?text=Image+$i";
+            $record->author = "Author $i";
+            $records[] = $record;
+        }
+
+        return rest_ensure_response($records);
     }
 }
-
-// Register the routes when plugins are loaded
-add_action('plugins_loaded', [\F4\CollectionRoutes::class, 'register_routes']);

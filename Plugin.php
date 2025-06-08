@@ -109,6 +109,10 @@ class Plugin {
         // Collections
         require_once( F4_PATH . '/inc/Collection/CollectionController.php' );
         require_once( F4_PATH . '/inc/Collection/CollectionRoutes.php' );
+        \F4\Collection\CollectionRoutes::register_routes();
+
+        // Records 
+        require_once( F4_PATH . '/inc/Record/Record.php' );
 
 
         // Initialize main admin menu
