@@ -106,10 +106,17 @@ class Plugin {
         // React Integration
         require_once( F4_PATH . '/inc/React/ReactBuildIntegration.php' );
 
+        // Collections
+        require_once( F4_PATH . '/inc/Collection/CollectionController.php' );
+        require_once( F4_PATH . '/inc/Collection/CollectionRoutes.php' );
+
+
         // Initialize main admin menu
         if ( is_admin() ) {
             new \F4\Admin\AdminMenu();
         }
+
+        add_action('wp_enqueue_scripts', [$this, 'f4_enqueue_facet_filter_modules']);
 
     }
 
@@ -120,6 +127,50 @@ class Plugin {
 
     public static function deactivate() {
         
+    }
+
+    function f4_enqueue_facet_filter_modules() {
+        
+        $url = F4_URL . 'js/filters/';
+
+        wp_register_script_module(
+            'f4-filter-base',
+            F4_URL . 'js/filters/FacetFilterBase.js'
+        );
+        wp_register_script_module(
+            'f4-select-filter',
+            F4_URL . 'js/filters/SelectFilter.js',
+        [
+            ['id' => 'f4-filter-base', 'import' => 'static']
+        ]
+        );
+        wp_enqueue_script_module(
+            'f4-select-filter-init',
+            F4_URL . 'js/filters/initFilters.js',
+        [
+            ['id' => 'f4-select-filter', 'import' => 'static']
+        ]
+        );
+
+
+    }
+
+    function f4_enqueue_facet_filter_styles() {
+        // Enqueue base filter styles
+        wp_enqueue_style(
+            'f4-facet-filter-base',
+            F4_URL . 'css/filters/FacetFilterBase.css',
+            [],
+            null
+        );
+
+        // Enqueue select filter styles
+        wp_enqueue_style(
+            'f4-select-filter',
+            F4_URL . 'css/filters/SelectFilter.css',
+            [],
+            null
+        );
     }
 
 }
