@@ -19,14 +19,15 @@ function PropertyList({
   setActiveId,
 }) {
   const filtered = properties.filter((p) => (p.parent_id ?? 0) === parentId);
-  const visibleItemIds = filtered.map((p) => p.id);
+  const visibleItems = activeId ? filtered.filter(p => p.id !== activeId) : filtered;
+  const visibleItemIds = visibleItems.map((p) => p.id);
 
   return (
     <SortableContext items={visibleItemIds} strategy={verticalListSortingStrategy}>
       <ul className={`property-list level-${level}`}>
         {/* Drop zone at the very top */}
         <DropZone id={`dropzone-${parentId}-0`} />
-        {filtered.map((prop, idx) => (
+        {visibleItems.map((prop, idx) => (
           <React.Fragment key={prop.id}>
             <SortablePropertyItem
               property={prop}
