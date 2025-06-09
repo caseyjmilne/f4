@@ -96,6 +96,9 @@ class Plugin {
         require_once( F4_PATH . '/inc/Front/PropertyLoader.php' );
         new \F4\Front\TemplateLoader();
 
+        // Auth 
+        require_once( F4_PATH . '/inc/Auth/Permission.php' );
+
         // Tests
         require_once( F4_PATH . '/inc/Tests/TestCaseInterface.php' );
         require_once( F4_PATH . '/inc/Tests/TestRunner.php' );

@@ -2,14 +2,18 @@
 
 export async function fetchModels() {
   try {
-    const response = await fetch('http://test1.local/wp-json/f4/v1/model');
+    const response = await fetch('http://test1.local/wp-json/f4/v1/model', {
+      headers: {
+        Authorization: 'Bearer butter',
+      },
+    });
     if (!response.ok) {
       throw new Error(`HTTP error ${response.status}`);
     }
     return await response.json();
   } catch (err) {
     console.error('Failed to load models:', err);
-    return []; // return empty array on error
+    return [];
   }
 }
 

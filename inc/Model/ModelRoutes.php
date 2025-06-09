@@ -5,6 +5,7 @@ namespace F4\Model;
 use WP_REST_Request;
 use WP_Error;
 use function rest_ensure_response;
+use F4\Auth\Permission;
 
 class ModelRoutes {
 
@@ -22,7 +23,7 @@ class ModelRoutes {
         register_rest_route($namespace, '/' . $base, [
             'methods' => 'GET',
             'callback' => [$this, 'getModels'],
-            'permission_callback' => '__return_true',
+            'permission_callback' => Permission::allow_admin_or_key(),
         ]);
 
         register_rest_route($namespace, '/' . $base . '/(?P<id>\d+)', [
