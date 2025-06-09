@@ -22,6 +22,11 @@ class ReactBuildIntegration {
 
         if ($jsFile) {
             wp_enqueue_script('f4-react-script', $this->assetUrl . '/' . $jsFile, [], null, true);
+
+            // Localize the REST nonce for authenticated requests
+            wp_localize_script('f4-react-script', 'wpApiSettings', [
+                'nonce' => wp_create_nonce('wp_rest')
+            ]);
         }
     }
 

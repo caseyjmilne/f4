@@ -6,11 +6,14 @@ const API_BASE = 'http://test1.local/wp-json/f4/v1';
 export async function smartFetch(path, options = {}) {
   const url = new URL(`${API_BASE}/${path}`);
 
+  options.headers = {
+    ...(options.headers || {}),
+  };
+
   if (isStandaloneDevMode()) {
-    options.headers = {
-      ...(options.headers || {}),
-      Authorization: `Bearer ${SECRET_KEY}`,
-    };
+    options.headers.Authorization = `Bearer ${SECRET_KEY}`;
+  } else if (window.wpApiSettings && window.wpApiSettings.nonce) {
+    options.headers['X-WP-Nonce'] = window.wpApiSettings.nonce;
   }
 
   const response = await fetch(url.toString(), options);
