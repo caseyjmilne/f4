@@ -63,7 +63,15 @@ abstract class BaseField {
         return [];
     }
 
-    // Optional getter for templates
+    
+    public function getSettings() {
+        return $this->settings;
+    }
+
+    public function setSettings( $settings ) {
+        $this->settings = $settings;
+    }
+
     public function getSetting(string $key, $default = null) {
         return $this->settings[$key] ?? $default;
     }

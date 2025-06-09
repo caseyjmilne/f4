@@ -48,6 +48,7 @@ class FieldRenderer {
         wp_nonce_field('f4_fields_nonce_action', 'f4_fields_nonce');
 
         foreach ($model->getProperties() as $property) {
+
             $key   = $property->getKey();
             $name  = $property->getName();
             $type  = $property->getType();
@@ -58,6 +59,7 @@ class FieldRenderer {
             if ($field_class && class_exists($field_class)) {
                 // Pass $post and $property to constructor as required
                 $field_instance = new $field_class($key, $name, [], $post->ID);
+                $field_instance->setSettings( $property->getSettings() );
 
                 if (method_exists($field_instance, 'render')) {
                     $field_instance->render();

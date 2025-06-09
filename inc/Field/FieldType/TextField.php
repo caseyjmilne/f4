@@ -14,11 +14,20 @@ class TextField extends BaseField {
         $value = esc_attr($this->getValue());
         $key = esc_attr($this->key);
         $name = esc_html($this->name);
-        $append = esc_html($this->getSetting('append', ''));
+        $append = esc_html($this->getSetting('append'));
+        $prepend = esc_html($this->getSetting('prepend'));
+        $placeholder = esc_attr($this->getSetting('placeholder'));
+        $maxLength = $this->getSetting('maxLength');
 
         echo "<p><label for='{$key}'><strong>{$name}</strong></label><br/>";
-        echo "<input type='text' name='{$key}' id='{$key}' value='{$value}' class='widefat' />";
-        if ($append !== '') {
+        if ($prepend !== null && $prepend !== '') {
+            echo "<span class='f4-prepend'>{$prepend}</span> ";
+        }
+        echo "<input type='text' name='{$key}' id='{$key}' value='{$value}'"
+            . ($placeholder ? " placeholder='{$placeholder}'" : "")
+            . ($maxLength ? " maxlength='{$maxLength}'" : "")
+            . " />";
+        if ($append !== null && $append !== '') {
             echo " <span class='f4-append'>{$append}</span>";
         }
         echo "</p>";
