@@ -39,52 +39,101 @@
     </div>
 </div>
 
-<script>
+<script type="module">
+import SelectFilter from '/wp-content/plugins/f4/js/filters/SelectFilter.js';
+
 const archiveConfig = {
     recordsPerRow: 3,
     // Add more config options as needed
 };
 
-let filters = {}; // Store filter values here
+let filters = {}; // { [filterId]: value }
+
+function getActiveFiltersPayload() {
+  return filterDefinitions
+    .map(def => ({
+      id: def.id,
+      type: def.type,
+      metaKey: def.metaKey,
+      metaType: def.metaType,
+      compare: def.compare, // Include compare
+      value: filters[def.id] ?? '',
+    }))
+    .filter(f => f.value !== '');
+}
 
 function fetchAndRenderRecords() {
-    const recordsContainer = document.getElementById('records');
-    recordsContainer.style.display = 'grid';
-    recordsContainer.style.gridTemplateColumns = `repeat(${archiveConfig.recordsPerRow}, 1fr)`;
-    recordsContainer.style.gap = '24px';
+  const recordsContainer = document.getElementById('records');
+  recordsContainer.style.display = 'grid';
+  recordsContainer.style.gridTemplateColumns = `repeat(${archiveConfig.recordsPerRow}, 1fr)`;
+  recordsContainer.style.gap = '24px';
 
-    // Build query string from filters
-    const params = new URLSearchParams(filters).toString();
-    const url = '/wp-json/f4/v1/collection/refresh' + (params ? `?${params}` : '');
+  // Send all filters as a JSON string in a single param
+  const filterPayload = encodeURIComponent(JSON.stringify(getActiveFiltersPayload()));
+  const url = '/wp-json/f4/v1/collection/refresh' + (filterPayload ? `?filters=${filterPayload}` : '');
 
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            const template = document.getElementById('record-template').innerHTML;
-            recordsContainer.innerHTML = '';
-            data.forEach(record => {
-                let html = template
-                    .replace(/{image}/g, record.image)
-                    .replace(/{title}/g, record.title)
-                    .replace(/{summary}/g, record.summary)
-                    .replace(/{author}/g, record.author);
-                recordsContainer.insertAdjacentHTML('beforeend', html);
-            });
-        })
-        .catch(error => {
-            recordsContainer.textContent = 'Error: ' + error;
-        });
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      const template = document.getElementById('record-template').innerHTML;
+      recordsContainer.innerHTML = '';
+      data.forEach(record => {
+        let html = template
+          .replace(/{image}/g, record.image)
+          .replace(/{title}/g, record.title)
+          .replace(/{summary}/g, record.summary)
+          .replace(/{author}/g, record.author);
+        recordsContainer.insertAdjacentHTML('beforeend', html);
+      });
+    })
+    .catch(error => {
+      recordsContainer.textContent = 'Error: ' + error;
+    });
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    fetchAndRenderRecords();
+  fetchAndRenderRecords();
 
-    // Listen for filter changes
-    window.addEventListener('facet-filter-change', function(e) {
-        // e.detail.id and e.detail.value
-        filters[e.detail.id] = e.detail.value;
-        fetchAndRenderRecords();
-    });
+  window.addEventListener('facet-filter-change', function(e) {
+    filters[e.detail.id] = e.detail.value;
+    fetchAndRenderRecords();
+  });
+});
+
+// Single filter: Numbers 5-15
+const filterDefinitions = [
+  {
+    id: 'field1_min',
+    label: 'Minimum Value',
+    metaKey: 'field1',
+    type: 'select',
+    metaType: 'NUMERIC',
+    compare: '>=', // Explicitly set compare
+    options: Array.from({ length: 11 }, (_, i) => {
+      const value = i + 5;
+      return { value, label: value.toString() };
+    }),
+  },
+  {
+    id: 'field2-filter',
+    label: 'Field 2',
+    metaKey: 'field2',
+    type: 'select',
+    metaType: 'CHAR',
+    compare: '=', // Explicitly set compare
+    options: [
+      { value: '', label: 'Any' }, // <-- Add this line
+      { value: 'A', label: 'A' },
+      { value: 'B', label: 'B' },
+      { value: 'C', label: 'C' },
+    ],
+  },
+];
+
+const container = document.getElementById('filter-container');
+filterDefinitions.forEach(f => {
+  const filter = new SelectFilter(container, f);
+  filter.init();
 });
 </script>
 

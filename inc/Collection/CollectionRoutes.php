@@ -18,22 +18,27 @@ class CollectionRoutes {
     public static function refresh_collection($request) {
         $records = [];
 
-        // Example: get filter value from request (e.g., ?field1_min=10)
-        $field1_min = $request->get_param('field1_min');
-
-        // Build meta_query if filter is present
+        $filters_json = $request->get_param('filters');
         $meta_query = [];
-        if ($field1_min !== null && $field1_min !== '') {
-            $meta_query[] = [
-                'key'     => 'field1',
-                'value'   => $field1_min,
-                'type'    => 'NUMERIC',
-                'compare' => '>=',
-            ];
+
+        if ($filters_json) {
+            $filters = json_decode($filters_json, true);
+            if (is_array($filters)) {
+                foreach ($filters as $filter) {
+                    if (!empty($filter['metaKey']) && isset($filter['value']) && $filter['value'] !== '') {
+                        $meta_query[] = [
+                            'key'     => $filter['metaKey'],
+                            'value'   => $filter['value'],
+                            'compare' => !empty($filter['compare']) ? $filter['compare'] : '=',
+                            'type'    => !empty($filter['metaType']) ? $filter['metaType'] : 'CHAR',
+                        ];
+                    }
+                }
+            }
         }
 
         $query_args = [
-            'post_type'      => 'country',
+            'post_type'      => 'testz',
             'posts_per_page' => 5,
             'post_status'    => 'publish',
         ];
@@ -47,12 +52,12 @@ class CollectionRoutes {
         if ($query->have_posts()) {
             while ($query->have_posts()) {
                 $query->the_post();
-                $record = new Record();
+                $record = new \F4\Record\Record();
                 $record->id = get_the_ID();
                 $record->title = get_the_title();
                 $record->description = get_the_excerpt();
-                $record->summary = get_post_meta(get_the_ID(), 'summary', true) ?: '';
-                $record->image = get_the_post_thumbnail_url(get_the_ID(), 'medium') ?: '';
+                $record->summary = get_the_content(); // Use post content as summary
+                $record->image = 'https://placehold.co/300x200'; // Use placeholder image
                 $record->author = get_the_author();
 
                 $records[] = $record->exportAsArray();

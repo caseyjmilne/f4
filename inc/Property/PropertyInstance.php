@@ -2,6 +2,8 @@
 
 namespace F4\Property;
 
+use \F4\Field\FieldInstance;
+
 class PropertyInstance {
 
     protected $id;
@@ -11,6 +13,7 @@ class PropertyInstance {
     protected $name;
     protected $type;
     protected $settings;
+    protected $field = null; // A populated \F4\Field\FieldInstance
 
     public function __construct(\WP_Post $post) {
         $this->id = $post->ID;

@@ -61,6 +61,7 @@ class Plugin {
         require_once( F4_PATH . '/inc/Field/FieldFactory.php' );
         require_once( F4_PATH . '/inc/Field/FieldRoutes.php' );
         require_once( F4_PATH . '/inc/Field/FieldSettings.php' );
+        require_once( F4_PATH . '/inc/Field/FieldInstance.php' );
         require_once( F4_PATH . '/inc/Field/FieldType/TextField.php' );
         require_once( F4_PATH . '/inc/Field/FieldType/NumberField.php' );
         require_once( F4_PATH . '/inc/Field/FieldType/HiddenField.php' );
@@ -146,13 +147,6 @@ class Plugin {
             F4_URL . 'js/filters/SelectFilter.js',
         [
             ['id' => 'f4-filter-base', 'import' => 'static']
-        ]
-        );
-        wp_enqueue_script_module(
-            'f4-select-filter-init',
-            F4_URL . 'js/filters/initFilters.js',
-        [
-            ['id' => 'f4-select-filter', 'import' => 'static']
         ]
         );
 
