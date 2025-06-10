@@ -1,6 +1,14 @@
+import Choices from "./settings/Choices";
+
 function FieldSettingsForm({ settings, fieldSettings, onChange }) {
 
   const handleChange = (field, value) => {
+
+    console.log('handling change')
+    console.log('field: ' + field )
+    console.log('value:')
+    console.log(value)
+
     onChange(prev => ({
       ...prev,
       [field]: value
@@ -82,6 +90,18 @@ function FieldSettingsForm({ settings, fieldSettings, onChange }) {
             className="f4-form__field-input"
             value={settings.maxLength || ''}
             onChange={e => handleChange('maxLength', e.target.value)}
+          />
+        </div>
+      )}
+
+      {fieldSettings.includes('choices') && (
+        <div className="f4-new-model-form__field-group">
+          <label className="f4-new-model-form__field-label">
+            <strong>Choices</strong>
+          </label>
+          <Choices
+            choices={settings.choices || []}
+            onChange={choices => handleChange('choices', choices)}
           />
         </div>
       )}
