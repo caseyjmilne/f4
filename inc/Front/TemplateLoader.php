@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace F4\Front;
 
@@ -13,6 +13,7 @@ class TemplateLoader {
 
         add_filter('template_include', [$this, 'handleSingleTemplate']);
         add_filter('template_include', [$this, 'handleArchiveTemplate']);
+        add_filter('template_include', [$this, 'handleFieldTemplate']);
     }
 
     public function handleSingleTemplate($template) {
@@ -52,4 +53,13 @@ class TemplateLoader {
         $custom_template = F4_PATH . '/templates/model_archive.php';
         return file_exists($custom_template) ? $custom_template : $template;
     }
-}
+
+    public function handleFieldTemplate($template) {
+        if (!is_singular('f4_field')) {
+            return $template;
+        }
+
+        $custom_template = F4_PATH . '/templates/field_single.php';
+        return file_exists($custom_template) ? $custom_template : $template;
+    }
+} 

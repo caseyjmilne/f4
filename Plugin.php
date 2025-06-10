@@ -24,17 +24,17 @@ class Plugin {
         require_once( F4_PATH . '/inc/Model/ModelRoutes.php' );
         new \F4\Model\ModelRoutes();
 
+        require_once( F4_PATH . '/inc/Model/ModelType.php' );
+        require_once( F4_PATH . '/inc/Model/ModelTypeInterface.php' );
+        require_once( F4_PATH . '/inc/Model/ModelTypePost.php' );
+        require_once( F4_PATH . '/inc/Model/ModelTypeScalable.php' );
+
         // Properties.
         require_once( F4_PATH . '/inc/Property/PropertyController.php' );
         require_once( F4_PATH . '/inc/Property/PropertyInstance.php' );
         require_once( F4_PATH . '/inc/Property/PropertyRoutes.php' );
         new \F4\Property\PropertyController();
         new \F4\Property\PropertyRoutes();
-
-        require_once( F4_PATH . '/inc/Model/ModelType.php' );
-        require_once( F4_PATH . '/inc/Model/ModelTypeInterface.php' );
-        require_once( F4_PATH . '/inc/Model/ModelTypePost.php' );
-        require_once( F4_PATH . '/inc/Model/ModelTypeScalable.php' );
 
         // Database Handlers.
 
@@ -55,12 +55,14 @@ class Plugin {
         new \F4\Model\ModelImplementor\FieldRenderer();
 
         // Field Registration and Types || NS: \F4\Field\
+        require_once( F4_PATH . '/inc/Field/FieldPostType.php' );
         require_once( F4_PATH . '/inc/Field/BaseField.php' );
         require_once( F4_PATH . '/inc/Field/FieldRegistry.php' );
         require_once( F4_PATH . '/inc/Field/CoreFieldRegistry.php' );
         require_once( F4_PATH . '/inc/Field/FieldFactory.php' );
         require_once( F4_PATH . '/inc/Field/FieldRoutes.php' );
         require_once( F4_PATH . '/inc/Field/FieldSettings.php' );
+        require_once( F4_PATH . '/inc/Field/FieldController.php' );
         require_once( F4_PATH . '/inc/Field/FieldInstance.php' );
         require_once( F4_PATH . '/inc/Field/FieldType/TextField.php' );
         require_once( F4_PATH . '/inc/Field/FieldType/NumberField.php' );
@@ -89,6 +91,7 @@ class Plugin {
         require_once( F4_PATH . '/inc/Field/FieldType/ButtonGroupField.php' );
         \F4\Field\CoreFieldRegistry::register();
         \F4\Field\FieldRoutes::register();
+        \F4\Field\FieldPostType::register();
 
         // Frontend Module || NS: \F4\Front
         require_once( F4_PATH . '/inc/Front/ModelLoader.php' );
