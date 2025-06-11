@@ -1,4 +1,8 @@
 // PresentationSettingsTab.jsx
+import Prepend from "../settings/Prepend";
+import Append from "../settings/Append";
+import Placeholder from "../settings/Placeholder";
+
 export default function PresentationSettingsTab({ settings, fieldSettings, handleChange }) {
   return (
     <>
@@ -17,6 +21,21 @@ export default function PresentationSettingsTab({ settings, fieldSettings, handl
           />
         </div>
       )}
+      <Prepend
+        value={settings.prepend}
+        onChange={val => handleChange('prepend', val)}
+        fieldSettings={fieldSettings}
+      />
+      <Append
+        value={settings.append}
+        onChange={val => handleChange('append', val)}
+        fieldSettings={fieldSettings}
+      />
+      <Placeholder
+        value={settings.placeholder}
+        onChange={val => handleChange('placeholder', val)}
+        fieldSettings={fieldSettings}
+      />
     </>
   );
 }
