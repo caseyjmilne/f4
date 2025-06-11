@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Modal from './Modal';
 import FieldSettingsForm from './FieldSettingsForm';
 import { fetchFieldTypeDetails } from '../api/field';
+import FormFooter from './form/FormFooter';
 
 function AddPropertyForm({ parentId = 0, onSubmit, onCancel }) {
 
@@ -60,14 +61,7 @@ function AddPropertyForm({ parentId = 0, onSubmit, onCancel }) {
             onChange={setSettings}
           />
 
-          <div className="f4-form-actions">
-            <button type="button" onClick={onCancel} className="f4-button f4-button--secondary">
-              Cancel
-            </button>
-            <button type="submit" className="f4-button">
-              Add Property
-            </button>
-          </div>
+          <FormFooter onCancel={onCancel} submitLabel="Add Property" />
         </form>
       </div>
     </Modal>

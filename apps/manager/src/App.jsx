@@ -13,12 +13,14 @@ import {
   updateModel
 } from './api/models';
 import { FieldTypeListProvider } from "./context/FieldTypeListContext";
+import PropertyForms from "./components/property/PropertyForms";
 
 function App() {
   const [models, setModels] = useState([]);
   const [selectedModelId, setSelectedModelId] = useState(0);
   const [showAddModelForm, setShowAddModelForm] = useState(false);
   const [showEditModelForm, setShowEditModelForm] = useState(false);
+  const [properties, setProperties] = useState([]);
 
   const loadModels = () => {
     fetchModelsFromApi().then(setModels);
@@ -27,6 +29,14 @@ function App() {
   useEffect(() => {
     loadModels();
   }, []);
+
+  // Handler to update property list after add/edit
+  const handlePropertyAdded = (property) => {
+    setProperties(prev => [...prev, property]);
+  };
+  const handlePropertyUpdated = (updated) => {
+    setProperties(prev => prev.map(p => (p.id === updated.id ? updated : p)));
+  };
 
   return (
     <FieldTypeListProvider>
@@ -73,7 +83,11 @@ function App() {
               onEditClick={() => setShowEditModelForm(true)}
             />
 
-            <ModelProperties selectedModelId={selectedModelId} />
+            <ModelProperties 
+              selectedModelId={selectedModelId} 
+              properties={properties} 
+              setProperties={setProperties} 
+            />
           </>
         )}
 
@@ -94,6 +108,12 @@ function App() {
             />
           </Modal>
         )}
+
+        <PropertyForms
+          selectedModelId={selectedModelId}
+          onPropertyAdded={handlePropertyAdded}
+          onPropertyUpdated={handlePropertyUpdated}
+        />
       </AppWrap>
     </FieldTypeListProvider>
   );
