@@ -74,7 +74,9 @@ function SortableChoiceItem({
   );
 }
 
-export default function Choices({ choices = [], onChange }) {
+export default function Choices({ choices = [], onChange, fieldSettings }) {
+  if (!fieldSettings?.includes('choices')) return null;
+
   // Ensure each choice has a stable id
   const withIds = (arr) =>
     arr.map((c) => (c.id ? c : { ...c, id: genId() }));
@@ -93,7 +95,7 @@ export default function Choices({ choices = [], onChange }) {
   const handleAdd = () => {
     const updated = [...localChoices, { value: "", label: "", id: genId() }];
     setLocalChoices(updated);
-    onChange && onChange(updated.map(({ id, ...rest }) => rest.value || rest.label ? { ...rest, id } : rest));
+    onChange && onChange(updated.filter(choice => choice.value && choice.label));
   };
 
   const handleChange = (idx, field, val) => {
@@ -101,13 +103,13 @@ export default function Choices({ choices = [], onChange }) {
       i === idx ? { ...choice, [field]: val } : choice
     );
     setLocalChoices(updated);
-    onChange && onChange(updated.map(({ id, ...rest }) => rest.value || rest.label ? { ...rest, id } : rest));
+    onChange && onChange(updated.filter(choice => choice.value && choice.label));
   };
 
   const handleDelete = (idx) => {
     const updated = localChoices.filter((_, i) => i !== idx);
     setLocalChoices(updated);
-    onChange && onChange(updated.map(({ id, ...rest }) => rest.value || rest.label ? { ...rest, id } : rest));
+    onChange && onChange(updated.filter(choice => choice.value && choice.label));
   };
 
   const handleDragEnd = (event) => {
@@ -117,7 +119,7 @@ export default function Choices({ choices = [], onChange }) {
       const newIndex = localChoices.findIndex((c) => c.id === over.id);
       const updated = arrayMove(localChoices, oldIndex, newIndex);
       setLocalChoices(updated);
-      onChange && onChange(updated.map(({ id, ...rest }) => rest.value || rest.label ? { ...rest, id } : rest));
+      onChange && onChange(updated.filter(choice => choice.value && choice.label));
     }
   };
 
