@@ -1,0 +1,45 @@
+/* Toggle.css */
+.f4-toggle {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 8px;
+}
+
+.f4-toggle__input {
+  display: none;
+}
+
+.f4-toggle__slider {
+  width: 36px;
+  height: 20px;
+  background: #ccc;
+  border-radius: 12px;
+  position: relative;
+  transition: background 0.2s;
+  display: inline-block;
+}
+
+.f4-toggle__slider::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  width: 16px;
+  height: 16px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+
+.f4-toggle__input:checked + .f4-toggle__slider {
+  background: var(--primary-color, #2E2E2E);
+}
+
+.f4-toggle__input:checked + .f4-toggle__slider::before {
+  transform: translateX(16px);
+}
+
+.f4-toggle__label {
+  margin-left: 8px;
+}
