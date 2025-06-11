@@ -11,7 +11,7 @@
 .tabs__tab {
   padding: 0.5rem 1rem;
   font-weight: 500;
-  border-bottom: 2px solid transparent;
+  border: none;
   color: #666;
   background: none;
   cursor: pointer;
