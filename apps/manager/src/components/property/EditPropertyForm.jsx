@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import Modal from './Modal';
-import FieldSettingsForm from './FieldSettingsForm';
-import { fetchFieldTypes, fetchFieldTypeDetails } from '../api/field';
+import Modal from '../ux/Modal';
+import FieldSettingsForm from '../FieldSettingsForm';
+import { fetchFieldTypes, fetchFieldTypeDetails } from '../../api/field';
 
 export default function EditPropertyForm({ property, onSave, onCancel }) {
   const [formData, setFormData] = useState({ ...property });

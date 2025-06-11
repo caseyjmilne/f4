@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Modal from './Modal';
-import AddPropertyForm from './AddPropertyForm';
+import Modal from './ux/Modal';
+import AddPropertyForm from './property/AddPropertyForm';
 import PropertyList from './PropertyList';
 
 function PropertyItem({ property, properties, onEditClick, onDelete, onAdd, onReorder, level = 0, dragHandleProps, activeId, setActiveId }) {

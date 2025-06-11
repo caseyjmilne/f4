@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import Modal from './Modal';
-import FieldSettingsForm from './FieldSettingsForm';
-import { fetchFieldTypeDetails } from '../api/field';
-import FormFooter from './form/FormFooter';
+import Modal from '../ux/Modal';
+import FieldSettingsForm from '../FieldSettingsForm';
+import { fetchFieldTypeDetails } from '../../api/field';
+import FormFooter from '../form/FormFooter';
 
 function AddPropertyForm({ parentId = 0, onSubmit, onCancel }) {
 

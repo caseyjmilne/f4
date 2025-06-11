@@ -4,7 +4,7 @@ import ModelList from './components/ModelList';
 import ModelHeader from './components/ModelHeader';
 import ModelProperties from './components/ModelProperties';
 import ModelDetails from './components/ModelDetails';
-import Modal from './components/Modal';
+import Modal from './components/ux/Modal';
 import EditModelForm from './components/EditModelForm';
 import AppWrap from './components/AppWrap';
 import {
@@ -21,6 +21,8 @@ function App() {
   const [showAddModelForm, setShowAddModelForm] = useState(false);
   const [showEditModelForm, setShowEditModelForm] = useState(false);
   const [properties, setProperties] = useState([]);
+  const [showAddProperty, setShowAddProperty] = useState(false);
+  const [editProperty, setEditProperty] = useState(null);
 
   const loadModels = () => {
     fetchModelsFromApi().then(setModels);
@@ -87,6 +89,8 @@ function App() {
               selectedModelId={selectedModelId} 
               properties={properties} 
               setProperties={setProperties} 
+              onAddPropertyClick={() => setShowAddProperty(true)}
+              onEditPropertyClick={property => setEditProperty(property)}
             />
           </>
         )}
@@ -113,6 +117,10 @@ function App() {
           selectedModelId={selectedModelId}
           onPropertyAdded={handlePropertyAdded}
           onPropertyUpdated={handlePropertyUpdated}
+          showAdd={showAddProperty}
+          setShowAdd={setShowAddProperty}
+          editProperty={editProperty}
+          setEditProperty={setEditProperty}
         />
       </AppWrap>
     </FieldTypeListProvider>
