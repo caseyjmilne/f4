@@ -1,13 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-.f4-admin {
+:root {
+  --primary-color: #2E2E2E;
+  --main-text-color: #D9D9D9;
+}
+
+.f4-app-wrap {
     font-family: "Inter", sans-serif;
     display: flex;
     flex-direction: column;
     justify-content: center;
     background-color: rgb(220,220,220);
     color: rgb(40,40,40);
-    margin: -10px 0 -20px 0;
+    margin: -10px 0 0 -20px;
+    min-height: calc(100vh - 32px); /* Adjust 32px to match your WP admin header height */
 }
 
 .model-section-header {

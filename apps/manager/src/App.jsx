@@ -6,6 +6,7 @@ import ModelProperties from './components/ModelProperties';
 import ModelDetails from './components/ModelDetails';
 import Modal from './components/Modal';
 import EditModelForm from './components/EditModelForm';
+import AppWrap from './components/AppWrap';
 import {
   fetchModels as fetchModelsFromApi,
   deleteModel as deleteModelFromApi,
@@ -27,8 +28,7 @@ function App() {
   }, []);
 
   return (
-    <div className="f4-admin">
-
+    <AppWrap>
       <ModelHeader 
         setShowForm={setShowAddModelForm} 
         setSelectedModelId={setSelectedModelId} 
@@ -68,7 +68,7 @@ function App() {
                 alert('Failed to delete model: ' + err.message);
               }
             }}
-            onEditClick={() => setShowEditModelForm(true)}  // <-- moved here
+            onEditClick={() => setShowEditModelForm(true)}
           />
 
           <ModelProperties selectedModelId={selectedModelId} />
@@ -92,8 +92,7 @@ function App() {
           />
         </Modal>
       )}
-      
-    </div>
+    </AppWrap>
   );
 }
 

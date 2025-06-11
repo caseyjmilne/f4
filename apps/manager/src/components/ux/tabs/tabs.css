@@ -1,5 +1,7 @@
 .tabs {
   width: 100%;
+  background-color: var(--primary-color);
+  color: var(--main-text-color);
 }
 
 .tabs__list {
@@ -10,21 +12,21 @@
 
 .tabs__tab {
   padding: 0.5rem 1rem;
+  color: var(--main-text-color);
   font-weight: 500;
   border: none;
-  color: #666;
+  border-radius: 0;
   background: none;
   cursor: pointer;
-  transition: color 0.2s ease, border-color 0.2s ease;
+  transition: color 0.2s ease;
 }
 
 .tabs__tab:hover {
-  color: #000;
+
 }
 
 .tabs__tab--active {
-  border-bottom-color: #3b82f6;
-  color: #2563eb;
+
 }
 
 .tabs__panel {
