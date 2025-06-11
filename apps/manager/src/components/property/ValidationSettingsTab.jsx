@@ -1,19 +1,19 @@
-// ValidationSettingsTab.jsx
-import TextInput from "../fields/TextInput";
+import MaxLength from "../settings/MaxLength";
+import Required from "../settings/Required";
 
 export default function ValidationSettingsTab({ settings, fieldSettings, handleChange }) {
   return (
     <>
-      {fieldSettings.includes('maxLength') && (
-        <TextInput
-          id="setting-maxLength"
-          label="Max Length"
-          type="number"
-          min="1"
-          value={settings.maxLength}
-          onChange={val => handleChange('maxLength', val)}
-        />
-      )}
+      <MaxLength
+        value={settings.maxLength}
+        onChange={val => handleChange('maxLength', val)}
+        fieldSettings={fieldSettings}
+      />
+      <Required
+        value={settings.required}
+        onChange={val => handleChange('required', val)}
+        fieldSettings={fieldSettings}
+      />
     </>
   );
 }
