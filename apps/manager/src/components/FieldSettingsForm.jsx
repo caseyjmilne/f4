@@ -1,4 +1,8 @@
 import Choices from "./settings/Choices";
+import { Tabs } from "./ux/tabs/Tabs";
+import { TabList } from "./ux/tabs/TabList";
+import { Tab } from "./ux/tabs/Tab";
+import { TabPanel } from "./ux/tabs/TabPanel";
 
 function FieldSettingsForm({ settings, fieldSettings, onChange }) {
 
@@ -105,6 +109,18 @@ function FieldSettingsForm({ settings, fieldSettings, onChange }) {
           />
         </div>
       )}
+
+      <Tabs defaultIndex={0}>
+        <TabList>
+          <Tab index={0}>Overview</Tab>
+          <Tab index={1}>Settings</Tab>
+          <Tab index={2}>Logs</Tab>
+        </TabList>
+        <TabPanel index={0}>This is the Overview content.</TabPanel>
+        <TabPanel index={1}>This is the Settings content.</TabPanel>
+        <TabPanel index={2}>This is the Logs content.</TabPanel>
+      </Tabs>
+
     </>
   );
 }
