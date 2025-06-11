@@ -7,34 +7,46 @@ class FieldSettings
     // Define available setting types globally
     protected static $settingDefinitions = [
         'placeholder' => [
-            'type' => 'string',
+            'storage_type' => 'string',
+            'field_type' => 'text',
             'label' => 'Placeholder',
             'default' => '',
             'description' => 'Text to display when field is empty.'
         ],
         'prepend' => [
-            'type' => 'string',
+            'storage_type' => 'string',
+            'field_type' => 'text',
             'label' => 'Prepend',
             'default' => '',
             'description' => 'Content before the field (e.g., $ or @).'
         ],
         'append' => [
-            'type' => 'string',
+            'storage_type' => 'string',
+            'field_type' => 'text',
             'label' => 'Append',
             'default' => '',
             'description' => 'Content after the field.'
         ],
         'rows' => [
-            'type' => 'integer',
+            'storage_type' => 'integer',
+            'field_type' => 'text',
             'label' => 'Rows',
             'default' => 3,
             'description' => 'Number of rows for textarea.'
         ],
         'maxLength' => [
-            'type' => 'integer',
+            'storage_type' => 'integer',
+            'field_type' => 'text',
             'label' => 'Max Length',
             'default' => '',
             'description' => 'Maximum number of characters.'
+        ],
+        'required' => [
+            'storage_type' => 'true_false',
+            'field_type' => 'true_false',
+            'label' => 'Required',
+            'default' => false,
+            'description' => 'Whether this field is required.'
         ]
         // Add more here
     ];
@@ -67,13 +79,14 @@ class FieldSettings
         foreach ($supported as $key => $meta) {
             $value = $input[$key] ?? $meta['default'];
 
-            switch ($meta['type']) {
+            switch ($meta['storage_type']) {
                 case 'integer':
                     $clean[$key] = intval($value);
                     break;
                 case 'string':
                     $clean[$key] = sanitize_text_field($value);
                     break;
+                case 'true_false':
                 case 'boolean':
                     $clean[$key] = (bool) $value;
                     break;

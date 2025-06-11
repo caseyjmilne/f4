@@ -9,7 +9,6 @@
     font-family: "Inter", sans-serif;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     background-color: rgb(220,220,220);
     color: rgb(40,40,40);
     margin: -10px 0 0 -20px;

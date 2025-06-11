@@ -12,6 +12,7 @@ import {
   deleteModel as deleteModelFromApi,
   updateModel
 } from './api/models';
+import { FieldTypeListProvider } from "./context/FieldTypeListContext";
 
 function App() {
   const [models, setModels] = useState([]);
@@ -28,71 +29,73 @@ function App() {
   }, []);
 
   return (
-    <AppWrap>
-      <ModelHeader 
-        setShowForm={setShowAddModelForm} 
-        setSelectedModelId={setSelectedModelId} 
-      />
+    <FieldTypeListProvider>
+      <AppWrap>
+        <ModelHeader 
+          setShowForm={setShowAddModelForm} 
+          setSelectedModelId={setSelectedModelId} 
+        />
 
-      <ModelList
-        models={models}
-        selectedModelId={selectedModelId}
-        onSelect={(id) => {
-          setSelectedModelId(id);
-          setShowAddModelForm(false); // clear form when selecting
-        }}
-      />
+        <ModelList
+          models={models}
+          selectedModelId={selectedModelId}
+          onSelect={(id) => {
+            setSelectedModelId(id);
+            setShowAddModelForm(false); // clear form when selecting
+          }}
+        />
 
-      {showAddModelForm && (
-        <Modal isOpen={showAddModelForm} onClose={() => setShowAddModelForm(false)}>
-          <AddModelForm
-            onModelAdded={() => {
-              loadModels();
-              setShowAddModelForm(false);
-            }}
-            onCancel={() => setShowAddModelForm(false)}
-          />
-        </Modal>
-      )}
-
-      {selectedModelId !== 0 && (
-        <>
-          <ModelDetails
-            model={models.find((m) => m.id === selectedModelId)}
-            onDelete={async (id) => {
-              try {
-                await deleteModelFromApi(id);
-                setSelectedModelId(0);
+        {showAddModelForm && (
+          <Modal isOpen={showAddModelForm} onClose={() => setShowAddModelForm(false)}>
+            <AddModelForm
+              onModelAdded={() => {
                 loadModels();
-              } catch (err) {
-                alert('Failed to delete model: ' + err.message);
-              }
-            }}
-            onEditClick={() => setShowEditModelForm(true)}
-          />
+                setShowAddModelForm(false);
+              }}
+              onCancel={() => setShowAddModelForm(false)}
+            />
+          </Modal>
+        )}
 
-          <ModelProperties selectedModelId={selectedModelId} />
-        </>
-      )}
+        {selectedModelId !== 0 && (
+          <>
+            <ModelDetails
+              model={models.find((m) => m.id === selectedModelId)}
+              onDelete={async (id) => {
+                try {
+                  await deleteModelFromApi(id);
+                  setSelectedModelId(0);
+                  loadModels();
+                } catch (err) {
+                  alert('Failed to delete model: ' + err.message);
+                }
+              }}
+              onEditClick={() => setShowEditModelForm(true)}
+            />
 
-      {showEditModelForm && (
-        <Modal isOpen={showEditModelForm} onClose={() => setShowEditModelForm(false)}>
-          <EditModelForm
-            model={models.find((m) => m.id === selectedModelId)}
-            onSave={async (updatedModel) => {
-              try {
-                await updateModel(updatedModel);
-                loadModels();
-                setShowEditModelForm(false);
-              } catch (err) {
-                alert('Failed to update model: ' + err.message);
-              }
-            }}
-            onCancel={() => setShowEditModelForm(false)}
-          />
-        </Modal>
-      )}
-    </AppWrap>
+            <ModelProperties selectedModelId={selectedModelId} />
+          </>
+        )}
+
+        {showEditModelForm && (
+          <Modal isOpen={showEditModelForm} onClose={() => setShowEditModelForm(false)}>
+            <EditModelForm
+              model={models.find((m) => m.id === selectedModelId)}
+              onSave={async (updatedModel) => {
+                try {
+                  await updateModel(updatedModel);
+                  loadModels();
+                  setShowEditModelForm(false);
+                } catch (err) {
+                  alert('Failed to update model: ' + err.message);
+                }
+              }}
+              onCancel={() => setShowEditModelForm(false)}
+            />
+          </Modal>
+        )}
+      </AppWrap>
+    </FieldTypeListProvider>
   );
 }
 
