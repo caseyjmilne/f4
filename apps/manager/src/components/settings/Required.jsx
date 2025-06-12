@@ -1,4 +1,4 @@
-import Toggle from "../ux/Toggle/Toggle";
+import Toggle from "../ux/toggle/Toggle";
 
 export default function Required({ value, onChange, fieldSettings }) {
   if (!fieldSettings?.includes('required')) return null;

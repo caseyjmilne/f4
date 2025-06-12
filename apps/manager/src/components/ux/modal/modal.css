@@ -1,0 +1,47 @@
+.f4-modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.f4-modal-content {
+  background-color: #2E2E2E;
+  padding: 40px;
+  border-radius: 8px;
+  max-width: 600px;
+  min-height: 200px;
+  max-height: 75vh;
+  width: 90%;
+  position: relative;
+}
+
+.f4-modal-header {
+  background: rgb(0,0,0,0.9);
+  display: flex;
+  justify-content: space-between;
+}
+
+.f4-modal-body {
+  overflow-y: auto;
+}
+
+.f4-modal-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: none;
+  border: none;
+  font-size: 32px;
+  cursor: pointer;
+  color: rgb(255,255,255,0.5);
+  transition: transform 300ms;
+}
+
+.f4-modal-close:hover {
+  transform: scale(1.25);
+}

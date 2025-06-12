@@ -1,5 +1,5 @@
 import React from "react";
-import "./Toggle.css"; // Optional: for custom styles
+import "./toggle.css";
 
 export default function Toggle({ checked, onChange, id, label }) {
   return (
