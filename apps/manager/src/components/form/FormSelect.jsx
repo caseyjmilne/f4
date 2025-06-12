@@ -1,9 +1,11 @@
+import Label from "../fields/Label";
+
 function FormSelect({ label, id, name, value, onChange, options }) {
   return (
-    <div className="f4-new-model-form__field-group">
-      <label htmlFor={id} className="f4-new-model-form__field-label">
-        <strong>{label}</strong>
-      </label>
+    <div className="f4-form__field-group">
+      <Label htmlFor={id} className="f4-form__field-label">
+        {label}
+      </Label>
       <select
         id={id}
         name={name}

@@ -245,9 +245,17 @@ padding: 4px 12px;
 }
 
 .f4-button--secondary {
+    background: none;
     padding: 4px 12px;
     font-weight: 500;
     font-size: 14px;
+    color: var(--main-text-color);
+    transition: transform 300ms;
+}
+
+.f4-button--secondary:hover {
+    background: none;
+    transform: scale(1.25);
 }
 
 .f4-form-actions {
@@ -255,7 +263,7 @@ padding: 4px 12px;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin-top: 1rem;
+  margin-top: 40px;
 }
 
 .f4-property-list__table {
@@ -284,4 +292,10 @@ padding: 4px 12px;
     font-size: 1.5rem;
     font-weight: 900;
     color: #D9D9D9;
+}
+
+.f4-form__field-label {
+    font-size: 14px;
+    font-weight: 400;
+    margin: 0 0 2px 0;
 }
