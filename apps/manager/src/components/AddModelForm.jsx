@@ -33,11 +33,19 @@ function AddModelForm({ onModelAdded, onCancel }) {
   };
 
   return (
-    <Modal isOpen={true} onClose={onCancel}>
-      <div className="f4-new-model-form">
-        <h4 className="f4-new-model-form__form-title">Add Model</h4>
+    <Modal isOpen={true} onClose={onCancel} title="Add Model">
+      <div className="f4-form">
 
-        <form onSubmit={handleSubmit} className="f4-new-model-form__form-wrap">
+        <form onSubmit={handleSubmit} className="f4-form__wrap">
+
+          <FormSelect
+            label="Type"
+            id="model-type"
+            name="type"
+            value={form.type}
+            onChange={handleChange}
+            options={MODEL_TYPE_OPTIONS}
+          />
 
           <FormField
             label="Title"
@@ -53,15 +61,6 @@ function AddModelForm({ onModelAdded, onCancel }) {
             name="key"
             value={form.key}
             onChange={handleChange}
-          />
-
-          <FormSelect
-            label="Type"
-            id="model-type"
-            name="type"
-            value={form.type}
-            onChange={handleChange}
-            options={MODEL_TYPE_OPTIONS}
           />
 
           <FormFooter onCancel={onCancel} submitLabel="Add Model" />
