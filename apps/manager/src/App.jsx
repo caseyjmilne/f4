@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
-import AddModelForm from './components/AddModelForm';
+import ModelForm from './components/model/ModelForm'; // <-- updated import
 import ModelList from './components/ModelList';
 import AppHeader from './components/AppHeader';
 import ModelProperties from './components/ModelProperties';
 import ModelDetails from './components/ModelDetails';
 import Modal from './components/ux/modal/Modal';
-import EditModelForm from './components/EditModelForm';
 import AppWrap from './components/AppWrap';
 import {
   fetchModels as fetchModelsFromApi,
@@ -59,12 +58,16 @@ function App() {
 
         {showAddModelForm && (
           <Modal isOpen={showAddModelForm} onClose={() => setShowAddModelForm(false)}>
-            <AddModelForm
-              onModelAdded={() => {
+            <ModelForm
+              onSubmit={async (form) => {
+                // Replace with your submitNewModel logic
+                // await submitNewModel(form, onModelAdded);
                 loadModels();
                 setShowAddModelForm(false);
               }}
               onCancel={() => setShowAddModelForm(false)}
+              submitLabel="Add Model"
+              title="Add Model"
             />
           </Modal>
         )}
@@ -97,9 +100,9 @@ function App() {
 
         {showEditModelForm && (
           <Modal isOpen={showEditModelForm} onClose={() => setShowEditModelForm(false)}>
-            <EditModelForm
-              model={models.find((m) => m.id === selectedModelId)}
-              onSave={async (updatedModel) => {
+            <ModelForm
+              initialValues={models.find((m) => m.id === selectedModelId) || {}}
+              onSubmit={async (updatedModel) => {
                 try {
                   await updateModel(updatedModel);
                   loadModels();
@@ -109,6 +112,8 @@ function App() {
                 }
               }}
               onCancel={() => setShowEditModelForm(false)}
+              submitLabel="Save"
+              title="Edit Model"
             />
           </Modal>
         )}
