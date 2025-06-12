@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Modal from './ux/Modal';
+import Modal from './ux/modal/Modal';
 import AddPropertyForm from './property/AddPropertyForm';
 import PropertyList from './PropertyList';
 

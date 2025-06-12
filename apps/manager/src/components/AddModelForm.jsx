@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Modal from './ux/Modal';
+import Modal from './ux/modal/Modal';
 import FormField from './form/FormField';
 import FormSelect from './form/FormSelect';
 import FormFooter from './form/FormFooter';

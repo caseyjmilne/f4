@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import Modal from '../ux/Modal';
+import Modal from '../ux/modal/Modal';
 import FieldSettingsForm from '../FieldSettingsForm';
 import { fetchFieldTypeDetails } from '../../api/field';
 import FormFooter from '../form/FormFooter';

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Modal from './ux/Modal';
+import Modal from './ux/modal/Modal';
 
 function ModelDetails({ model, onDelete, onEditClick }) {
 

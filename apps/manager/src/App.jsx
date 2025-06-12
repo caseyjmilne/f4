@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import AddModelForm from './components/AddModelForm';
 import ModelList from './components/ModelList';
-import ModelHeader from './components/ModelHeader';
+import AppHeader from './components/AppHeader';
 import ModelProperties from './components/ModelProperties';
 import ModelDetails from './components/ModelDetails';
-import Modal from './components/ux/Modal';
+import Modal from './components/ux/modal/Modal';
 import EditModelForm from './components/EditModelForm';
 import AppWrap from './components/AppWrap';
 import {
@@ -43,7 +43,7 @@ function App() {
   return (
     <FieldTypeListProvider>
       <AppWrap>
-        <ModelHeader 
+        <AppHeader
           setShowForm={setShowAddModelForm} 
           setSelectedModelId={setSelectedModelId} 
         />

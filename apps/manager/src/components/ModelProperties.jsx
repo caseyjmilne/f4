@@ -5,7 +5,7 @@ import {
   updatePropertyOrder,
 } from '../api/properties';
 import PropertyList from './PropertyList';
-import Modal from './ux/Modal';
+import Modal from './ux/modal/Modal';
 import { DndContext, closestCenter, DragOverlay } from '@dnd-kit/core';
 import PropertyItem from './PropertyItem';
 import { handlePropertyDragEnd } from '../dnd/handlePropertyDragEnd';
