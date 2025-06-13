@@ -1,0 +1,16 @@
+.f4-secondary-button {
+    background-color: transparent;
+    border: 1px solid var(--offset-1);
+    color: var(--offset-1);
+    padding: 8px 16px;
+    border-radius: 0;
+    font-weight: 500;
+    font-size: 13px;
+    cursor: pointer;
+    transition: color 400ms, border-color 600ms;
+}
+
+.f4-secondary-button:hover {
+    color: var(--main-text-color);
+    border-color: var(--main-text-color);
+}

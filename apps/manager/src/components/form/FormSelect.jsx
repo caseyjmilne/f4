@@ -1,8 +1,9 @@
 import Label from "../fields/Label";
+import FieldGroup from "../fields/FieldGroup";
 
 function FormSelect({ label, id, name, value, onChange, options }) {
   return (
-    <div className="f4-form__field-group">
+    <FieldGroup>
       <Label htmlFor={id} className="f4-form__field-label">
         {label}
       </Label>
@@ -17,7 +18,7 @@ function FormSelect({ label, id, name, value, onChange, options }) {
           <option key={opt.value} value={opt.value}>{opt.label}</option>
         ))}
       </select>
-    </div>
+    </FieldGroup>
   );
 }
 

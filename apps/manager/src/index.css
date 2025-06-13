@@ -3,6 +3,7 @@
 :root {
   --primary-color: #2E2E2E;
   --main-text-color: #D9D9D9;
+  --offset-1: #434343;
 }
 
 .f4-app-wrap {
@@ -222,6 +223,10 @@ padding: 4px 12px;
   width: 100%;
   padding: 0.5rem;
   box-sizing: border-box;
+  background-color: #434343;
+  border: none;
+  outline: none;
+  color: var(--main-text-color);
 }
 
 .f4-cancel-button {
@@ -242,20 +247,6 @@ padding: 4px 12px;
 
 .f4-button:hover {
     background-color: rgb(180,180,180);
-}
-
-.f4-button--secondary {
-    background: none;
-    padding: 4px 12px;
-    font-weight: 500;
-    font-size: 14px;
-    color: var(--main-text-color);
-    transition: transform 300ms;
-}
-
-.f4-button--secondary:hover {
-    background: none;
-    transform: scale(1.25);
 }
 
 .f4-form-actions {
@@ -295,7 +286,12 @@ padding: 4px 12px;
 }
 
 .f4-form__field-label {
+    display: block;
     font-size: 14px;
     font-weight: 400;
     margin: 0 0 2px 0;
+}
+
+.f4-form__field-group {
+    margin: 16px 0;
 }

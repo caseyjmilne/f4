@@ -1,8 +1,9 @@
 import Label from "../fields/Label";
+import FieldGroup from "../fields/FieldGroup";
 
 function FormField({ label, id, name, value, onChange }) {
   return (
-    <div className="f4-form__field-group">
+    <FieldGroup>
       <Label htmlFor={id} className="f4-form__field-label">
         {label}
       </Label>
@@ -15,7 +16,7 @@ function FormField({ label, id, name, value, onChange }) {
         className="f4-form__field-input"
         required
       />
-    </div>
+    </FieldGroup>
   );
 }
 
