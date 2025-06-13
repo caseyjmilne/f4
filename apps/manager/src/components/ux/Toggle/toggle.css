@@ -4,6 +4,8 @@
   align-items: center;
   cursor: pointer;
   gap: 8px;
+  font-size: 12px;
+  font-weight: 500;
 }
 
 .f4-toggle__input {
@@ -11,10 +13,10 @@
 }
 
 .f4-toggle__slider {
-  width: 36px;
-  height: 20px;
-  background: #ccc;
-  border-radius: 12px;
+  width: 40px;      /* updated width */
+  height: 16px;     /* updated height */
+  background: var(--offset-1);
+  border-radius: 10px;
   position: relative;
   transition: background 0.2s;
   display: inline-block;
@@ -25,19 +27,19 @@
   position: absolute;
   left: 2px;
   top: 2px;
-  width: 16px;
-  height: 16px;
+  width: 12px;      /* scaled with height */
+  height: 12px;     /* scaled with height */
   background: #fff;
   border-radius: 50%;
   transition: transform 0.2s;
 }
 
 .f4-toggle__input:checked + .f4-toggle__slider {
-  background: var(--primary-color, #2E2E2E);
+  background-color: var(--blue);
 }
 
 .f4-toggle__input:checked + .f4-toggle__slider::before {
-  transform: translateX(16px);
+  transform: translateX(24px); /* 40px - 12px - 2px*2 = 24px */
 }
 
 .f4-toggle__label {

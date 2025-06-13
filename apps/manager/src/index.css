@@ -211,15 +211,6 @@ padding: 4px 12px;
   flex-direction: column;
 }
 
-.f4-new-model-form__field-group {
-  margin-bottom: 1rem;
-}
-
-.f4-new-model-form__field-label {
-  display: block;
-  margin-bottom: 0.5rem;
-}
-
 .f4-form__field-input {
   width: 100%;
   padding: 0.5rem;

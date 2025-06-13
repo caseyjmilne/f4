@@ -51,7 +51,7 @@ function ModelDetails({ model, onDelete, onEditClick }) {
         <Modal isOpen={showConfirmModal} onClose={() => setShowConfirmModal(false)}>
           <div className="model-details__confirm">
             <p>
-              Are you sure you want to delete model "<strong>{model.key}</strong>"?
+              Are you sure you want to delete model "{model.key}"?
               This cannot be undone.
             </p>
             <div className="f4-form-actions">

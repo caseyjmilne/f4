@@ -1,9 +1,9 @@
-import React from "react";
 import Label from "./Label";
+import FieldGroup from "./FieldGroup";
 
 export default function TextArea({ id, label, value, onChange, ...props }) {
   return (
-    <div className="f4-form__field-group">
+    <FieldGroup>
       {label && (
         <Label htmlFor={id} className="f4-form__field-label">
           {label}
@@ -16,6 +16,6 @@ export default function TextArea({ id, label, value, onChange, ...props }) {
         onChange={e => onChange(e.target.value)}
         {...props}
       />
-    </div>
+    </FieldGroup>
   );
 }

@@ -13,6 +13,8 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import Label from "../fields/Label";
+import PrimaryButton from "../ux/button/PrimaryButton/PrimaryButton"; // Add this import
 
 // Helper to generate a unique id
 const genId = () => '_' + Math.random().toString(36).substr(2, 9);
@@ -125,9 +127,9 @@ export default function Choices({ choices = [], onChange, fieldSettings }) {
 
   return (
     <div>
-      <label>
-        <strong>Choices</strong>
-      </label>
+      <Label>
+        Choices
+      </Label>
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
@@ -149,9 +151,9 @@ export default function Choices({ choices = [], onChange, fieldSettings }) {
           ))}
         </SortableContext>
       </DndContext>
-      <button type="button" onClick={handleAdd}>
+      <PrimaryButton type="button" onClick={handleAdd}>
         Add Choice
-      </button>
+      </PrimaryButton>
     </div>
   );
 }

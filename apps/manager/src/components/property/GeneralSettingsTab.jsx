@@ -1,28 +1,15 @@
 import TextInput from "../fields/TextInput";
 import Choices from "../settings/Choices";
-import { useFieldTypeList } from "../../context/FieldTypeListContext";
 import DefaultSetting from "../settings/DefaultSetting";
+import TypeSetting from "../settings/TypeSetting";
 
 export default function GeneralSettingsTab({ settings, fieldSettings, handleChange }) {
-  const fieldTypeList = useFieldTypeList();
-
   return (
     <>
-      <div className="f4-new-model-form__field-group">
-        <label htmlFor="property-type" className="f4-new-model-form__field-label">
-          <strong>Type</strong>
-        </label>
-        <select
-          id="property-type"
-          value={settings.type || ""}
-          onChange={e => handleChange('type', e.target.value)}
-          className="f4-form__field-input"
-        >
-          {fieldTypeList.map(opt => (
-            <option key={opt.value} value={opt.value}>{opt.label}</option>
-          ))}
-        </select>
-      </div>
+      <TypeSetting
+        value={settings.type || "text"}
+        onChange={val => handleChange('type', val)}
+      />
       <TextInput
         id="property-name"
         label="Name"

@@ -11,7 +11,7 @@ function PropertyItem({ property, properties, onEditClick, onDelete, onAdd, onRe
     <div style={{ marginLeft: `${level * 20}px`, padding: '4px 0' }}>
       <div className="property-item">
         <span className="drag-handle" {...dragHandleProps} style={{ cursor: 'grab', marginRight: '10px' }}>☰</span>
-        <strong>{property.name}</strong> <em>({property.type})</em>
+        {property.name} <em>({property.type})</em>
 
         <div className="property-actions">
           <button onClick={() => onEditClick(property)}>Edit</button>
