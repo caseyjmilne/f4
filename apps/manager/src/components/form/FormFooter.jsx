@@ -1,5 +1,6 @@
 import React from 'react';
 import SecondaryButton from '../ux/button/SecondaryButton/SecondaryButton';
+import PrimaryButton from '../ux/button/PrimaryButton/PrimaryButton';
 
 function FormFooter({ onCancel, submitLabel = 'Submit' }) {
   return (
@@ -7,9 +8,9 @@ function FormFooter({ onCancel, submitLabel = 'Submit' }) {
       <SecondaryButton type="button" onClick={onCancel}>
         Cancel
       </SecondaryButton>
-      <button type="submit" className="f4-button">
+      <PrimaryButton type="submit">
         {submitLabel}
-      </button>
+      </PrimaryButton>
     </div>
   );
 }
