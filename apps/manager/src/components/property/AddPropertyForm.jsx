@@ -50,18 +50,21 @@ function AddPropertyForm({ parentId = 0, onSubmit, onCancel }) {
   };
 
   return (
-    <Modal isOpen={true} onClose={onCancel}>
-      <div className="f4-new-model-form">
-        <h4 className="f4-new-model-form__form-title">Add Property</h4>
-        <form onSubmit={handleSubmit} className="f4-new-model-form__form-wrap">
-
+    <Modal
+      isOpen={true}
+      onClose={onCancel}
+      title="Add Property"
+      footer={
+        <FormFooter onCancel={onCancel} submitLabel="Add Property" />
+      }
+    >
+      <div className="f4-form">
+        <form onSubmit={handleSubmit} className="f4-form__form-wrap">
           <FieldSettingsForm
             settings={settings}
             fieldSettings={fieldSettings}
             onChange={setSettings}
           />
-
-          <FormFooter onCancel={onCancel} submitLabel="Add Property" />
         </form>
       </div>
     </Modal>

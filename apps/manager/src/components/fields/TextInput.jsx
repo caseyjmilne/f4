@@ -1,4 +1,5 @@
 import React from "react";
+import Label from "./Label";
 
 export default function TextInput({
   id,
@@ -10,9 +11,9 @@ export default function TextInput({
 }) {
   return (
     <div className="f4-new-model-form__field-group">
-      <label htmlFor={id} className="f4-new-model-form__field-label">
+      <Label htmlFor={id} className="f4-new-model-form__field-label">
         <strong>{label}</strong>
-      </label>
+      </Label>
       <input
         id={id}
         type={type}

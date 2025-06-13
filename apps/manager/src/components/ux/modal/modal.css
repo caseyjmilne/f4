@@ -16,8 +16,11 @@
   max-width: 600px;
   min-height: 200px;
   max-height: 75vh;
+  height: 75vh; /* Add this */
   width: 90%;
   position: relative;
+  display: flex;           /* Add this */
+  flex-direction: column;  /* Add this */
 }
 
 .f4-modal-header {
@@ -30,7 +33,9 @@
 }
 
 .f4-modal-body {
+  flex: 1 1 auto;          /* Add this */
   overflow-y: auto;
+  min-height: 0;           /* Add this for flexbox scrolling */
 }
 
 .f4-modal-close {
