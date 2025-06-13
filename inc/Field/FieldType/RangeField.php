@@ -6,6 +6,19 @@ use F4\Field\BaseField;
 
 class RangeField extends BaseField {
 
+    public static function getSupportedSettings(): array {
+        return [
+            'default', 
+            'required', 
+            'instructions', 
+            'append', 
+            'placeholder', 
+            'prepend', 
+            'maxLength',
+            'conditions'
+        ];
+    }
+
     public function render() {
 
         $value = esc_attr($this->getValue());

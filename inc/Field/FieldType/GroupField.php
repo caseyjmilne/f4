@@ -7,6 +7,19 @@ use F4\Field\FieldFactory;
 
 class GroupField extends BaseField {
 
+    public static function getSupportedSettings(): array {
+        return [
+            'default', 
+            'required', 
+            'instructions', 
+            'append', 
+            'placeholder', 
+            'prepend', 
+            'maxLength',
+            'conditions'
+        ];
+    }
+
     public function render() {
         echo "<div class='f4-group-field'>";
         echo "<strong>{$this->name}</strong>";

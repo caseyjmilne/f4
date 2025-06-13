@@ -6,6 +6,19 @@ use F4\Field\BaseField;
 
 class ImageField extends BaseField {
 
+    public static function getSupportedSettings(): array {
+        return [
+            'default', 
+            'required', 
+            'instructions', 
+            'append', 
+            'placeholder', 
+            'prepend', 
+            'maxLength',
+            'conditions'
+        ];
+    }
+
     /**
      * Enqueue WP media scripts/styles.
      */
@@ -99,10 +112,4 @@ class ImageField extends BaseField {
         <?php
     }
 
-    /**
-     * This field supports a placeholder setting.
-     */
-    public static function supportsSettingPlaceholder(): bool {
-        return true;
-    }
 }

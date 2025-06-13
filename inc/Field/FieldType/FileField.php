@@ -6,6 +6,19 @@ use F4\Field\BaseField;
 
 class FileField extends BaseField {
 
+    public static function getSupportedSettings(): array {
+        return [
+            'default', 
+            'required', 
+            'instructions', 
+            'append', 
+            'placeholder', 
+            'prepend', 
+            'maxLength',
+            'conditions'
+        ];
+    }
+
     public static function getFieldScripts(): array {
         return ['jquery', 'media-upload'];
     }
@@ -85,7 +98,4 @@ class FileField extends BaseField {
         <?php
     }
 
-    public static function supportsSettingPlaceholder(): bool {
-        return true;
-    }
 }

@@ -4,8 +4,21 @@ namespace F4\Field\FieldType;
 
 use F4\Field\BaseField;
 
-class ButtonGroupField extends BaseField
-{
+class ButtonGroupField extends BaseField {
+
+    public static function getSupportedSettings(): array {
+        return [
+            'default', 
+            'required', 
+            'instructions', 
+            'append', 
+            'placeholder', 
+            'prepend', 
+            'maxLength',
+            'conditions'
+        ];
+    }
+
     public static function getType(): string
     {
         return 'button_group';

@@ -6,15 +6,16 @@ use F4\Field\BaseField;
 
 class RepeaterField extends BaseField {
 
-    public static function supportsNestedFields(): bool {
-        return true;
-    }
-
-    public static function getDefaultSettings() {
+    public static function getSupportedSettings(): array {
         return [
-            'min' => 0,
-            'max' => 0, // 0 means unlimited
-            'layout' => 'vertical', // or 'table', 'grid', etc.
+            'default', 
+            'required', 
+            'instructions', 
+            'append', 
+            'placeholder', 
+            'prepend', 
+            'maxLength',
+            'conditions'
         ];
     }
 

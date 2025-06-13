@@ -6,6 +6,19 @@ use F4\Field\BaseField;
 
 class PageField extends BaseField {
 
+    public static function getSupportedSettings(): array {
+        return [
+            'default', 
+            'required', 
+            'instructions', 
+            'append', 
+            'placeholder', 
+            'prepend', 
+            'maxLength',
+            'conditions'
+        ];
+    }
+
     /**
      * Render a select dropdown of pages/posts, saving the permalink.
      */

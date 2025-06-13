@@ -7,7 +7,17 @@ use F4\Field\BaseField;
 class SelectField extends BaseField {
 
     public static function getSupportedSettings(): array {
-        return ['choices'];
+        return [
+            'default', 
+            'required', 
+            'instructions', 
+            'append', 
+            'placeholder', 
+            'prepend', 
+            'maxLength',
+            'conditions',
+            'choices',
+        ];
     }
 
     public function render() {

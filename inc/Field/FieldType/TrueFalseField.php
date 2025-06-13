@@ -6,6 +6,17 @@ use F4\Field\BaseField;
 
 class TrueFalseField extends BaseField {
 
+    public static function getSupportedSettings(): array {
+        return [
+            'default', 
+            'required', 
+            'instructions', 
+            'append', 
+            'prepend', 
+            'conditions'
+        ];
+    }
+
     /**
      * Render the true/false field.
      * This is typically a checkbox input saved as 1 (true) or 0 (false).

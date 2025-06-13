@@ -6,6 +6,19 @@ use F4\Field\BaseField;
 
 class WysiwygField extends BaseField {
 
+    public static function getSupportedSettings(): array {
+        return [
+            'default', 
+            'required', 
+            'instructions', 
+            'append', 
+            'placeholder', 
+            'prepend', 
+            'maxLength',
+            'conditions'
+        ];
+    }
+
     public function render() {
         $value = $this->getValue();
         $editor_id = esc_attr($this->key);

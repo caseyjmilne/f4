@@ -6,6 +6,15 @@ use F4\Field\BaseField;
 
 class DateField extends BaseField {
 
+    public static function getSupportedSettings(): array {
+        return [
+            'default', 
+            'required', 
+            'instructions', 
+            'conditions'
+        ];
+    }
+
     /**
      * Render the date field.
      */

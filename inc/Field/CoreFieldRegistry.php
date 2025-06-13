@@ -27,7 +27,7 @@ class CoreFieldRegistry {
         FieldRegistry::register('color', \F4\Field\FieldType\ColorField::class);
         FieldRegistry::register('date', \F4\Field\FieldType\DateField::class);
         FieldRegistry::register('post_relationship', \F4\Field\FieldType\PostRelationshipField::class);
-        FieldRegistry::register('date', \F4\Field\FieldType\TaxonomyField::class);
+        FieldRegistry::register('taxonomy', \F4\Field\FieldType\TaxonomyField::class);
         FieldRegistry::register('user', \F4\Field\FieldType\UserField::class);
         FieldRegistry::register('button_group', \F4\Field\FieldType\ButtonGroupField::class);
     }

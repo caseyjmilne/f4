@@ -6,11 +6,18 @@ use F4\Field\BaseField;
 
 class RadioField extends BaseField {
 
-    /**
-     * Return supported settings for this field type.
-     */
     public static function getSupportedSettings(): array {
-        return ['choices'];
+        return [
+            'default', 
+            'required', 
+            'instructions', 
+            'append', 
+            'placeholder', 
+            'prepend', 
+            'maxLength',
+            'conditions',
+            'choices',
+        ];
     }
 
     /**

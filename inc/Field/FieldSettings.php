@@ -63,11 +63,18 @@ class FieldSettings
             'description' => 'Instructions for users on how to fill out this field.'
         ],
         'editor_access' => [
-            'storage_type' => 'true_false',
+            'storage_type' => 'integer',
             'field_type' => 'true_false',
             'label' => 'Editor Access',
             'default' => false,
             'description' => 'Whether editors can access this field.'
+        ],
+        'conditions' => [
+            'storage_type' => 'true_false',
+            'field_type' => 'true_false',
+            'label' => 'Conditions',
+            'default' => false,
+            'description' => 'Enable conditional logic for this field.'
         ]
     ];
 

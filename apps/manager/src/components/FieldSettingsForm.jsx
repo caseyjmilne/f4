@@ -1,6 +1,7 @@
 import GeneralSettingsTab from "./property/GeneralSettingsTab";
 import ValidationSettingsTab from "./property/ValidationSettingsTab";
 import PresentationSettingsTab from "./property/PresentationSettingsTab";
+import ConditionalLogicSettingsTab from "./property/ConditionalLogicSettingsTab";
 import { Tabs } from "./ux/tabs/Tabs";
 import { TabList } from "./ux/tabs/TabList";
 import { Tab } from "./ux/tabs/Tab";
@@ -44,7 +45,11 @@ function FieldSettingsForm({ settings, fieldSettings, onChange }) {
         />
       </TabPanel>
       <TabPanel index={3}>
-        {/* Conditions tab content here */}
+        <ConditionalLogicSettingsTab
+          settings={settings}
+          fieldSettings={fieldSettings}
+          handleChange={handleChange}
+        />
       </TabPanel>
     </Tabs>
   );

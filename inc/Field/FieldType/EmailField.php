@@ -6,6 +6,15 @@ use F4\Field\BaseField;
 
 class EmailField extends BaseField {
 
+    public static function getSupportedSettings(): array {
+        return [
+            'default', 
+            'required', 
+            'instructions', 
+            'conditions'
+        ];
+    }
+
     public function render() {
         $value = esc_attr($this->getValue());
         $key = esc_attr($this->key);
@@ -17,11 +26,4 @@ class EmailField extends BaseField {
         echo "</p>";
     }
 
-    public static function supportsSettingPlaceholder(): bool {
-        return true;
-    }
-
-    public static function supportsSettingMaxLength(): bool {
-        return true;
-    }
 }
