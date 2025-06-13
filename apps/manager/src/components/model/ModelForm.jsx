@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Modal from '../ux/modal/Modal';
 import FormField from '../form/FormField';
 import FormSelect from '../form/FormSelect';
@@ -18,6 +18,7 @@ function ModelForm({
   title = "Model"
 }) {
   const [form, setForm] = useState(initialValues);
+  const formRef = useRef();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,17 +28,27 @@ function ModelForm({
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(form);
-    // Optionally reset form here if needed
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onCancel} title={title}
+    <Modal
+      isOpen={isOpen}
+      onClose={onCancel}
+      title={title}
       footer={
-        <FormFooter onCancel={onCancel} submitLabel={submitLabel} />
+        <FormFooter
+          onCancel={onCancel}
+          submitLabel={submitLabel}
+          onSubmit={() => formRef.current && formRef.current.requestSubmit()}
+        />
       }
     >
       <div className="f4-form">
-        <form onSubmit={handleSubmit} className="f4-form__wrap">
+        <form
+          ref={formRef}
+          onSubmit={handleSubmit}
+          className="f4-form__wrap"
+        >
           <FormSelect
             label="Type"
             id="model-type"

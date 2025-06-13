@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import ModelForm from './components/model/ModelForm'; // <-- updated import
+import ModelForm from './components/model/ModelForm';
 import ModelList from './components/ModelList';
 import AppHeader from './components/AppHeader';
 import ModelProperties from './components/ModelProperties';
@@ -9,7 +9,8 @@ import AppWrap from './components/AppWrap';
 import {
   fetchModels as fetchModelsFromApi,
   deleteModel as deleteModelFromApi,
-  updateModel
+  updateModel,
+  createModel as createModelFromApi
 } from './api/models';
 import { FieldTypeListProvider } from "./context/FieldTypeListContext";
 import PropertyForms from "./components/property/PropertyForms";
@@ -31,7 +32,6 @@ function App() {
     loadModels();
   }, []);
 
-  // Handler to update property list after add/edit
   const handlePropertyAdded = (property) => {
     setProperties(prev => [...prev, property]);
   };
@@ -39,12 +39,35 @@ function App() {
     setProperties(prev => prev.map(p => (p.id === updated.id ? updated : p)));
   };
 
+  const handleCreateModel = async (form) => {
+
+    console.log('handleCreateModel at 44')
+
+    try {
+      await createModelFromApi(form);
+      loadModels();
+      setShowAddModelForm(false);
+    } catch (err) {
+      alert('Failed to create model: ' + err.message);
+    }
+  };
+
+  const handleEditModel = async (updatedModel) => {
+    try {
+      await updateModel(updatedModel);
+      loadModels();
+      setShowEditModelForm(false);
+    } catch (err) {
+      alert('Failed to update model: ' + err.message);
+    }
+  };
+
   return (
     <FieldTypeListProvider>
       <AppWrap>
         <AppHeader
-          setShowForm={setShowAddModelForm} 
-          setSelectedModelId={setSelectedModelId} 
+          setShowForm={setShowAddModelForm}
+          setSelectedModelId={setSelectedModelId}
         />
 
         <ModelList
@@ -59,12 +82,7 @@ function App() {
         {showAddModelForm && (
           <Modal isOpen={showAddModelForm} onClose={() => setShowAddModelForm(false)}>
             <ModelForm
-              onSubmit={async (form) => {
-                // Replace with your submitNewModel logic
-                // await submitNewModel(form, onModelAdded);
-                loadModels();
-                setShowAddModelForm(false);
-              }}
+              onSubmit={handleCreateModel}
               onCancel={() => setShowAddModelForm(false)}
               submitLabel="Add Model"
               title="Add Model"
@@ -102,15 +120,7 @@ function App() {
           <Modal isOpen={showEditModelForm} onClose={() => setShowEditModelForm(false)}>
             <ModelForm
               initialValues={models.find((m) => m.id === selectedModelId) || {}}
-              onSubmit={async (updatedModel) => {
-                try {
-                  await updateModel(updatedModel);
-                  loadModels();
-                  setShowEditModelForm(false);
-                } catch (err) {
-                  alert('Failed to update model: ' + err.message);
-                }
-              }}
+              onSubmit={handleEditModel}
               onCancel={() => setShowEditModelForm(false)}
               submitLabel="Save"
               title="Edit Model"

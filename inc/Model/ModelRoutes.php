@@ -71,8 +71,8 @@ class ModelRoutes {
     public function createModel(WP_REST_Request $request) {
         $params = $request->get_json_params();
         $title = sanitize_text_field($params['title'] ?? '');
-        $model_type = sanitize_text_field($params['model_type'] ?? '');
-        $model_key = sanitize_text_field($params['model_key'] ?? '');
+        $model_type = sanitize_text_field($params['type'] ?? '');
+        $model_key = sanitize_text_field($params['key'] ?? '');
 
         if (empty($title) || empty($model_type) || empty($model_key)) {
             return new WP_Error('missing_fields', 'Title, model_type and model_key are required', ['status' => 400]);
@@ -98,8 +98,8 @@ class ModelRoutes {
         $params = $request->get_json_params();
         $args = [];
         $args['title'] = isset($params['name']) ? sanitize_text_field($params['title']) : null;
-        $args['model_type'] = isset($params['model_type']) ? sanitize_text_field($params['model_type']) : null;
-        $args['model_key'] = isset($params['model_key']) ? sanitize_text_field($params['model_key']) : null;
+        $args['model_type'] = isset($params['type']) ? sanitize_text_field($params['type']) : null;
+        $args['model_key'] = isset($params['key']) ? sanitize_text_field($params['key']) : null;
 
         $model = $this->controller->update_model($id, $args);
 

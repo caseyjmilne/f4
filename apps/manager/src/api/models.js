@@ -1,4 +1,3 @@
-// src/api/models.js
 import { smartFetch } from '../utils/apiClient.js';
 
 export async function fetchModels() {
@@ -20,6 +19,14 @@ export async function deleteModel(id) {
 export async function updateModel(model) {
   return await smartFetch(`model/${model.id}`, {
     method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(model),
+  });
+}
+
+export async function createModel(model) {
+  return await smartFetch('model', {
+    method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(model),
   });
