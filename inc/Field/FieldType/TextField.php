@@ -7,7 +7,7 @@ use F4\Field\BaseField;
 class TextField extends BaseField {
 
     public static function getSupportedSettings(): array {
-        return ['required', 'append', 'placeholder', 'prepend', 'maxLength'];
+        return ['default', 'required', 'append', 'placeholder', 'prepend', 'maxLength'];
     }
 
     public function render() {

@@ -1,6 +1,7 @@
 import TextInput from "../fields/TextInput";
 import Choices from "../settings/Choices";
 import { useFieldTypeList } from "../../context/FieldTypeListContext";
+import DefaultSetting from "../settings/DefaultSetting";
 
 export default function GeneralSettingsTab({ settings, fieldSettings, handleChange }) {
   const fieldTypeList = useFieldTypeList();
@@ -38,6 +39,12 @@ export default function GeneralSettingsTab({ settings, fieldSettings, handleChan
       <Choices
         choices={settings.choices || []}
         onChange={choices => handleChange('choices', choices)}
+        fieldSettings={fieldSettings}
+      />
+
+      <DefaultSetting
+        value={settings.default || ""}
+        onChange={val => handleChange('default', val)}
         fieldSettings={fieldSettings}
       />
     </>

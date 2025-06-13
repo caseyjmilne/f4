@@ -42,13 +42,33 @@ class FieldSettings
             'description' => 'Maximum number of characters.'
         ],
         'required' => [
-            'storage_type' => 'true_false',
+            'storage_type' => 'integer',
             'field_type' => 'true_false',
             'label' => 'Required',
             'default' => false,
             'description' => 'Whether this field is required.'
+        ],
+        'default' => [
+            'storage_type' => 'string',
+            'field_type' => 'text',
+            'label' => 'Default Value',
+            'default' => '',
+            'description' => 'Default value for the field.'
+        ],
+        'instructions' => [
+            'storage_type' => 'string',
+            'field_type' => 'textarea',
+            'label' => 'Instructions',
+            'default' => '',
+            'description' => 'Instructions for users on how to fill out this field.'
+        ],
+        'editor_access' => [
+            'storage_type' => 'true_false',
+            'field_type' => 'true_false',
+            'label' => 'Editor Access',
+            'default' => false,
+            'description' => 'Whether editors can access this field.'
         ]
-        // Add more here
     ];
 
     // Return supported settings for a field
