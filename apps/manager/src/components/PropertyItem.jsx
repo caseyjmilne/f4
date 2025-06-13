@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Modal from './ux/modal/Modal';
-import AddPropertyForm from './property/AddPropertyForm';
+import PropertyForm from './property/PropertyForm';
 import PropertyList from './PropertyList';
 
 function PropertyItem({ property, properties, onEditClick, onDelete, onAdd, onReorder, level = 0, dragHandleProps, activeId, setActiveId }) {
@@ -38,7 +38,7 @@ function PropertyItem({ property, properties, onEditClick, onDelete, onAdd, onRe
 
       {showAddChildModal && (
         <Modal isOpen={true} onClose={() => setShowAddChildModal(false)}>
-          <AddPropertyForm
+          <PropertyForm
             parentId={property.id}
             onSubmit={(newProp) => {
               onAdd(newProp);

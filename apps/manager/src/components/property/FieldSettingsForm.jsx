@@ -1,11 +1,11 @@
-import GeneralSettingsTab from "./property/GeneralSettingsTab";
-import ValidationSettingsTab from "./property/ValidationSettingsTab";
-import PresentationSettingsTab from "./property/PresentationSettingsTab";
-import ConditionalLogicSettingsTab from "./property/ConditionalLogicSettingsTab";
-import { Tabs } from "./ux/tabs/Tabs";
-import { TabList } from "./ux/tabs/TabList";
-import { Tab } from "./ux/tabs/Tab";
-import { TabPanel } from "./ux/tabs/TabPanel";
+import GeneralSettingsTab from "./GeneralSettingsTab";
+import ValidationSettingsTab from "./ValidationSettingsTab";
+import PresentationSettingsTab from "./PresentationSettingsTab";
+import ConditionalLogicSettingsTab from "./ConditionalLogicSettingsTab";
+import { Tabs } from "../ux/tabs/Tabs";
+import { TabList } from "../ux/tabs/TabList";
+import { Tab } from "../ux/tabs/Tab";
+import { TabPanel } from "../ux/tabs/TabPanel";
 
 function FieldSettingsForm({ settings, fieldSettings, onChange }) {
   const handleChange = (field, value) => {

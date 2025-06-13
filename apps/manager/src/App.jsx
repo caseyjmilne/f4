@@ -13,7 +13,7 @@ import {
   createModel as createModelFromApi
 } from './api/models';
 import { FieldTypeListProvider } from "./context/FieldTypeListContext";
-import PropertyForms from "./components/property/PropertyForms";
+import PropertyForm from "./components/property/PropertyForm";
 
 function App() {
   const [models, setModels] = useState([]);
@@ -40,8 +40,6 @@ function App() {
   };
 
   const handleCreateModel = async (form) => {
-
-    console.log('handleCreateModel at 44')
 
     try {
       await createModelFromApi(form);
@@ -128,15 +126,24 @@ function App() {
           </Modal>
         )}
 
-        <PropertyForms
-          selectedModelId={selectedModelId}
-          onPropertyAdded={handlePropertyAdded}
-          onPropertyUpdated={handlePropertyUpdated}
-          showAdd={showAddProperty}
-          setShowAdd={setShowAddProperty}
-          editProperty={editProperty}
-          setEditProperty={setEditProperty}
-        />
+        {(showAddProperty || editProperty) && (
+          <PropertyForm
+            parentId={selectedModelId}
+            property={editProperty}
+            mode={editProperty ? "edit" : "add"}
+            onSave={editProperty ? (updated => {
+              handlePropertyUpdated(updated);
+              setEditProperty(null);
+            }) : (added => {
+              handlePropertyAdded(added);
+              setShowAddProperty(false);
+            })}
+            onCancel={() => {
+              setEditProperty(null);
+              setShowAddProperty(false);
+            }}
+          />
+        )}
       </AppWrap>
     </FieldTypeListProvider>
   );
