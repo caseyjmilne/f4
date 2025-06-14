@@ -7,13 +7,7 @@ import { TabList } from "../ux/tabs/TabList";
 import { Tab } from "../ux/tabs/Tab";
 import { TabPanel } from "../ux/tabs/TabPanel";
 
-function FieldSettingsForm({ settings, fieldSettings, onChange }) {
-  const handleChange = (field, value) => {
-    onChange(prev => ({
-      ...prev,
-      [field]: value
-    }));
-  };
+function FieldSettingsForm({ formData, fieldSettings, onMainChange, onSettingsChange }) {
 
   return (
     <Tabs defaultIndex={0}>
@@ -25,36 +19,32 @@ function FieldSettingsForm({ settings, fieldSettings, onChange }) {
       </TabList>
       <TabPanel index={0}>
         <GeneralSettingsTab
-          settings={settings}
+          formData={formData}
+          settings={formData.settings}
           fieldSettings={fieldSettings}
-          handleChange={(field, value) => {
-            if (["type", "name", "key"].includes(field)) {
-              onMainChange(field, value);
-            } else {
-              onSettingsChange(settings => ({ ...settings, [field]: value }));
-            }
-          }}
+          onMainChange={onMainChange}
+          onSettingsChange={onSettingsChange}
         />
       </TabPanel>
       <TabPanel index={1}>
         <ValidationSettingsTab
-          settings={settings}
+          settings={formData.settings}
           fieldSettings={fieldSettings}
-          handleChange={handleChange}
+          onSettingsChange={onSettingsChange}
         />
       </TabPanel>
       <TabPanel index={2}>
         <PresentationSettingsTab
-          settings={settings}
+          settings={formData.settings}
           fieldSettings={fieldSettings}
-          handleChange={handleChange}
+          onSettingsChange={onSettingsChange}
         />
       </TabPanel>
       <TabPanel index={3}>
         <ConditionalLogicSettingsTab
-          settings={settings}
+          settings={formData.settings}
           fieldSettings={fieldSettings}
-          handleChange={handleChange}
+          onSettingsChange={onSettingsChange}
         />
       </TabPanel>
     </Tabs>

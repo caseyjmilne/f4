@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Modal from '../ux/modal/Modal';
 import FieldSettingsForm from './FieldSettingsForm';
-import { fetchFieldTypes, fetchFieldTypeDetails } from '../../api/field';
+import { fetchFieldTypeDetails } from '../../api/field';
 import FormFooter from '../form/FormFooter';
 
 export default function PropertyForm({
@@ -17,15 +17,8 @@ export default function PropertyForm({
       ? { ...property, settings: { ...(property.settings || {}) } }
       : { type: "text", name: "", key: "", settings: {} }
   );
-  const [fieldOptions, setFieldOptions] = useState([]);
   const [fieldSettings, setFieldSettings] = useState([]);
 
-  // Load field type options (for edit, if needed)
-  useEffect(() => {
-    fetchFieldTypes?.()
-      .then(setFieldOptions)
-      .catch(() => setFieldOptions([{ label: 'Text', value: 'text' }]));
-  }, []);
 
   // When property changes (edit mode), update formData
   useEffect(() => {
@@ -57,7 +50,6 @@ export default function PropertyForm({
       .catch(() => {
         setFieldSettings([]);
       });
-    // eslint-disable-next-line
   }, [formData.type]);
 
   // Handle changes to main fields (type, name, key)
@@ -69,17 +61,14 @@ export default function PropertyForm({
   };
 
   // Handle changes to settings fields
-  const handleSettingsChange = updater => {
-    setFormData(prev => {
-      const newSettings =
-        typeof updater === 'function'
-          ? updater(prev.settings || {})
-          : updater;
-      return {
-        ...prev,
-        settings: { ...prev.settings, ...newSettings }
-      };
-    });
+  const handleSettingsChange = (field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      settings: {
+        ...prev.settings,
+        [field]: value
+      }
+    }));
   };
 
   // Handle submit
@@ -107,7 +96,7 @@ export default function PropertyForm({
       footer={
         <FormFooter
           onCancel={onCancel}
-          submitLabel={mode === "edit" ? "Save" : "Add Property"}
+          submitLabel={mode === "edit" ? "Save Property" : "Add Property"}
         />
       }
     >

@@ -1,17 +1,21 @@
 import MaxLength from "../settings/MaxLength";
 import Required from "../settings/Required";
 
-export default function ValidationSettingsTab({ settings, fieldSettings, handleChange }) {
+export default function ValidationSettingsTab({ settings, fieldSettings, onSettingsChange }) {
+
+  console.log('settings in validation tab')
+  console.log(settings)
+
   return (
     <>
       <Required
         value={settings.required}
-        onChange={val => handleChange('required', val)}
+        onChange={val => onSettingsChange('required', val)}
         fieldSettings={fieldSettings}
       />
       <MaxLength
         value={settings.maxLength}
-        onChange={val => handleChange('maxLength', val)}
+        onChange={val => onSettingsChange('maxLength', val)}
         fieldSettings={fieldSettings}
       />
     </>
