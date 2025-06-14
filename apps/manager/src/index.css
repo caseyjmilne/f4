@@ -47,31 +47,27 @@
     padding: 0;
     overflow-x: scroll;
     box-sizing: border-box;
-    background: rgb(180,180,180);
 }
 
 /* Model Items */
 
 .f4-models-list__item {
-    flex-basis: 180px;
-    width: 180px;
+    flex-basis: 160px;
+    width: 160px;
     cursor: pointer;
-    padding: 40px 12px;
-    background: rgb(200,200,200);
-    color: rgb(100,100,100);
+    padding: 32px 12px;
+    background: var(--offset-1);
+    color: var(--main-text-color);
     flex-shrink: 0;
     box-sizing: content-box;
 }
 
 .f4-models-list__item:hover {
-    background: rgb(190, 190, 190);
-    color: rgb(50, 50, 50);
+
 }
 
 .f4-models-list__item--selected {
-    background: rgb(200,200,200);
-    color: rgb(100,100,100);
-    font-weight: bold;
+
 }
 
 .model-properties-header {

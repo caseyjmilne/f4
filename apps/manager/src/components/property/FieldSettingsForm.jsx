@@ -27,7 +27,13 @@ function FieldSettingsForm({ settings, fieldSettings, onChange }) {
         <GeneralSettingsTab
           settings={settings}
           fieldSettings={fieldSettings}
-          handleChange={handleChange}
+          handleChange={(field, value) => {
+            if (["type", "name", "key"].includes(field)) {
+              onMainChange(field, value);
+            } else {
+              onSettingsChange(settings => ({ ...settings, [field]: value }));
+            }
+          }}
         />
       </TabPanel>
       <TabPanel index={1}>

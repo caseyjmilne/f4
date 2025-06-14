@@ -14,6 +14,7 @@ import {
 } from './api/models';
 import { FieldTypeListProvider } from "./context/FieldTypeListContext";
 import PropertyForm from "./components/property/PropertyForm";
+import { updateProperty as updatePropertyApi } from './api/properties';
 
 function App() {
   const [models, setModels] = useState([]);
@@ -35,8 +36,13 @@ function App() {
   const handlePropertyAdded = (property) => {
     setProperties(prev => [...prev, property]);
   };
-  const handlePropertyUpdated = (updated) => {
-    setProperties(prev => prev.map(p => (p.id === updated.id ? updated : p)));
+  const handlePropertyUpdated = async (updated) => {
+    try {
+      const saved = await updatePropertyApi(updated);
+      setProperties(prev => prev.map(p => (p.id === saved.id ? saved : p)));
+    } catch (err) {
+      alert('Failed to update property: ' + err.message);
+    }
   };
 
   const handleCreateModel = async (form) => {
@@ -128,6 +134,7 @@ function App() {
 
         {(showAddProperty || editProperty) && (
           <PropertyForm
+            key={editProperty ? editProperty.id : "add"}
             parentId={selectedModelId}
             property={editProperty}
             mode={editProperty ? "edit" : "add"}

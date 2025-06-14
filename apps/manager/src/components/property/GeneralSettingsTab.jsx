@@ -3,7 +3,7 @@ import Choices from "../settings/Choices";
 import DefaultSetting from "../settings/DefaultSetting";
 import TypeSetting from "../settings/TypeSetting";
 
-export default function GeneralSettingsTab({ settings, fieldSettings, handleChange }) {
+export default function GeneralSettingsTab({ settings = {}, fieldSettings, handleChange }) {
   return (
     <>
       <TypeSetting

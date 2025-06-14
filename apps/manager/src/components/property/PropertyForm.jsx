@@ -113,11 +113,11 @@ export default function PropertyForm({
     >
       <div className="f4-form">
         <form onSubmit={handleSubmit} className="f4-form__form-wrap">
-          {/* Optionally, you can add type/name/key fields here if needed */}
           <FieldSettingsForm
-            settings={formData.settings || {}}
+            formData={formData}
             fieldSettings={fieldSettings}
-            onChange={handleSettingsChange}
+            onMainChange={handleMainChange}
+            onSettingsChange={handleSettingsChange}
           />
         </form>
       </div>
