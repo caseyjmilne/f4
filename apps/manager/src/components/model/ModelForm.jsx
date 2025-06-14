@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Modal from '../ux/modal/Modal';
 import FormField from '../form/FormField';
 import FormSelect from '../form/FormSelect';
@@ -9,16 +9,28 @@ const MODEL_TYPE_OPTIONS = [
   { value: 'scalable', label: 'Scalable Type' },
 ];
 
+// Set fallback default form structure
+const DEFAULT_FORM = {
+  title: '',
+  key: '',
+  type: 'post',
+};
+
 function ModelForm({
-  initialValues = { title: '', key: '', type: 'post' },
+  model = null,
   isOpen = true,
   onSubmit,
   onCancel,
   submitLabel = "Save Model",
   title = "Model"
 }) {
-  const [form, setForm] = useState(initialValues);
+  const [form, setForm] = useState(model || DEFAULT_FORM);
   const formRef = useRef();
+
+  // Sync form state when the model changes
+  useEffect(() => {
+    setForm(model || DEFAULT_FORM);
+  }, [model]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

@@ -1,16 +1,15 @@
-// App.jsx
-import AppWrap from './components/AppWrap';
-import AppHeader from './components/ux/app-header/AppHeader';
-import Modal from './components/ux/modal/Modal';
-import ModelForm from './components/model/ModelForm';
-import ModelList from './components/ModelList';
-import ModelDetails from './components/model/ModelDetails';
-import ModelProperties from './components/ModelProperties';
-import PropertyForm from './components/property/PropertyForm';
-import { FieldTypeListProvider } from './context/FieldTypeListContext';
-import { ModelProvider, useModelContext } from './context/ModelContext';
-import { PropertyProvider, usePropertyContext } from './context/PropertyContext';
-import useModalManager from './hooks/useModalManager';
+import AppWrap from './AppWrap';
+import AppHeader from '../ux/app-header/AppHeader';
+import Modal from '../ux/modal/Modal';
+import ModelForm from '../model/ModelForm';
+import ModelList from '../ModelList';
+import ModelDetails from '../model/ModelDetails';
+import ModelProperties from '../ModelProperties';
+import PropertyForm from '../property/PropertyForm';
+import { FieldTypeListProvider } from '../../context/FieldTypeListContext';
+import { ModelProvider, useModelContext } from '../../context/ModelContext';
+import { PropertyProvider, usePropertyContext } from '../../context/PropertyContext';
+import useModalManager from '../../hooks/useModalManager';
 
 function AppContent() {
   const {
@@ -59,10 +58,28 @@ function AppContent() {
       {showAddModelForm && (
         <Modal isOpen onClose={() => setShowAddModelForm(false)}>
           <ModelForm
-            onSubmit={createModel}
+            onSubmit={async (model) => {
+              await createModel(model);
+              setShowAddModelForm(false); // Close the modal after creation
+            }}
             onCancel={() => setShowAddModelForm(false)}
             submitLabel="Add Model"
             title="Add Model"
+          />
+        </Modal>
+      )}
+
+      {showEditModelForm && (
+        <Modal isOpen onClose={() => setShowEditModelForm(false)}>
+          <ModelForm
+            model={models.find((m) => m.id === selectedModelId)}
+            onSubmit={async (model) => {
+              await updateModel(model);
+              setShowEditModelForm(false); // Close the modal after editing
+            }}
+            onCancel={() => setShowEditModelForm(false)}
+            submitLabel="Save Changes"
+            title="Edit Model"
           />
         </Modal>
       )}
@@ -82,18 +99,6 @@ function AppContent() {
             onEditPropertyClick={setEditProperty}
           />
         </>
-      )}
-
-      {showEditModelForm && (
-        <Modal isOpen onClose={() => setShowEditModelForm(false)}>
-          <ModelForm
-            initialValues={models.find((m) => m.id === selectedModelId) || {}}
-            onSubmit={updateModel}
-            onCancel={() => setShowEditModelForm(false)}
-            submitLabel="Save"
-            title="Edit Model"
-          />
-        </Modal>
       )}
 
       {(showAddProperty || editProperty) && (
