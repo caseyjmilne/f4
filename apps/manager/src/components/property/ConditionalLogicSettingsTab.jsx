@@ -1,11 +1,11 @@
 import Conditions from "../settings/Conditions";
 
-export default function ConditionalLogicSettingsTab({ settings, fieldSettings, handleChange }) {
+export default function ConditionalLogicSettingsTab({ settings, fieldSettings, onSettingsChange }) {
   return (
     <>
       <Conditions
         value={settings.conditions}
-        onChange={val => handleChange('conditions', val)}
+        onChange={val => onSettingsChange('conditions', val)}
         fieldSettings={fieldSettings}
       />
     </>

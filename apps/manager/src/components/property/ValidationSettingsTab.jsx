@@ -3,9 +3,6 @@ import Required from "../settings/Required";
 
 export default function ValidationSettingsTab({ settings, fieldSettings, onSettingsChange }) {
 
-  console.log('settings in validation tab')
-  console.log(settings)
-
   return (
     <>
       <Required
