@@ -95,7 +95,7 @@ class ModelController {
 
         $updated_post = [
             'ID'          => $id,
-            'post_title'  => $data['name'] ?? $post->post_title,
+            'post_title'  => $data['title'] ?? $post->post_title,
         ];
 
         $update_result = wp_update_post($updated_post, true);

@@ -97,7 +97,7 @@ class ModelRoutes {
 
         $params = $request->get_json_params();
         $args = [];
-        $args['title'] = isset($params['name']) ? sanitize_text_field($params['title']) : null;
+        $args['title'] = isset($params['title']) ? sanitize_text_field($params['title']) : null;
         $args['model_type'] = isset($params['type']) ? sanitize_text_field($params['type']) : null;
         $args['model_key'] = isset($params['key']) ? sanitize_text_field($params['key']) : null;
 
