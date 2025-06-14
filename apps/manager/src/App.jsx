@@ -1,172 +1,135 @@
-import { useState, useEffect } from 'react';
+// App.jsx
+import AppWrap from './components/AppWrap';
+import AppHeader from './components/ux/app-header/AppHeader';
+import Modal from './components/ux/modal/Modal';
 import ModelForm from './components/model/ModelForm';
 import ModelList from './components/ModelList';
-import AppHeader from './components/AppHeader';
-import ModelProperties from './components/ModelProperties';
 import ModelDetails from './components/model/ModelDetails';
-import Modal from './components/ux/modal/Modal';
-import AppWrap from './components/AppWrap';
-import {
-  fetchModels as fetchModelsFromApi,
-  deleteModel as deleteModelFromApi,
-  updateModel,
-  createModel as createModelFromApi
-} from './api/models';
-import { FieldTypeListProvider } from "./context/FieldTypeListContext";
-import PropertyForm from "./components/property/PropertyForm";
-import { updateProperty as updatePropertyApi, createProperty as createPropertyApi } from './api/properties';
+import ModelProperties from './components/ModelProperties';
+import PropertyForm from './components/property/PropertyForm';
+import { FieldTypeListProvider } from './context/FieldTypeListContext';
+import { ModelProvider, useModelContext } from './context/ModelContext';
+import { PropertyProvider, usePropertyContext } from './context/PropertyContext';
+import useModalManager from './hooks/useModalManager';
 
-function App() {
+function AppContent() {
+  const {
+    models,
+    selectedModelId,
+    setSelectedModelId,
+    createModel,
+    updateModel,
+    deleteModel,
+  } = useModelContext();
 
-  const [models, setModels] = useState([]);
-  const [selectedModelId, setSelectedModelId] = useState(0);
-  const [showAddModelForm, setShowAddModelForm] = useState(false);
-  const [showEditModelForm, setShowEditModelForm] = useState(false);
-  const [properties, setProperties] = useState([]);
-  const [showAddProperty, setShowAddProperty] = useState(false);
-  const [editProperty, setEditProperty] = useState(null);
+  const {
+    properties,
+    setProperties,
+    addProperty,
+    updatePropertyItem,
+  } = usePropertyContext();
 
-  const loadModels = () => {
-    fetchModelsFromApi().then(setModels);
-  };
-
-  useEffect(() => {
-    loadModels();
-  }, []);
-
-  const handlePropertyAdded = async (property) => {
-
-    console.log('property at 39 handlepropertyadded')
-    console.log(property)
-
-    try {
-      const created = await createPropertyApi(property);
-      setProperties(prev => [...prev, created]);
-    } catch (err) {
-      alert('Failed to create property: ' + err.message);
-    }
-  };
-  const handlePropertyUpdated = async (updated) => {
-    try {
-      const saved = await updatePropertyApi(updated);
-      setProperties(prev => prev.map(p => (p.id === saved.id ? saved : p)));
-    } catch (err) {
-      alert('Failed to update property: ' + err.message);
-    }
-  };
-
-  const handleCreateModel = async (form) => {
-
-    try {
-      await createModelFromApi(form);
-      loadModels();
-      setShowAddModelForm(false);
-    } catch (err) {
-      alert('Failed to create model: ' + err.message);
-    }
-  };
-
-  const handleEditModel = async (updatedModel) => {
-    try {
-      await updateModel(updatedModel);
-      loadModels();
-      setShowEditModelForm(false);
-    } catch (err) {
-      alert('Failed to update model: ' + err.message);
-    }
-  };
+  const {
+    showAddModelForm,
+    setShowAddModelForm,
+    showEditModelForm,
+    setShowEditModelForm,
+    showAddProperty,
+    setShowAddProperty,
+    editProperty,
+    setEditProperty,
+  } = useModalManager();
 
   return (
-    <FieldTypeListProvider>
-      <AppWrap>
-        <AppHeader
-          setShowForm={setShowAddModelForm}
-          setSelectedModelId={setSelectedModelId}
-        />
+    <AppWrap>
+      <AppHeader
+        setShowForm={setShowAddModelForm}
+        setSelectedModelId={setSelectedModelId}
+      />
 
-        <ModelList
-          models={models}
-          selectedModelId={selectedModelId}
-          onSelect={(id) => {
-            setSelectedModelId(id);
-            setShowAddModelForm(false); // clear form when selecting
+      <ModelList
+        models={models}
+        selectedModelId={selectedModelId}
+        onSelect={(id) => {
+          setSelectedModelId(id);
+          setShowAddModelForm(false);
+        }}
+      />
+
+      {showAddModelForm && (
+        <Modal isOpen onClose={() => setShowAddModelForm(false)}>
+          <ModelForm
+            onSubmit={createModel}
+            onCancel={() => setShowAddModelForm(false)}
+            submitLabel="Add Model"
+            title="Add Model"
+          />
+        </Modal>
+      )}
+
+      {selectedModelId !== 0 && (
+        <>
+          <ModelDetails
+            model={models.find((m) => m.id === selectedModelId)}
+            onDelete={deleteModel}
+            onEditClick={() => setShowEditModelForm(true)}
+          />
+          <ModelProperties
+            selectedModelId={selectedModelId}
+            properties={properties}
+            setProperties={setProperties}
+            onAddPropertyClick={() => setShowAddProperty(true)}
+            onEditPropertyClick={setEditProperty}
+          />
+        </>
+      )}
+
+      {showEditModelForm && (
+        <Modal isOpen onClose={() => setShowEditModelForm(false)}>
+          <ModelForm
+            initialValues={models.find((m) => m.id === selectedModelId) || {}}
+            onSubmit={updateModel}
+            onCancel={() => setShowEditModelForm(false)}
+            submitLabel="Save"
+            title="Edit Model"
+          />
+        </Modal>
+      )}
+
+      {(showAddProperty || editProperty) && (
+        <PropertyForm
+          key={editProperty ? editProperty.id : 'add'}
+          property={editProperty}
+          parentId={editProperty?.parent_id ?? 0}
+          modelId={selectedModelId}
+          mode={editProperty ? 'edit' : 'add'}
+          onSave={async (property) => {
+            if (editProperty) {
+              await updatePropertyItem(property);
+              setEditProperty(null);
+            } else {
+              await addProperty(property);
+              setShowAddProperty(false);
+            }
+          }}
+          onCancel={() => {
+            setEditProperty(null);
+            setShowAddProperty(false);
           }}
         />
-
-        {showAddModelForm && (
-          <Modal isOpen={showAddModelForm} onClose={() => setShowAddModelForm(false)}>
-            <ModelForm
-              onSubmit={handleCreateModel}
-              onCancel={() => setShowAddModelForm(false)}
-              submitLabel="Add Model"
-              title="Add Model"
-            />
-          </Modal>
-        )}
-
-        {selectedModelId !== 0 && (
-          <>
-            <ModelDetails
-              model={models.find((m) => m.id === selectedModelId)}
-              onDelete={async (id) => {
-                try {
-                  await deleteModelFromApi(id);
-                  setSelectedModelId(0);
-                  loadModels();
-                } catch (err) {
-                  alert('Failed to delete model: ' + err.message);
-                }
-              }}
-              onEditClick={() => setShowEditModelForm(true)}
-            />
-
-            <ModelProperties 
-              selectedModelId={selectedModelId} 
-              properties={properties} 
-              setProperties={setProperties} 
-              onAddPropertyClick={() => setShowAddProperty(true)}
-              onEditPropertyClick={property => setEditProperty(property)}
-            />
-          </>
-        )}
-
-        {showEditModelForm && (
-          <Modal isOpen={showEditModelForm} onClose={() => setShowEditModelForm(false)}>
-            <ModelForm
-              initialValues={models.find((m) => m.id === selectedModelId) || {}}
-              onSubmit={handleEditModel}
-              onCancel={() => setShowEditModelForm(false)}
-              submitLabel="Save"
-              title="Edit Model"
-            />
-          </Modal>
-        )}
-
-        {(showAddProperty || editProperty) && (
-          <PropertyForm
-            key={editProperty ? editProperty.id : "add"}
-            property={editProperty}
-            parentId={editProperty?.parent_id ?? 0}
-            modelId={selectedModelId}
-            mode={editProperty ? "edit" : "add"}
-            onSave={async (property) => {
-              if (editProperty) {
-                await handlePropertyUpdated(property);
-                setEditProperty(null);
-              } else {
-                await handlePropertyAdded(property);
-                setShowAddProperty(false);
-              }
-            }}
-            onCancel={() => {
-              setEditProperty(null);
-              setShowAddProperty(false);
-            }}
-          />
-        )}
-      </AppWrap>
-    </FieldTypeListProvider>
+      )}
+    </AppWrap>
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <FieldTypeListProvider>
+      <ModelProvider>
+        <PropertyProvider>
+          <AppContent />
+        </PropertyProvider>
+      </ModelProvider>
+    </FieldTypeListProvider>
+  );
+}

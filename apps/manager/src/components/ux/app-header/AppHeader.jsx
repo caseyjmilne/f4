@@ -1,6 +1,6 @@
 import './app-header.css';
 
-export default function ModelHeader({setShowForm, setSelectedModelId}) {
+export default function AppHeader({setShowForm, setSelectedModelId}) {
 
     return(
         <header className="model-section-header">
