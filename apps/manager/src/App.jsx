@@ -3,7 +3,7 @@ import ModelForm from './components/model/ModelForm';
 import ModelList from './components/ModelList';
 import AppHeader from './components/AppHeader';
 import ModelProperties from './components/ModelProperties';
-import ModelDetails from './components/ModelDetails';
+import ModelDetails from './components/model/ModelDetails';
 import Modal from './components/ux/modal/Modal';
 import AppWrap from './components/AppWrap';
 import {
@@ -14,9 +14,10 @@ import {
 } from './api/models';
 import { FieldTypeListProvider } from "./context/FieldTypeListContext";
 import PropertyForm from "./components/property/PropertyForm";
-import { updateProperty as updatePropertyApi } from './api/properties';
+import { updateProperty as updatePropertyApi, createProperty as createPropertyApi } from './api/properties';
 
 function App() {
+
   const [models, setModels] = useState([]);
   const [selectedModelId, setSelectedModelId] = useState(0);
   const [showAddModelForm, setShowAddModelForm] = useState(false);
@@ -33,8 +34,17 @@ function App() {
     loadModels();
   }, []);
 
-  const handlePropertyAdded = (property) => {
-    setProperties(prev => [...prev, property]);
+  const handlePropertyAdded = async (property) => {
+
+    console.log('property at 39 handlepropertyadded')
+    console.log(property)
+
+    try {
+      const created = await createPropertyApi(property);
+      setProperties(prev => [...prev, created]);
+    } catch (err) {
+      alert('Failed to create property: ' + err.message);
+    }
   };
   const handlePropertyUpdated = async (updated) => {
     try {
@@ -135,16 +145,19 @@ function App() {
         {(showAddProperty || editProperty) && (
           <PropertyForm
             key={editProperty ? editProperty.id : "add"}
-            parentId={selectedModelId}
             property={editProperty}
+            parentId={editProperty?.parent_id ?? 0}
+            modelId={selectedModelId}
             mode={editProperty ? "edit" : "add"}
-            onSave={editProperty ? (updated => {
-              handlePropertyUpdated(updated);
-              setEditProperty(null);
-            }) : (added => {
-              handlePropertyAdded(added);
-              setShowAddProperty(false);
-            })}
+            onSave={async (property) => {
+              if (editProperty) {
+                await handlePropertyUpdated(property);
+                setEditProperty(null);
+              } else {
+                await handlePropertyAdded(property);
+                setShowAddProperty(false);
+              }
+            }}
             onCancel={() => {
               setEditProperty(null);
               setShowAddProperty(false);

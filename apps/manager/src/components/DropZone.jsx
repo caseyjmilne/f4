@@ -1,7 +1,6 @@
-// DropZone.jsx
 import { useDroppable } from '@dnd-kit/core';
 
-function DropZone({ id, onDrop, isActive }) {
+function DropZone({ id, isActive }) {
   const { setNodeRef, isOver } = useDroppable({ id });
 
   return (
@@ -10,7 +9,7 @@ function DropZone({ id, onDrop, isActive }) {
       className={`drop-zone${isOver || isActive ? ' drop-zone--active' : ''}`}
       style={{
         height: 12,
-        background: isOver || isActive ? '#cceeff' : 'transparent',
+        background: isOver || isActive ? 'var(--offset-1)' : 'transparent',
         margin: '2px 0',
         transition: 'background 0.2s',
         listStyle: 'none',

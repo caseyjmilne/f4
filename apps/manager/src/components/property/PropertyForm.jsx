@@ -7,6 +7,7 @@ import FormFooter from '../form/FormFooter';
 export default function PropertyForm({
   property = null,
   parentId = 0,
+  modelId = 0, // <-- add this
   onSave,
   onCancel,
   mode = "add" // "add" or "edit"
@@ -82,7 +83,8 @@ export default function PropertyForm({
         name: formData.name,
         type: formData.type,
         settings: formData.settings,
-        parent_id: parentId
+        parent_id: parentId,
+        model_id: modelId // <-- add this
       });
       setFormData({ type: "text", name: "", key: "", settings: {} });
     }
@@ -97,6 +99,7 @@ export default function PropertyForm({
         <FormFooter
           onCancel={onCancel}
           submitLabel={mode === "edit" ? "Save Property" : "Add Property"}
+          onSubmit={handleSubmit}
         />
       }
     >

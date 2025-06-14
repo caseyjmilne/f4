@@ -1,3 +1,5 @@
+import './app-header.css';
+
 export default function ModelHeader({setShowForm, setSelectedModelId}) {
 
     return(

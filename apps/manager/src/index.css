@@ -115,7 +115,7 @@
 
 .model-details {
     margin: 12px 20px;
-    background-color: rgb(190,190,190);
+    background-color: var(--offset-1);
     padding: 16px 20px;
 }
 

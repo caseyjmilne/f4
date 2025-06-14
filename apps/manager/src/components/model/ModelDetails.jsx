@@ -1,8 +1,10 @@
 import { useState } from 'react';
-import Modal from './ux/modal/Modal';
+import Modal from '../ux/modal/Modal';
+import PrimaryButton from '../ux/button/PrimaryButton/PrimaryButton';
+import SecondaryButton from '../ux/button/SecondaryButton/SecondaryButton';
 
 function ModelDetails({ model, onDelete, onEditClick }) {
-
+    
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   if (!model) return null;
@@ -36,37 +38,27 @@ function ModelDetails({ model, onDelete, onEditClick }) {
       </table>
 
       <div className="model-details__actions">
-        <button className="f4-button" onClick={onEditClick}>
+        <PrimaryButton type="button" onClick={onEditClick}>
           Edit Model
-        </button>
-        <button
-          className="f4-button f4-button--secondary"
+        </PrimaryButton>
+        <SecondaryButton
+          type="button"
           onClick={() => setShowConfirmModal(true)}
         >
           Delete Model
-        </button>
+        </SecondaryButton>
       </div>
 
       {showConfirmModal && (
         <Modal isOpen={showConfirmModal} onClose={() => setShowConfirmModal(false)}>
-          <div className="model-details__confirm">
-            <p>
-              Are you sure you want to delete model "{model.key}"?
-              This cannot be undone.
-            </p>
-            <div className="f4-form-actions">
-              <button
-                className="f4-button f4-button--secondary"
-                onClick={() => setShowConfirmModal(false)}
-              >
+          <div className="model-details__modal-content">
+            <h2>Confirm Deletion</h2>
+            <p>Are you sure you want to delete this model?</p>
+            <div className="model-details__modal-actions">
+              <PrimaryButton onClick={handleDelete}>Yes, Delete</PrimaryButton>
+              <SecondaryButton onClick={() => setShowConfirmModal(false)}>
                 Cancel
-              </button>
-              <button
-                className="f4-button"
-                onClick={handleDelete}
-              >
-                Confirm Delete
-              </button>
+              </SecondaryButton>
             </div>
           </div>
         </Modal>
