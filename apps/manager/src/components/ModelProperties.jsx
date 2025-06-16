@@ -21,13 +21,10 @@ function ModelProperties({
   const [draggedProperty, setDraggedProperty] = useState(null);
 
   useEffect(() => {
-    if (!selectedModelId) return;
-
-    fetchProperties(selectedModelId)
-      .then(setProperties)
-      .catch(err => {
-        console.error('Failed to load properties:', err);
-      });
+    fetchProperties(selectedModelId).then(props => {
+      console.log('First property loaded from API:', props[0]);
+      setProperties(props);
+    });
   }, [selectedModelId]);
 
   const handleDelete = (id) => {

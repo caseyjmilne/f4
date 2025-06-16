@@ -4,6 +4,10 @@ import PropertyForm from './PropertyForm';
 import PropertyList from './PropertyList';
 
 function PropertyItem({ property, properties, onEditClick, onDelete, onAdd, onReorder, level = 0, dragHandleProps, activeId, setActiveId }) {
+  
+  console.log('properties at PropertyItem line 8')
+  console.log(properties)
+  
   const [showAddChildModal, setShowAddChildModal] = useState(false);
   const supportsNested = ['group', 'repeater'].includes(property.type);
 

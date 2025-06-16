@@ -9,6 +9,7 @@ export async function fetchProperties(modelId) {
     key: item.key,
     name: item.name,
     type: item.type ?? 'text',
+    settings: item.settings,
   }));
 }
 

@@ -12,6 +12,12 @@ export default function PropertyForm({
   onCancel,
   mode = "add" // "add" or "edit"
 }) {
+
+  console.log('property loaded into PropertyForm at 16')
+  console.log(property)
+
+
+
   // If editing, start with property data, else start with blank
   const [formData, setFormData] = useState(
     property
