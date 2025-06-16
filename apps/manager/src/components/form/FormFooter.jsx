@@ -1,4 +1,3 @@
-import React from 'react';
 import SecondaryButton from '../ux/button/SecondaryButton/SecondaryButton';
 import PrimaryButton from '../ux/button/PrimaryButton/PrimaryButton';
 

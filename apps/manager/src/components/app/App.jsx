@@ -4,7 +4,7 @@ import AppWrap from './AppWrap';
 import AppHeader from '../ux/app-header/AppHeader';
 import Modal from '../ux/modal/Modal';
 import ModelForm from '../model/ModelForm';
-import ModelList from '../ModelList';
+import ModelList from '../model/ModelList';
 import ModelDetails from '../model/ModelDetails';
 import ModelProperties from '../ModelProperties';
 import PropertyForm from '../property/PropertyForm';
