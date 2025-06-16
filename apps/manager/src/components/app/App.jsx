@@ -1,5 +1,6 @@
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import EditModelRoute from './routes/EditModelRoute';
+import AddModelRoute from './routes/AddModelRoute';
 import AppWrap from './AppWrap';
 import AppHeader from '../ux/app-header/AppHeader';
 import Modal from '../ux/modal/Modal';
@@ -47,7 +48,7 @@ function AppContent() {
   return (
     <AppWrap>
       <AppHeader
-        setShowForm={setShowAddModelForm}
+        setShowForm={() => navigate('/add')}
         setSelectedModelId={setSelectedModelId}
       />
 
@@ -60,21 +61,8 @@ function AppContent() {
         }}
       />
 
-      {showAddModelForm && (
-        <Modal isOpen onClose={() => setShowAddModelForm(false)}>
-          <ModelForm
-            onSubmit={async (model) => {
-              await createModel(model);
-              setShowAddModelForm(false); // Close the modal after creation
-            }}
-            onCancel={() => setShowAddModelForm(false)}
-            submitLabel="Add Model"
-            title="Add Model"
-          />
-        </Modal>
-      )}
-
       <Routes>
+        <Route path="/add" element={<AddModelRoute />} />
         <Route path="/edit/:id" element={<EditModelRoute />} />
       </Routes>
 
