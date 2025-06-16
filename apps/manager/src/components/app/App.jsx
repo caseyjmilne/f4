@@ -1,3 +1,5 @@
+import { Routes, Route, useNavigate } from 'react-router-dom';
+import EditModelRoute from './routes/EditModelRoute';
 import AppWrap from './AppWrap';
 import AppHeader from '../ux/app-header/AppHeader';
 import Modal from '../ux/modal/Modal';
@@ -12,6 +14,9 @@ import { PropertyProvider, usePropertyContext } from '../../context/PropertyCont
 import useModalManager from '../../hooks/useModalManager';
 
 function AppContent() {
+
+  const navigate = useNavigate();
+
   const {
     models,
     selectedModelId,
@@ -69,27 +74,16 @@ function AppContent() {
         </Modal>
       )}
 
-      {showEditModelForm && (
-        <Modal isOpen onClose={() => setShowEditModelForm(false)}>
-          <ModelForm
-            model={models.find((m) => m.id === selectedModelId)}
-            onSubmit={async (model) => {
-              await updateModel(model);
-              setShowEditModelForm(false); // Close the modal after editing
-            }}
-            onCancel={() => setShowEditModelForm(false)}
-            submitLabel="Save Changes"
-            title="Edit Model"
-          />
-        </Modal>
-      )}
+      <Routes>
+        <Route path="/edit/:id" element={<EditModelRoute />} />
+      </Routes>
 
       {selectedModelId !== 0 && (
         <>
           <ModelDetails
             model={models.find((m) => m.id === selectedModelId)}
             onDelete={deleteModel}
-            onEditClick={() => setShowEditModelForm(true)}
+            onEditClick={() => navigate(`/edit/${selectedModelId}`)}
           />
           <ModelProperties
             selectedModelId={selectedModelId}
