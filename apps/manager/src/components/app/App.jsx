@@ -1,6 +1,7 @@
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import EditModelRoute from './routes/EditModelRoute';
 import AddModelRoute from './routes/AddModelRoute';
+import ModelViewRoute from './routes/ModelViewRoute';
 import AppWrap from './AppWrap';
 import AppHeader from '../ux/app-header/AppHeader';
 import Modal from '../ux/modal/Modal';
@@ -56,32 +57,15 @@ function AppContent() {
         models={models}
         selectedModelId={selectedModelId}
         onSelect={(id) => {
-          setSelectedModelId(id);
-          setShowAddModelForm(false);
+          navigate(`/model/${id}`);
         }}
       />
 
       <Routes>
         <Route path="/add" element={<AddModelRoute />} />
         <Route path="/edit/:id" element={<EditModelRoute />} />
+        <Route path="/model/:id" element={<ModelViewRoute />} />
       </Routes>
-
-      {selectedModelId !== 0 && (
-        <>
-          <ModelDetails
-            model={models.find((m) => m.id === selectedModelId)}
-            onDelete={deleteModel}
-            onEditClick={() => navigate(`/edit/${selectedModelId}`)}
-          />
-          <ModelProperties
-            selectedModelId={selectedModelId}
-            properties={properties}
-            setProperties={setProperties}
-            onAddPropertyClick={() => setShowAddProperty(true)}
-            onEditPropertyClick={setEditProperty}
-          />
-        </>
-      )}
 
       {(showAddProperty || editProperty) && (
         <PropertyForm

@@ -13,11 +13,6 @@ export default function PropertyForm({
   mode = "add" // "add" or "edit"
 }) {
 
-  console.log('property loaded into PropertyForm at 16')
-  console.log(property)
-
-
-
   // If editing, start with property data, else start with blank
   const [formData, setFormData] = useState(
     property
@@ -25,7 +20,6 @@ export default function PropertyForm({
       : { type: "text", name: "", key: "", settings: {} }
   );
   const [fieldSettings, setFieldSettings] = useState([]);
-
 
   // When property changes (edit mode), update formData
   useEffect(() => {
