@@ -1,4 +1,3 @@
-import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useModelContext } from '../../../context/ModelContext';
 import { usePropertyContext } from '../../../context/PropertyContext';
@@ -22,7 +21,6 @@ export default function ModelViewRoute() {
   return (
     <>
       <button onClick={() => navigate(-1)}>Back</button>
-
       <ModelDetails
         model={model}
         onDelete={async () => {
@@ -31,13 +29,12 @@ export default function ModelViewRoute() {
         }}
         onEditClick={() => navigate(`/edit/${modelId}`)}
       />
-
       <ModelProperties
         selectedModelId={modelId}
         properties={properties}
         setProperties={setProperties}
-        onAddPropertyClick={() => {/* You can trigger a modal here or add routing for property add */}}
-        onEditPropertyClick={() => {/* Likewise for edit property */}}
+        onAddPropertyClick={() => navigate(`/model/${modelId}/add-property`)}
+        onEditPropertyClick={(property) => navigate(`/model/${modelId}/edit-property/${property.id}`)}
       />
     </>
   );
