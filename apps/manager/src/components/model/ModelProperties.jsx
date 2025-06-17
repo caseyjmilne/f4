@@ -3,12 +3,12 @@ import {
   fetchProperties,
   deleteProperty,
   updatePropertyOrder,
-} from '../api/properties';
-import PropertyList from './property/PropertyList';
-import PropertyItem from './property/PropertyItem';
-import Modal from './ux/modal/Modal';
+} from '../../api/properties';
+import PropertyList from '../property/PropertyList';
+import PropertyItem from '../property/PropertyItem';
+import Modal from '../ux/modal/Modal';
 import { DndContext, closestCenter, DragOverlay } from '@dnd-kit/core';
-import { handlePropertyDragEnd } from '../dnd/handlePropertyDragEnd';
+import { handlePropertyDragEnd } from '../../dnd/handlePropertyDragEnd';
 
 function ModelProperties({
   selectedModelId,

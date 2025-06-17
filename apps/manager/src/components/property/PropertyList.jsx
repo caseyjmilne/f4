@@ -5,7 +5,7 @@ import {
 } from '@dnd-kit/sortable';
 
 import SortablePropertyItem from './SortablePropertyItem';
-import DropZone from '../DropZone';
+import DropZone from '../ux/drop-zone/DropZone';
 
 function PropertyList({
   properties,

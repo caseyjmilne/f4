@@ -1,0 +1,11 @@
+.drop-zone {
+    height: 12px;
+    margin: 2px 0;
+    transition: background-color 0.2s;
+    list-style: none;
+    background-color: transparent;
+}
+
+.drop-zone--active {
+    background-color: var(--offset-1);
+}

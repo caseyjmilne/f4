@@ -2,7 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useModelContext } from '../../../context/ModelContext';
 import { usePropertyContext } from '../../../context/PropertyContext';
 import ModelDetails from '../../model/ModelDetails';
-import ModelProperties from '../../ModelProperties';
+import ModelProperties from '../../model/ModelProperties';
 
 export default function ModelViewRoute() {
   const { id } = useParams();
