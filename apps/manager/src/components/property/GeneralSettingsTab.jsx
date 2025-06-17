@@ -1,5 +1,5 @@
 import TextInput from "../fields/TextInput";
-import Choices from "../settings/Choices";
+import Choices from "../settings/choices/Choices";
 import DefaultSetting from "../settings/DefaultSetting";
 import TypeSetting from "../settings/TypeSetting";
 
