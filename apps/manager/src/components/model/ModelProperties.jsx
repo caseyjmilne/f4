@@ -9,21 +9,22 @@ import PropertyItem from '../property/PropertyItem';
 import Modal from '../ux/modal/Modal';
 import { DndContext, closestCenter, DragOverlay } from '@dnd-kit/core';
 import { handlePropertyDragEnd } from '../../dnd/handlePropertyDragEnd';
+import { usePropertyContext } from '../../context/PropertyContext';
 
 function ModelProperties({
   selectedModelId,
   onAddPropertyClick,
   onEditPropertyClick,
 }) {
-  const [properties, setProperties] = useState([]);
+  const { properties, setProperties } = usePropertyContext();
   const [propertyToDelete, setPropertyToDelete] = useState(null);
   const [activeId, setActiveId] = useState(null);
   const [draggedProperty, setDraggedProperty] = useState(null);
 
   useEffect(() => {
-    fetchProperties(selectedModelId).then(props => {
-      console.log('First property loaded from API:', props[0]);
-      setProperties(props);
+    fetchProperties(selectedModelId).then(properties => {
+      console.log('Properties loaded from API:', properties);
+      setProperties(properties);
     });
   }, [selectedModelId]);
 

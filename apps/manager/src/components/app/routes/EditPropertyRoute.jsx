@@ -3,9 +3,13 @@ import { usePropertyContext } from '../../../context/PropertyContext';
 import PropertyForm from '../../property/PropertyForm';
 
 export default function EditPropertyRoute() {
+  
   const { modelId, propertyId } = useParams();
   const navigate = useNavigate();
   const { properties, updatePropertyItem } = usePropertyContext();
+
+  console.log('properties at EditPropertyRoute:')
+  console.log(properties)
 
   const property = properties.find((p) => p.id === parseInt(propertyId, 10));
 

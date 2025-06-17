@@ -8,6 +8,7 @@ export function usePropertyContext() {
 }
 
 export function PropertyProvider({ children }) {
+  
   const [properties, setProperties] = useState([]);
 
   const addProperty = async (property) => {

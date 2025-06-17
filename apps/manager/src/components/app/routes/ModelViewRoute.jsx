@@ -10,8 +10,7 @@ export default function ModelViewRoute() {
   const navigate = useNavigate();
 
   const { models, deleteModel } = useModelContext();
-  const { properties, setProperties } = usePropertyContext();
-
+  
   const model = models.find((m) => m.id === modelId);
 
   if (!model) {
@@ -30,8 +29,6 @@ export default function ModelViewRoute() {
       />
       <ModelProperties
         selectedModelId={modelId}
-        properties={properties}
-        setProperties={setProperties}
         onAddPropertyClick={() => navigate(`/model/${modelId}/add-property`)}
         onEditPropertyClick={(property) => navigate(`/model/${modelId}/edit-property/${property.id}`)}
       />
