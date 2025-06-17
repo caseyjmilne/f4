@@ -19,12 +19,11 @@ import { withIds, genId } from "./helpers";
 
 export default function Choices({ choices = [], onChange, fieldSettings }) {
   
-  const [localChoices, setLocalChoices] = useState(withIds(choices));
+  const [localChoices, setLocalChoices] = useState(() => withIds(choices));
 
-  useEffect(() => {
-    setLocalChoices(withIds(choices));
-    // eslint-disable-next-line
-  }, [choices]);
+  console.log('localChoices:')
+  console.log(localChoices)
+
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } })
