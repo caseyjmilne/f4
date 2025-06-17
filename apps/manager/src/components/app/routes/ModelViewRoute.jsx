@@ -20,12 +20,11 @@ export default function ModelViewRoute() {
 
   return (
     <>
-      <button onClick={() => navigate(-1)}>Back</button>
       <ModelDetails
         model={model}
         onDelete={async () => {
           await deleteModel(modelId);
-          navigate('/'); // back to list after deletion
+          navigate('/'); //  to list after deletion
         }}
         onEditClick={() => navigate(`/edit/${modelId}`)}
       />
