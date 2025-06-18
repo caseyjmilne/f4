@@ -1,30 +1,38 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Modal from '../ux/modal/Modal';
 import FieldSettingsForm from './FieldSettingsForm';
 import { fetchFieldTypeDetails } from '../../api/field';
 import FormFooter from '../form/FormFooter';
+import { propertySchema } from "./propertySchema";
+
+const DEFAULT_FORM_DATA = {
+  type: "text",
+  name: "",
+  key: "",
+  settings: {},
+};
 
 export default function PropertyForm({
   property = null,
   parentId = 0,
-  modelId = 0, // <-- add this
+  modelId = 0,
   onSave,
   onCancel,
-  mode = "add" // "add" or "edit"
+  mode = "add"
 }) {
 
-  // If editing, start with property data, else start with blank
-  const [formData, setFormData] = useState(
-    property
-      ? { ...property, settings: { ...(property.settings || {}) } }
-      : { type: "text", name: "", key: "", settings: {} }
-  );
+  const [formData, setFormData] = useState(DEFAULT_FORM_DATA);
   const [fieldSettings, setFieldSettings] = useState([]);
+  const [errors, setErrors] = useState([]);
+  const formRef = useRef();
 
   // When property changes (edit mode), update formData
   useEffect(() => {
     if (property) {
-      setFormData({ ...property, settings: { ...(property.settings || {}) } });
+      setFormData({
+        ...property,
+        settings: { ...(property.settings || {}) }
+      });
     }
   }, [property]);
 
@@ -75,6 +83,14 @@ export default function PropertyForm({
   // Handle submit
   const handleSubmit = e => {
     e.preventDefault();
+    const result = propertySchema.safeParse(formData);
+    if (!result.success) {
+      // Gather all error messages
+      const errorList = result.error.errors.map(err => err.message);
+      setErrors(errorList);
+      return;
+    }
+    setErrors([]);
     if (mode === "edit") {
       onSave(formData);
     } else {
@@ -84,7 +100,7 @@ export default function PropertyForm({
         type: formData.type,
         settings: formData.settings,
         parent_id: parentId,
-        model_id: modelId // <-- add this
+        model_id: modelId
       });
       setFormData({ type: "text", name: "", key: "", settings: {} });
     }
@@ -104,7 +120,16 @@ export default function PropertyForm({
       }
     >
       <div className="f4-form">
-        <form onSubmit={handleSubmit} className="f4-form__form-wrap">
+        {errors.length > 0 && (
+          <div className="f4-form-errors" style={{ color: "red", marginBottom: "1em" }}>
+            <ul>
+              {errors.map((err, idx) => (
+                <li key={idx}>{err}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+        <form ref={formRef} onSubmit={handleSubmit} className="f4-form__form-wrap">
           <FieldSettingsForm
             formData={formData}
             fieldSettings={fieldSettings}

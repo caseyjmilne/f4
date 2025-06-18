@@ -27,7 +27,7 @@ function ModelForm({
   title = "Model"
 }) {
   
-  const [formData, setFormData] = useState(DEFAULT_FORM_DATA);
+  const [formData, setFormData] = useState({});
   const formRef = useRef();
   const [errors, setErrors] = useState({});
 
@@ -37,9 +37,7 @@ function ModelForm({
 
   // Sync form state when the model changes
   useEffect(() => {
-    if (model) {
-      setFormData(model);
-    }
+    setFormData(model || DEFAULT_FORM_DATA);
   }, [model]);
 
   const handleChange = (e) => {
