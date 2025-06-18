@@ -3,6 +3,7 @@ import Modal from '../ux/modal/Modal';
 import FormField from '../form/FormField';
 import FormSelect from '../form/FormSelect';
 import FormFooter from '../form/FormFooter';
+import { modelSchema } from "./modelSchema";
 
 const MODEL_TYPE_OPTIONS = [
   { value: 'post', label: 'Post Type' },
@@ -10,10 +11,11 @@ const MODEL_TYPE_OPTIONS = [
 ];
 
 // Set fallback default form structure
-const DEFAULT_FORM = {
+const DEFAULT_FORM_DATA = {
+  id: 0,
+  type: 'post',
   title: '',
   key: '',
-  type: 'post',
 };
 
 function ModelForm({
@@ -24,22 +26,50 @@ function ModelForm({
   submitLabel = "Save Model",
   title = "Model"
 }) {
-  const [form, setForm] = useState(model || DEFAULT_FORM);
+  
+  const [formData, setFormData] = useState(DEFAULT_FORM_DATA);
   const formRef = useRef();
+  const [errors, setErrors] = useState({});
+
+  console.log("formData")
+  console.log(formData)
+
 
   // Sync form state when the model changes
   useEffect(() => {
-    setForm(model || DEFAULT_FORM);
+    if (model) {
+      setFormData(model);
+    }
   }, [model]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(form);
+
+    console.log('formData')
+    console.log(formData)
+
+    const result = modelSchema.safeParse(formData);
+
+    console.log('validation result')
+    console.log(result)
+
+
+    if (!result.success) {
+      // Convert Zod errors to a simple object
+      const fieldErrors = {};
+      result.error.errors.forEach(err => {
+        fieldErrors[err.path[0]] = err.message;
+      });
+      setErrors(fieldErrors);
+      return;
+    }
+    setErrors({});
+    onSubmit(formData);
   };
 
   return (
@@ -60,29 +90,33 @@ function ModelForm({
           ref={formRef}
           onSubmit={handleSubmit}
           className="f4-form__wrap"
+          noValidate
         >
           <FormSelect
             label="Type"
             id="model-type"
             name="type"
-            value={form.type}
+            value={formData.type}
             onChange={handleChange}
             options={MODEL_TYPE_OPTIONS}
           />
+          {errors.type && <div className="error">{errors.type}</div>}
           <FormField
             label="Title"
             id="model-title"
             name="title"
-            value={form.title}
+            value={formData.title}
             onChange={handleChange}
           />
+          {errors.title && <div className="error">{errors.title}</div>}
           <FormField
             label="Key"
             id="model-key"
             name="key"
-            value={form.key}
+            value={formData.key}
             onChange={handleChange}
           />
+          {errors.key && <div className="error">{errors.key}</div>}
         </form>
       </div>
     </Modal>
