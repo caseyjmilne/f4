@@ -11,7 +11,9 @@ export default function AppHeader({ setShowForm, setSelectedModelId }) {
           <li>
             <Link to="/" className="f4-nav-link">Dashboard</Link>
           </li>
-          {/* Add more links here later if needed */}
+          <li>
+            <Link to="/form" className="f4-nav-link">Form</Link>
+          </li>
         </ul>
       </nav>
 
