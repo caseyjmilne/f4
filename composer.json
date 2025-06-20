@@ -12,5 +12,8 @@
     },
     "scripts": {
         "test": "phpunit"
+    },
+    "require": {
+        "justinrainbow/json-schema": "^6.4"
     }
 }

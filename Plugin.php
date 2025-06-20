@@ -121,6 +121,9 @@ class Plugin {
         // Records 
         require_once( F4_PATH . '/inc/Record/Record.php' );
 
+        // Vendor Packages.
+        require_once( F4_PATH . '/vendor/autoload.php' );
+
 
         // Initialize main admin menu
         if ( is_admin() ) {
