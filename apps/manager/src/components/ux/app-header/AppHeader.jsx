@@ -14,6 +14,9 @@ export default function AppHeader({ setShowForm, setSelectedModelId }) {
           <li>
             <Link to="/form" className="f4-nav-link">Form</Link>
           </li>
+          <li>
+            <Link to="/schema" className="f4-nav-link">Schema</Link>
+          </li>
         </ul>
       </nav>
 

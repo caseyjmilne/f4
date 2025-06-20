@@ -121,7 +121,11 @@ class Plugin {
         // Records 
         require_once( F4_PATH . '/inc/Record/Record.php' );
 
-        // Vendor Packages.
+        // Schema Module
+        require_once( F4_PATH . '/inc/Schema/SchemaRoutes.php' );
+        \F4\Schema\SchemaRoutes::init();
+
+        // Vendor Packages
         require_once( F4_PATH . '/vendor/autoload.php' );
 
 

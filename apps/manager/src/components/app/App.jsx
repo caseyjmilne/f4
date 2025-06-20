@@ -11,6 +11,7 @@ import { FieldTypeListProvider } from '../../context/FieldTypeListContext';
 import { ModelProvider, useModelContext } from '../../context/ModelContext';
 import { PropertyProvider } from '../../context/PropertyContext';
 import PracticeFormRoute from './routes/PracticeFormRoute';
+import ViewSchemaRoute from './routes/ViewSchemaRoute';
 
 function AppContent() {
   const navigate = useNavigate();
@@ -31,6 +32,7 @@ function AppContent() {
         <Route path="/model/:modelId/add-property" element={<AddPropertyRoute />} />
         <Route path="/model/:modelId/edit-property/:propertyId" element={<EditPropertyRoute />} />
         <Route path="/form" element={<PracticeFormRoute />} />
+        <Route path="/schema" element={<ViewSchemaRoute />} />
       </Routes>
     </AppWrap>
   );
