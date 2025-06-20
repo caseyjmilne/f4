@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { JsonViewer } from '@textea/json-viewer';
 
-export default function ViewSchemaRoute() {
+export default function TextFieldSchemaRoute() {
   const [schema, setSchema] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('http://test1.local/wp-json/f4/v1/schema/model_instance')
+    fetch('http://test1.local/wp-json/f4/v1/schema/text_field')
       .then(res => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();

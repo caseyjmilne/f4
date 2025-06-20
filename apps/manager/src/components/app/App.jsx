@@ -10,8 +10,10 @@ import AppHeader from '../ux/app-header/AppHeader';
 import { FieldTypeListProvider } from '../../context/FieldTypeListContext';
 import { ModelProvider, useModelContext } from '../../context/ModelContext';
 import { PropertyProvider } from '../../context/PropertyContext';
+import SchemaLayout from '../schema/SchemaLayout';
 import PracticeFormRoute from './routes/PracticeFormRoute';
 import ViewSchemaRoute from './routes/ViewSchemaRoute';
+import TextFieldSchemaRoute from './routes/TextFieldSchemaRoute';
 
 function AppContent() {
   const navigate = useNavigate();
@@ -32,7 +34,10 @@ function AppContent() {
         <Route path="/model/:modelId/add-property" element={<AddPropertyRoute />} />
         <Route path="/model/:modelId/edit-property/:propertyId" element={<EditPropertyRoute />} />
         <Route path="/form" element={<PracticeFormRoute />} />
-        <Route path="/schema" element={<ViewSchemaRoute />} />
+        <Route path="/schema" element={<SchemaLayout />}>
+          <Route path="model-instance" element={<ViewSchemaRoute />} />
+          <Route path="text-field" element={<TextFieldSchemaRoute />} />
+        </Route>
       </Routes>
     </AppWrap>
   );

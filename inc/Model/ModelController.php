@@ -84,7 +84,12 @@ class ModelController {
         update_post_meta($post_id, 'model_type', $model_type);
         update_post_meta($post_id, 'model_key', $model_key);
 
-        return new ModelInstance(get_post($post_id));
+        $modelInstance = new ModelInstance(get_post($post_id));
+
+        // Call ModelChangeAction after successful creation
+        ModelHook::ModelChangeAction('create', $modelInstance);
+
+        return $modelInstance;
     }
 
     public function update_model(int $id, array $data): ModelInstance|WP_Error {
@@ -111,6 +116,11 @@ class ModelController {
             update_post_meta($id, 'model_key', sanitize_text_field($data['model_key']));
         }
 
-        return new ModelInstance(get_post($id));
+        $modelInstance = new ModelInstance(get_post($id));
+
+        // Call ModelChangeAction after successful update
+        ModelHook::ModelChangeAction('update', $modelInstance);
+
+        return $modelInstance;
     }
 }

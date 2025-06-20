@@ -12,15 +12,24 @@ class SchemaRoutes {
     }
 
     public static function register(): void {
-        register_rest_route('f4/v1', '/schema', [
+        register_rest_route('f4/v1', '/schema/(?P<name>[a-zA-Z0-9_\-]+)', [
             'methods'             => 'GET',
-            'callback'            => [self::class, 'getStaticSchema'],
+            'callback'            => [self::class, 'getSchemaByName'],
             'permission_callback' => '__return_true',
+            'args' => [
+                'name' => [
+                    'required' => true,
+                    'validate_callback' => function($param) {
+                        return preg_match('/^[a-zA-Z0-9_\-]+$/', $param);
+                    }
+                ]
+            ]
         ]);
     }
 
-    public static function getStaticSchema(WP_REST_Request $request): WP_REST_Response {
-        $schemaFile = F4_PATH . '/schema/model_instance.json';
+    public static function getSchemaByName(WP_REST_Request $request): WP_REST_Response {
+        $name = $request->get_param('name');
+        $schemaFile = F4_PATH . '/schema/' . $name . '.json';
 
         if (!file_exists($schemaFile)) {
             return new WP_REST_Response(['error' => 'Schema file not found.'], 404);

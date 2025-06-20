@@ -17,7 +17,7 @@ class Plugin {
 
         // Model Module
         require_once( F4_PATH . '/inc/Model/ModelInstance.php' );
-
+        require_once( F4_PATH . '/inc/Model/ModelHook.php' );
         require_once( F4_PATH . '/inc/Model/ModelController.php' );
         new \F4\Model\ModelController();
 
