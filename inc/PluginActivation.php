@@ -2,6 +2,9 @@
 
 namespace F4;
 
+use WP_Error;
+use \F4\Schema\SchemaGenerator;
+
 class PluginActivation {
 
     public static function activate() {
@@ -24,6 +27,22 @@ class PluginActivation {
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         dbDelta($sql);
 
+        $result = self::ensure_schema_directory();
+        if (is_wp_error($result)) {
+            return $result;
+        }
     }
-    
+
+    public static function ensure_schema_directory() {
+
+        $schemaGenerator = new SchemaGenerator($fieldSchemas);
+
+        if (!$schemaGenerator->schema_directory_exists()) {
+            $result = $schemaGenerator->install_schema_directory();
+            if (is_wp_error($result)) {
+                return $result;
+            }
+        }
+        return true;
+    }
 }

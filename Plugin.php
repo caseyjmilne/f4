@@ -122,8 +122,13 @@ class Plugin {
         require_once( F4_PATH . '/inc/Record/Record.php' );
 
         // Schema Module
+        require_once( F4_PATH . '/inc/Schema/Schema.php' );
+        require_once( F4_PATH . '/inc/Schema/SchemaController.php' );
+        require_once( F4_PATH . '/inc/Schema/SchemaGenerator.php' );
         require_once( F4_PATH . '/inc/Schema/SchemaRoutes.php' );
+        require_once( F4_PATH . '/inc/Schema/SchemaValidator.php' );
         \F4\Schema\SchemaRoutes::init();
+        \F4\Schema\SchemaController::init();
 
         // Vendor Packages
         require_once( F4_PATH . '/vendor/autoload.php' );

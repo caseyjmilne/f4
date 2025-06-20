@@ -123,4 +123,5 @@ class ModelController {
 
         return $modelInstance;
     }
+
 }

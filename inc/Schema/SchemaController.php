@@ -1,24 +1,28 @@
-<?php 
+<?php
 
-class SchemaController {
-    protected SchemaGenerator $generator;
-    protected SchemaValidator $validator;
+namespace F4\Schema;
 
-    public function __construct(SchemaGenerator $generator, SchemaValidator $validator) {
-        $this->generator = $generator;
-        $this->validator = $validator;
+use F4\Model\ModelInstance;
+
+class SchemaController
+{
+    public static function init(): void
+    {
+        // Hook into the model change action
+        add_action('f4_model_change', [self::class, 'on_model_change'], 10, 2);
     }
 
-    public function getSchemaForCollection($collectionId): ?Schema {
-        $collection = Collection::find($collectionId);
-        if (!$collection) return null;
-
-        $schema = $this->generator->generateForCollection($collection);
-
-        if (!$this->validator->validate($schema->get())) {
-            // log or store error
+    /**
+     * Callback for model changes to generate schema.
+     *
+     * @param string $type
+     * @param ModelInstance|null $model
+     */
+    public static function on_model_change(string $type, $model = null): void
+    {
+        if (($type === 'create' || $type === 'update') && $model instanceof ModelInstance) {
+            $generator = new SchemaGenerator();
+            $generator->generateForModel($model);
         }
-
-        return $schema;
     }
 }
