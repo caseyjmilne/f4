@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "TextField",
+  "type": "object",
+  "properties": {
+    "key": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique key for the field"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Display name for the field"
+    },
+    "rows": {
+      "type": ["integer", "null"],
+      "description": "Number of rows for textarea"
+    },
+    "maxLength": {
+      "type": ["integer", "null"],
+      "description": "Maximum number of characters"
+    },
+    "required": {
+      "type": ["boolean", "null"],
+      "description": "Whether this field is required"
+    },
+    "default": {
+      "type": ["string", "null"],
+      "description": "Default value for the field"
+    },
+    "instructions": {
+      "type": ["string", "null"],
+      "description": "Instructions for users on how to fill out this field"
+    },
+    "editor_access": {
+      "type": ["boolean", "null"],
+      "description": "Whether editors can access this field"
+    },
+    "conditions": {
+      "type": ["boolean", "null"],
+      "description": "Enable conditional logic for this field"
+    }
+  },
+  "required": ["key", "name"],
+  "additionalProperties": false
+}
