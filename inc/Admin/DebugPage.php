@@ -29,5 +29,28 @@ class DebugPage {
         echo '<button class="button" name="run_test" value="list_field_types">Test: List Field Types</button>';
         echo '<button class="button" name="run_test" value="api_field_type_response">Test: API Field Type Response</button>';
         echo '</form></div>';
+
+
+        // Manual Developer Testing Object Generation
+        echo '<h2>Object Generation Tests</h2>';
+        $f = new \F4\Field\FieldType\TextField('name', 'Name');
+
+        echo '<pre>';
+        var_dump($f->exportArray());
+        echo '</pre>';
+
+        /*
+        echo '<pre>';
+        var_dump($f);
+        echo '</pre>';
+        */
+
+        /*
+        echo '<pre>';
+        var_dump($f->exportJSON());
+        echo '</pre>';
+        */
+
+
     }
 }

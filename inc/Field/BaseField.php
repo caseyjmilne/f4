@@ -4,13 +4,18 @@ namespace F4\Field;
 
 abstract class BaseField {
 
+    protected $id = 0;
     protected $key;
     protected $name;
+    protected $type;
     protected $args;
     protected $post_id;
     protected $settings = [];
 
     public function __construct($key, $name, $args = [], $post_id = null) {
+
+        $this->type = $this->getType();
+
         $this->key     = $key;
         $this->name    = $name;
         $this->args    = $args;
@@ -78,6 +83,18 @@ abstract class BaseField {
 
     public static function supportsNestedFields(): bool {
         return false;
+    }
+
+    public function exportArray() {
+        return get_object_vars($this);
+    }
+
+    public function exportJSON() {
+        return json_encode( $this->exportArray() );
+    }
+
+    public function databaseSave() {
+        
     }
 
 }

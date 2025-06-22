@@ -130,6 +130,9 @@ class Plugin {
         \F4\Schema\SchemaRoutes::init();
         \F4\Schema\SchemaController::init();
 
+        // Functional Programming Scripts.
+        require_once( F4_PATH . '/func/main.php' );
+
         // Vendor Packages
         require_once( F4_PATH . '/vendor/autoload.php' );
 
